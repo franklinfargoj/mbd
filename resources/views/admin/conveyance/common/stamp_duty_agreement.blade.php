@@ -55,8 +55,8 @@
         $document1 = $data->StampLeaseByDycdo->document_path;
     else if(isset($data->StampLeaseAgreement->document_path) )
         $document1 = $data->StampLeaseAgreement->document_path;
-@endphp    
- 
+@endphp 
+
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('conveyance.save_stamp_duty_agreement')}}" enctype="multipart/form-data">
 
 @csrf 
@@ -186,7 +186,7 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Download Society resolution format</span>
+                                            <span class="hint-text">Download Society resolution</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->resolution->document_path))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->resolution->document_path }}" target="_blank">
@@ -215,7 +215,7 @@
                                     <div class="col-sm-6">
                                         <div class="d-flex flex-column h-100 two-cols">
                                             <h5>Download</h5>
-                                            <span class="hint-text">Download Society undertaking format</span>
+                                            <span class="hint-text">Download Society undertaking</span>
                                             <div class="mt-auto">
                                                 @if(isset($data->undertaking->document_path))
                                                 <a href="{{ config('commanConfig.storage_server').'/'.$data->undertaking->document_path }}" target="_blank">
@@ -225,6 +225,36 @@
                                                 @else
                                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
                                                     *Note : Society undertaking is not available.</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                <div class="portlet-body">
+                    <div class="m-portlet__body m-portlet__body--table">
+                        <div class="m-section__content mb-0 table-responsive">
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col-sm-6">
+                                        <div class="d-flex flex-column h-100 two-cols">
+                                            <h5>Download</h5>
+                                            <span class="hint-text">Download Indemnity Bond</span>
+                                            <div class="mt-auto">
+                                                @if(isset($data->indemnity->document_path))
+                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->indemnity->document_path }}" target="_blank">
+                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                        Download </Button>
+                                                </a>
+                                                @else
+                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                                    *Note : Indemnity Bond is not available.</span>
                                                 @endif
                                             </div>
                                         </div>

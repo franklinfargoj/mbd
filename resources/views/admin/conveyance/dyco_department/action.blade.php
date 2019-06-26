@@ -149,7 +149,7 @@ $route=\Request::route()->getName();
         </li>   
     @endif
     
-    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || (session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->application_status == config('commanConfig.conveyance_status.NOC_Issued')) ))    
+    @if(isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed') || (session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->application_status == config('commanConfig.conveyance_status.Conveyance_Issued')) ))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.register_sale_lease_agreement')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Registered Sale & Lease Deed" href="{{ route('conveyance.register_sale_lease_agreement', encrypt($data->id)) }}">
                  <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -163,7 +163,7 @@ $route=\Request::route()->getName();
         </li> 
     @endif            
 
-    @if((session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')) && isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.NOC_Issued') || $data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')))    
+    @if((session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer')) && isset($data->application_status) && ($data->application_status == config('commanConfig.conveyance_status.Conveyance_Issued') || $data->application_status == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')))    
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='dyco.conveyance_noc')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="NOC for Conveyance" href="{{ route('dyco.conveyance_noc', encrypt($data->id)) }}">
                <span class="sidebar-icon sidebar-menu-icon--level-1">
@@ -175,11 +175,10 @@ $route=\Request::route()->getName();
                       <path d="M453.556 187.486c-3.905-3.905-10.237-3.905-14.142 0l-33.191 33.192-13.213-13.213c-3.905-3.905-10.237-3.905-14.143 0-3.905 3.905-3.905 10.237 0 14.143l20.284 20.284c1.953 1.953 4.512 2.929 7.071 2.929s5.119-.976 7.071-2.929l40.263-40.263c3.905-3.905 3.905-10.237 0-14.143zM122.074 120.93a10.076 10.076 0 0 0-7.07-2.93c-2.63 0-5.21 1.07-7.07 2.93-1.86 1.86-2.93 4.44-2.93 7.07s1.07 5.21 2.93 7.07c1.86 1.86 4.44 2.93 7.07 2.93s5.21-1.07 7.07-2.93c1.86-1.86 2.93-4.44 2.93-7.07s-1.07-5.21-2.93-7.07zM200.997 118H152.33c-5.523 0-10 4.477-10 10s4.477 10 10 10h48.667c5.523 0 10-4.477 10-10s-4.477-10-10-10zM302.838 294H188.516c-5.523 0-10 4.477-10 10s4.477 10 10 10h114.321c5.523 0 10-4.477 10-10s-4.476-10-9.999-10z"/>
                     </svg>
                 </span>
-                <span class="m-menu__link-text">NOC for Conveyance</span>
+                <span class="m-menu__link-text">Final Letter of Conveyance</span>
             </a>
         </li>
     @endif    
-
     @if(isset($data->application_status) && $data->application_status != config('commanConfig.conveyance_status.in_process'))
         <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.checklist')?'m-menu__item--active':''}}">
             <a class="m-menu__link m-menu__toggle" title="Checklist & Office Note" href="{{ route('conveyance.checklist', encrypt($data->id)) }}">

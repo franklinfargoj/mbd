@@ -15,7 +15,7 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">
-            Generate NOC
+            Generate Final Letter of Conveyance
             </h3>
             {{ Breadcrumbs::render('noc_for_conveyance',$data->id) }} 
             <div class="ml-auto btn-list">
@@ -25,24 +25,24 @@
     </div>
 
   <!-- Generate NOC-->    
-    @if(session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+    @if(session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer'))
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
-                        <h4 class="section-title">
-                            Generate NOC
-                        </h4>
+                        <h5 class="section-title">
+                            Generate Final Letter of Conveyance
+                        </h5>
                     </div>
                 </div> 
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
                     <div class="container">
                         <div class="row">
-                        @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
+                        @if(session()->get('role_name') == config('commanConfig.dycdo_engineer') &&$data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Generate</h5>
-                                    <span class="hint-text">Click to Generate NOC </span>
+                                    <span class="hint-text">Click to Generate Final Letter of Conveyance </span>
                                     <div class="mt-auto">                           
                                         <a href="{{ route('dyco.generate_canveyance_noc',encrypt($data->id)) }}" class="btn btn-primary">Generate </a>
                                     </div>
@@ -52,13 +52,13 @@
                             <div class="col-sm-6 border-left">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Download</h5>
-                                    <span class="hint-text">Click to Download NOC </span>
+                                    <span class="hint-text">Click to Download Final Letter of Conveyance </span>
                                     <div class="mt-auto">
                                         @if(isset($data->draftNOC->document_path))
                                         <a href="{{ config('commanConfig.storage_server').'/'.$data->draftNOC->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            *Note : NOC is not available.</span>
+                                            *Note : Final Letter of Conveyance is not available.</span>
                                         @endif
                                     </div>
                                 </div>
@@ -77,9 +77,9 @@
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
-                       <h4 class="section-title">
-                            Download Generated NOC
-                        </h4>
+                       <h5 class="section-title">
+                            Download Generated Final Letter of Conveyance
+                        </h5>
                     </div>
                 </div> 
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
@@ -88,7 +88,7 @@
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Download</h5>
-                                    <span class="hint-text">Click to Download NOC </span>
+                                    <span class="hint-text">Click to Download Final Letter of Conveyance </span>
                                     <div class="mt-auto">
                                         @if(isset($data->draftNOC->document_path) && $data->status->status_id != config('commanConfig.conveyance_status.forwarded'))
                                         <a href="{{ config('commanConfig.storage_server').'/'.$data->draftNOC->document_path }}" class="btn btn-primary" target="_blank">Download </a>                                
@@ -96,7 +96,7 @@
                                         <a href="{{ config('commanConfig.storage_server').'/'.$data->NOC->document_path }}" class="btn btn-primary" target="_blank"> Download </a>
                                         @else
                                         <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                            *Note : NOC is not available.</span>
+                                            *Note : Final Letter of Conveyance is not available.</span>
                                         @endif
                                     </div>
                                 </div>
@@ -112,9 +112,9 @@
             <div class="m-portlet__body">
                 <div class="m-subheader" style="padding: 0;">
                     <div class="d-flex align-items-center justify-content-center">
-                        <h4 class="section-title">
-                            NOC for Conveyance
-                        </h4>
+                        <h5 class="section-title">
+                            Final Letter of Conveyance
+                        </h5>
                     </div>
                 </div>     
                 <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px;">
@@ -126,7 +126,7 @@
                                 <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                     <div class="d-flex flex-column h-100 two-cols">
                                         <h5>Upload</h5>
-                                        <span class="hint-text">Click to upload NOC</span>
+                                        <span class="hint-text">Click to upload Final Letter of Conveyance </span>
                                             <input type="hidden"  id="oldNOC" name="oldNOC" value="{{ isset($data->NOC->document_path) ? $data->NOC->document_path : '' }}">
                                                 <div class="custom-file">
                                                     <input class="custom-file-input stamp_letter" name="NOC" type="file" id="test-upload1">
@@ -146,7 +146,7 @@
                             <div class="col-sm-6 border-left">
                                 <div class="d-flex flex-column h-100 two-cols">
                                     <h5>Send to Society</h5>
-                                    <span class="hint-text">Send NOC to Society </span>
+                                    <span class="hint-text">Send Final Letter of Conveyance to Society </span>
                                     <div class="mt-auto">
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
@@ -154,7 +154,7 @@
                                                 <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
                                         </form>
                                         <span class="error" id="NOCError" style="display: none;color: #ce2323;margin-bottom: 17px;">
-                                        *Note : Please Upload NOC.</span>
+                                        *Note : Please Upload Final Letter of Conveyance.</span>
                                     </div>    
                                 </div>
                             </div>

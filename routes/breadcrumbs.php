@@ -1338,7 +1338,7 @@ Breadcrumbs::for('conveyance_em_scrutiny', function ($trail,$id) {
 
 Breadcrumbs::for('noc_for_conveyance', function ($trail,$id) {
     $trail->parent('society_conveyance');
-    $trail->push('NOC for Conveyance', route('dyco.conveyance_noc',$id));
+    $trail->push('Final Letter of Conveyance', route('dyco.conveyance_noc',$id));
 });
  
 //Renewal 

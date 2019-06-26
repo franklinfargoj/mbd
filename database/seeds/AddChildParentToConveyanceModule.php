@@ -16,6 +16,7 @@ class AddChildParentToConveyanceModule extends Seeder
         
         $society_role_id   = Role::where('name', '=', config('commanConfig.society_offer_letter'))->value('id');
         $dycdo_role_id 	   = Role::where('name', '=', config('commanConfig.dycdo_engineer'))->value('id');
+        $cdo_role_id     = Role::where('name', '=', config('commanConfig.cdo_engineer'))->value('id');
         $dyco_role_id 	   = Role::where('name', '=', config('commanConfig.dyco_engineer'))->value('id');
         $ee_head_id 	   = Role::where('name', '=', config('commanConfig.ee_branch_head'))->value('id');
         $ee_deputy_id 	   = Role::where('name', '=', config('commanConfig.ee_deputy_engineer'))->value('id');
@@ -33,8 +34,11 @@ class AddChildParentToConveyanceModule extends Seeder
         $society_parent = json_encode([$dycdo_role_id]);    
         Role::where('id', $society_role_id)->update(['conveyance_parent_id' => $society_parent]);        
 
-        $dycdo_parent = json_encode([$dyco_role_id]);    
-        Role::where('id', $dycdo_role_id)->update(['conveyance_parent_id' => $dycdo_parent]);        
+        $dycdo_parent = json_encode([$cdo_role_id]);    
+        Role::where('id', $dycdo_role_id)->update(['conveyance_parent_id' => $dycdo_parent]);
+
+        $cdo_parent = json_encode([$dyco_role_id]);    
+        Role::where('id', $cdo_role_id)->update(['conveyance_parent_id' => $cdo_parent]);        
 
         $dyco_parent = json_encode([$ee_jr_id,$em_role_id,$architect_jr_id,$Jtco_role_id,$society_role_id]);    
         Role::where('id', $dyco_role_id)->update(['conveyance_parent_id' => $dyco_parent]);        
@@ -71,7 +75,10 @@ class AddChildParentToConveyanceModule extends Seeder
 
         //update conveyance child Id(Revert)
 
-        $dyco_child = json_encode([$dycdo_role_id,$society_role_id,$ee_jr_id,$em_role_id,$architect_jr_id]);    
+        $cdo_child = json_encode([$dycdo_role_id]);    
+        Role::where('id', $cdo_role_id)->update(['conveyance_child_id' => $cdo_child]);
+
+        $dyco_child = json_encode([$cdo_role_id,$society_role_id,$ee_jr_id,$em_role_id,$architect_jr_id]);    
         Role::where('id', $dyco_role_id)->update(['conveyance_child_id' => $dyco_child]); 
 
         // $architect_jr_child = json_encode([$architect_as_id]);    

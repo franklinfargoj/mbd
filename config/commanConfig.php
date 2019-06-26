@@ -19,6 +19,7 @@ return [
     'ree_junior' => 'REE Junior Engineer',
     'dycdo_engineer' => 'dycdo_engineer',
     'dyco_engineer' => 'dyco_engineer',
+    'cdo_engineer' => 'cdo_engineer',
     'la_engineer' => 'la_engineer',
 
     'senior_architect_planner'=>'senior_architect_planner',
@@ -126,7 +127,7 @@ return [
         'Stamped_signed_sale_&_lease_deed' => 12,
         'Send_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
-        'NOC_Issued' => 15,
+        'Conveyance_Issued' => 15,
         'society_stamp_duty' => 'Pay Stamp Duty',
         'society_register_sale_lease_deed' => 'Register Sale & Lease Deed'
     ],
@@ -199,6 +200,7 @@ return [
             'Lease Deed Agreement' => 'Lease Deed Agreement',
             'sc_resolution' => 'sc_resolution',
             'sc_undertaking' => 'sc_undertaking',
+            'sc_Indemnity Bond' => 'sc_Indemnity Bond',
             'Stamped_Signed' => 'Stamped_Signed',
             'Stamped_Signed_by_dycdo' => 'Stamped_Signed_by_dycdo',
             'Stamp_by_jtco' => 'Stamp_by_jtco',

@@ -170,11 +170,12 @@ class SocietyConveyanceController extends Controller
         $role_id = Role::where('name', config('commanConfig.dycdo_engineer'))->first();
         $user_ids = RoleUser::where('role_id', $role_id->id)->pluck('user_id');
 
-        $layouts = MasterLayout::whereHas('layoutuser', function($q)use($user_ids){ $q->whereIn('user_id', $user_ids); })->get();
+        // $layouts = MasterLayout::whereHas('layoutuser', function($q)use($user_ids){ $q->whereIn('user_id', $user_ids); })->get();
         $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
         $master_tenant_type = MasterTenantType::all();
         $building_nature = NatureOfBuilding::all();
         $service_charge_names = ServiceCharge::all();
+        $layouts = MasterLayout::all();
 
         return view('frontend.society.conveyance.add', compact('layouts', 'field_names', 'society_details', 'comm_func', 'application_master_id', 'master_tenant_type', 'building_nature', 'service_charge_names'));
     }
@@ -845,6 +846,7 @@ class SocietyConveyanceController extends Controller
             config('commanConfig.documents.society.Lease Deed Agreement'),
             config('commanConfig.documents.society.sc_resolution'),
             config('commanConfig.documents.society.sc_undertaking'),
+            config('commanConfig.documents.society.sc_Indemnity Bond'),
         );
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
@@ -937,17 +939,14 @@ class SocietyConveyanceController extends Controller
         $sale_agreement = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $sale_agreement_type_id)->whereIn('status_id', $status_ids)->get();
         $lease_agreement = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('document_id', $lease_agreement_type_id)->whereIn('status_id', $status_ids)->get();
 
-        // if(isset($sc_registrar_details[config('commanConfig.scAgreements.sale_deed_agreement')])){
-        //     $sale_agreement = 
-        // }
-
         $i= 0;
         $key = 0;
         $sale_deed_agreement= '';
         $lease_deed_agreement= '';
         $is_break = 0;
-        // dd($statuses_ids);
-        // dd(array_search('Stamp_by_jtco', $statuses_ids));
+        $is_sale_agreement_break = 0;
+        $lease_deed_agreement_break = 0;
+
         foreach($status_names as $status_name_key => $status_name){            
             foreach($sale_agreement as $sale_agreement_val){
                 
@@ -1009,7 +1008,7 @@ class SocietyConveyanceController extends Controller
             $folder_name = "society_conveyance_documents";
             $path = '/' . $folder_name . '/' . $name;
             $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-            if($request->document_name == 'sc_resolution' || $request->document_name == 'sc_undertaking'){
+            if($request->document_name == 'sc_resolution' || $request->document_name == 'sc_undertaking' || $request->document_name == 'sc_Indemnity Bond'){
                 $status = NULL;
             }else{
                 $status = ApplicationStatusMaster::where('status_name', 'Stamped')->value('id');

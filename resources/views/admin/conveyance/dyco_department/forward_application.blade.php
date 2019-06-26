@@ -25,7 +25,7 @@
                     </a>
                 </li>
 
-                @if((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.forwarded')) || $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.in_process') )
+                @if(((session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer')) && $data->status->status_id != config('commanConfig.conveyance_status.forwarded')) || $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application

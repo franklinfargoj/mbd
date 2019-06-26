@@ -149,19 +149,19 @@
                       <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Sub Registrar Name - </label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->sub_registrar_name) ? $data->lease_registration->sub_registrar_name : '' }}" readonly>
                             </div>
                       </div> 
                       <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Year -</label>
                             <div class="col-sm-5">
-                               <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
+                               <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->registration_year) ? $data->lease_registration->registration_year : '' }}" readonly>
                             </div>
                       </div>
                         <div class="form-group row">
                             <label for="inputPassword" class="col-sm-3 col-form-label">Registration No -</label>
                             <div class="col-sm-5">
-                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->sale_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
+                                <input type="text" class="form-control" id="inputPassword" value="{{ isset($data->lease_registration->registration_no) ? $data->lease_registration->registration_no : '' }}" readonly>
                             </div>
                       </div>              
                 </div>

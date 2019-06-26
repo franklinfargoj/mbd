@@ -3,13 +3,10 @@
     @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
 @endsection
 @section('content')
-
-
     <div class="col-md-12">
         <!-- BEGIN: Subheader -->
         <div class="m-subheader px-0">
             <div class="d-flex">
-                {{-- {{ Breadcrumbs::render('calculation_sheet',$ol_application->id) }} --}}
                 <div class="ml-auto btn-list">
                     <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
@@ -46,7 +43,8 @@
                         <div class=" row-list">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h4 class="section-title section-title--small mb-0">Download Stamped & Signed Agreement</h4>
+                                    <h4 class="section-title section-title--small mb-0">Download Stamped 
+                                    & Signed Agreement</h4>
                                     <p>
                                     @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.draft_text')))
                                         <div class="alert alert-success society_registered">
@@ -60,10 +58,6 @@
                                         @endif
                                         </p>
                                         <p>Click Download to download Sale deed agreement in .pdf format.</p>
-                                        {{--<button class="btn btn-primary btn-custom" id="uploadBtn" data-toggle="modal" data-target="#myModal">Edit</button>--}}
-                                        {{--@if($data->sc_form_request->template_file)--}}
-                                        <a href="{{ config('commanConfig.storage_server') .'/'. $sale_deed_agreement->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
-                                        {{--@endif--}}
                                 </div>
                             </div>
                         </div>
@@ -73,7 +67,6 @@
                                     <div class="col-sm-12">
                                         <div class="d-flex flex-column h-100">
                                             <h5>Upload Registered Agreement</h5>
-                                            {{--<span class="hint-text">Click on 'Upload' to upload Sale deed agreement</span>--}}
                                             <p>
                                             @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                 <div class="alert alert-success society_registered">
@@ -106,22 +99,22 @@
                                                             @if($type != 'hidden' || $type_1 != 'hidden')
                                                                 <div class="form-group m-form__group row">
                                                                     @if(isset($field_names[$i]))
-                                                                        @php if($field_names[$i] == 'document_path'){  $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type = 'hidden'; } } @endphp
+                                                                        @php if($field_names[$i] == 'document_path'){  $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued'))){ $type = 'hidden'; } } @endphp
                                                                         @if($type != 'hidden')
                                                                         
                                                                             <div class="col-sm-4 form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i] }}">@php $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly, 'required'); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i], $type,'' , '', $value, $readonly, 'required'); @endphp
                                                                                 <span id="error_{{ $field_names[$i] }}" class="help-block">{{$errors->first($field_names[$i])}}</span>
                                                                             </div>
                                                                         @endif
                                                                     @endif
                                                                     @if(isset($field_names[$i+1]))
-                                                                        @php if($field_names[$i+1] == 'document_path'){  $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type_1 = 'hidden'; } } @endphp
+                                                                        @php if($field_names[$i+1] == 'document_path'){  $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued'))){ $type_1 = 'hidden'; } } @endphp
                                                                         @if($type_1 != 'hidden')
                                                                             <div class="col-sm-4 offset-sm-@if($field_names[$i+1] == 'document_path_lease') 0 @else 1 @endif form-group">
                                                                                 <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); @endphp:</label>
-                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly, 'required'); @endphp
+                                                                                @php if(isset($sc_registrar_details['Sale Deed Agreement']) && $sc_registrar_details['Sale Deed Agreement']!=null){ $value = $sc_registrar_details['Sale Deed Agreement'][$field_names[$i+1]]; if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued')){ $readonly = 'readonly'; }else{ $readonly = ''; } }else{ $value =''; $readonly = ''; } echo $comm_func->form_fields($field_names[$i+1], $type_1,'' , '', $value, $readonly, 'required'); @endphp
                                                                                 <span id="error_{{ $field_names[$i+1] }}" class="help-block">{{$errors->first($field_names[$i+1])}}</span>
                                                                             </div>
                                                                         @endif
@@ -130,28 +123,7 @@
                                                                 @php $type = ''; @endphp
                                                             @endif
                                                         @endfor
-                                                        {{--<div class="form-group m-form__group row">--}}
-                                                        {{--<div class="col-sm-4 form-group">--}}
-                                                        {{--<label class="col-form-label" for="template">Upload File:</label>--}}
-                                                        {{--<div class="custom-file">--}}
-                                                        {{--<input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"--}}
-                                                        {{--id="test-upload" required="required">--}}
-                                                        {{--<label class="custom-file-label" for="test-upload">Choose--}}
-                                                        {{--file...</label>--}}
-                                                        {{--<span class="text-danger" id="file_error"></span>--}}
-                                                        {{--</div>--}}
-                                                        {{--</div>--}}
-                                                        {{--</div>--}}
                                                         <div class="mt-3 btn-list">
-                                                            {{--@if(isset($sc_registrar_details['Sale Deed Agreement']))--}}
-                                                            {{--@if(!$sc_registrar_details['Sale Deed Agreement']!=null && --}}
-                                                            {{--($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || --}}
-                                                            {{--$sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued')))--}}
-                                                                {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
-                                                            {{--@endif--}}
-                                                            {{--@else--}}
-                                                            {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
-                                                            {{--@endif--}}
                                                             @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'))
                                                                 <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
                                                             @endif
@@ -188,9 +160,9 @@
                                             @endif
                                             </p>
                                             <p>Click Download to download Lease deed agreement in .pdf format.</p>
-                                            {{--@if($data->sc_form_request->template_file)--}}
+                                            @if(isset($lease_deed_agreement->document_path))
                                             <a href="{{ config('commanConfig.storage_server') .'/'. $lease_deed_agreement->document_path }}" class="btn btn-primary" target="_blank" rel="noopener">Download</a>
-                                            {{--@endif--}}
+                                            @endif
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +172,6 @@
                                         <div class="col-sm-12">
                                             <div class="d-flex flex-column h-100">
                                                 <h5>Upload Registered Agreement</h5>
-                                                {{--<span class="hint-text">Click on 'Upload' to upload Lease deed agreement</span>--}}
                                                 <p>
                                                     @if (session(config('commanConfig.no_dues_certificate.redirect_message_status.upload')))
                                                         <div class="alert alert-success society_registered">
@@ -233,7 +204,7 @@
                                                                 @if($type != 'hidden' || $type_1 != 'hidden')
                                                                     <div class="form-group m-form__group row">
                                                                         @if(isset($field_names[$i]))
-                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type = 'hidden'; } $field_names[$i] = $field_names[$i].'_lease'; } @endphp
+                                                                            @php if($field_names[$i] == 'document_path'){ $type = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued'))){ $type = 'hidden'; } $field_names[$i] = $field_names[$i].'_lease'; } @endphp
                                                                             @if($type != 'hidden')
                                                                                 <div class="col-sm-4 form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels); } @endphp:</label>
@@ -243,7 +214,7 @@
                                                                             @endif
                                                                         @endif
                                                                         @if(isset($field_names[$i+1]))
-                                                                                @php if($field_names[$i+1] == 'document_path'){ $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))){ $type_1 = 'hidden'; } $field_names[$i+1] = $field_names[$i+1].'_lease'; } @endphp
+                                                                                @php if($field_names[$i+1] == 'document_path'){ $type_1 = 'file'; if(isset($sc_registrar_details) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Conveyance_Issued'))){ $type_1 = 'hidden'; } $field_names[$i+1] = $field_names[$i+1].'_lease'; } @endphp
                                                                             @if($type_1 != 'hidden')
                                                                                 <div class="col-sm-4 offset-sm- @if($field_names[$i+1] == 'document_path_lease') 0 @else 1 @endif form-group">
                                                                                     <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'document_path_lease'){ echo 'Upload Lease Deed Agreement'; }else{ $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels); } @endphp:</label>
@@ -256,26 +227,7 @@
                                                                     @php $type = ''; @endphp
                                                                 @endif
                                                             @endfor
-                                                                {{--<div class="form-group m-form__group row">--}}
-                                                                    {{--<div class="col-sm-4 form-group">--}}
-                                                                        {{--<label class="col-form-label" for="template">Upload File:</label>--}}
-                                                                        {{--<div class="custom-file">--}}
-                                                                            {{--<input class="custom-file-input pdfcheck" name="no_dues_certificate" type="file"--}}
-                                                                                   {{--id="test-upload" required="required">--}}
-                                                                            {{--<label class="custom-file-label" for="test-upload">Choose--}}
-                                                                                {{--file...</label>--}}
-                                                                            {{--<span class="text-danger" id="file_error"></span>--}}
-                                                                        {{--</div>--}}
-                                                                    {{--</div>--}}
-                                                                {{--</div>--}}
                                                                 <div class="mt-3 btn-list">
-                                                                {{--@if(isset($sc_registrar_details))--}}
-                                                                {{--@if(!(isset($sc_registrar_details['Lease Deed Agreement']) && ($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.forwarded') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.NOC_Issued'))))--}}
-                                                                    {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
-                                                                {{--@endif--}}
-                                                                {{--@else--}}
-                                                                {{--<button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>--}}
-                                                                {{--@endif--}}
                                                                     @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'))
 {{--                                                                        @php dd(config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease')); @endphp--}}
                                                                         <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
@@ -306,12 +258,7 @@
                         <form id="noDuesCerti" action="" method="POST">
                             @csrf
                             <input type="hidden" id="applicationId" name="applicationId" value="{{$sc_application->id }}">
-                            {{--<input type="hidden" id="document_id" name="text_document_id" value="{{ $no_dues_certificate_docs['text_no_dues_certificate']->id }}">--}}
-                            {{--<input type="hidden" id="document_id" name="pdf_document_id" value="{{ $no_dues_certificate_docs['drafted_no_dues_certificate']->id }}">--}}
-                            {{--<textarea id="ckeditorText" name="ckeditorText" style="display: none;">--}}
-                            {{--@if(!empty($content))--}}
-                            {{--@php echo $content; @endphp--}}
-                            {{--@else--}}
+                            
                             <div style="float: left; padding-left: 15px;">
                                 <span style="font-weight: bold; font-size: 20px; ">Subject:</span>
                                 <div style="float: left;line-height: 2.0; padding-left: 20px;">

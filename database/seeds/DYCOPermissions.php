@@ -5,6 +5,8 @@ use App\PermissionRole;
 use App\Role;
 use App\RoleUser;
 use App\User;
+use App\MasterLayout;
+use App\LayoutUser;
 use Illuminate\Database\Seeder;
 
 class DYCOPermissions extends Seeder
@@ -435,15 +437,9 @@ class DYCOPermissions extends Seeder
             
             
         }
-        //dd($permission_role);
-        // if ($permission_role > 0) {
-
-            
-        // }
-        //dd('ok');
         
-        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
-        $layout_user = \App\LayoutUser::where('user_id', $user_id)->where('layout_id', $layout_id->id)->first();
+        $layout_id = MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+        $layout_user = LayoutUser::where('user_id', $user_id)->where('layout_id', $layout_id->id)->first();
 
         if ($layout_user) {
             
@@ -518,15 +514,9 @@ class DYCOPermissions extends Seeder
                 PermissionRole::insert($permission_role);
             }
         }
-        
-        // if ($permission_role > 0) {
-            
-            
-            
-        // }
        
-        $layout_id = \App\MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
-        $layout_user = \App\LayoutUser::where('user_id', $user_id1)->where('layout_id', $layout_id->id)->first();
+        $layout_id = MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+        $layout_user = LayoutUser::where('user_id', $user_id1)->where('layout_id', $layout_id->id)->first();
 
         if ($layout_user) {
             
@@ -537,5 +527,78 @@ class DYCOPermissions extends Seeder
 
         // change redirect to for dyco and dycdo role
         Role::whereIn('id',[$role_id,$role_id1])->update(['redirect_to' => '/conveyance']);
+        //CDO
+
+        $role = Role::where('name', '=', 'cdo_engineer')->first();
+        if (isset($role)) {
+                $role_id=$role->id;
+        }else
+        {
+            $role_id = Role::insertGetId([
+                'name' => 'cdo_engineer', 
+                'redirect_to' => '/conveyance',
+                'dashboard' => '/sc_dashboard',
+                'parent_id' => null,
+                'display_name' => 'CDO Engineer',
+                'description' => 'Login as cdo Engineer',
+            ]);
+        }
+        $user1 = User::where('email', '=', 'cdo@gmail.com')->first();
+
+        if ($user1) {
+                $user_id=$user1->id;
+        }else
+        {
+            $user_id = User::insertGetId([
+                'name' => 'cdo user',
+                'email' => 'cdo@gmail.com',
+                'password' => bcrypt('1234'),
+                'role_id' => $role_id,
+                'uploaded_note_path' => 'Test',
+                'mobile_no' => '1234567890',
+                'address' => 'Mumbai',
+            ]);
+        }
+
+        $roleUser = RoleUser::where(['user_id' => $user_id,'role_id' => $role_id])->first();
+        if(!isset($roleUser)){
+            $role_user = RoleUser::insert([
+                'user_id' => $user_id,
+                'role_id' => $role_id,
+                'start_date' => \Carbon\Carbon::now(),
+            ]);
+        }
+
+        foreach ($permissions as $per) {
+            $permission_role = [];
+            $cdo_permission = Permission::where('name', '=', $per['name'])->first();
+
+            if ($cdo_permission) {
+                $permission_id = $cdo_permission->id;
+            } else {
+                $permission_id = Permission::insertGetId($per);
+            }
+
+            $permission_roles1 = PermissionRole::where(['permission_id'=> $permission_id,'role_id'=> $role_id])->first();
+            
+            if ($permission_roles1) {
+                
+            }else
+            {
+                $permission_role[] = [
+                    'permission_id' => $permission_id,
+                    'role_id' => $role_id,
+                ];
+                PermissionRole::insert($permission_role);
+            }        
+        }
+
+        $layout_id=MasterLayout::where("layout_name", '=', "Samata Nagar, Kandivali(E)")->first();
+            $layout_user = LayoutUser::where('user_id', $user_id)->where('layout_id', $layout_id->id)->first();
+
+            if (!isset($layout_user)) {
+                LayoutUser::insert(['user_id' => $user_id, 'layout_id' => $layout_id->id]);
+            }
     }
+
 }

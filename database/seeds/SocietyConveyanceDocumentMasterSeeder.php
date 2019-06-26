@@ -14,6 +14,7 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
      */
     public function run() 
     {
+        SocietyConveyanceDocumentMaster::truncate();
         $society = SocietyConveyanceDocumentMaster::all();
         $conveyanceId = scApplicationType::where('application_type','=','Conveyance')->value('id');
         $renewalId = scApplicationType::where('application_type','=','Renewal')->value('id');
@@ -37,7 +38,14 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
                 'is_optional'       => '0'
             ],
             [
-                'document_name'       => 'कार्यकारणी यादी',
+                'document_name'       => 'कार्यकारणी यादी (गाळा क्रं, पद व मोबाईल नंबर )',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $mLanguage,
+                'is_optional'       => '0'
+            ],
+            [
+                'document_name'       => 'पावती (Last Receipt of service charge of all tenements)',
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $mLanguage,
@@ -94,6 +102,13 @@ class SocietyConveyanceDocumentMasterSeeder extends Seeder
             ],            
             [
                 'document_name'       => 'sc_undertaking',
+                'application_type_id' => $conveyanceId,
+                'society_flag'        => '1',
+                'language_id'         => $eLanguage,
+                'is_optional'       => '0'
+            ], 
+            [
+                'document_name'       => 'sc_Indemnity Bond',
                 'application_type_id' => $conveyanceId,
                 'society_flag'        => '1',
                 'language_id'         => $eLanguage,

@@ -9,7 +9,6 @@
     {{ session()->get('success') }}
 </div>
 @endif
-  
 @php
     if(isset($data->ApprovedSaleAgreement->document_path))
         $document = $data->ApprovedSaleAgreement->document_path;
@@ -123,7 +122,7 @@
     </div>
 
    <!-- Generate stamp duty letter      -->
-@if(session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer'))
+@if(session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
             <div class="m-subheader" style="padding: 0;">
@@ -257,10 +256,10 @@
 
     @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
 
-        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
-            @csrf   
-             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
-            <div class="m-portlet m-portlet--mobile m_panel">  
+        <div class="m-portlet m-portlet--mobile m_panel">  
+            <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
+                @csrf   
+                 <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
                 <div class="m-portlet__body">   
                     <div class="col-xs-12 row">
                         <div class="col-md-12">
@@ -270,8 +269,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     @endif
         
 @endsection

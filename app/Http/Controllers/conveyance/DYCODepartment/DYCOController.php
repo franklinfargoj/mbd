@@ -410,6 +410,10 @@ class DYCOController extends Controller
         $docId = $this->common->getScAgreementId($Doc1,$Applicationtype);
         $data->undertaking = $this->common->getScAgreement($docId,$applicationId,NULL);
 
+        $Doc2 = config('commanConfig.documents.society.sc_Indemnity Bond');
+        $docId2 = $this->common->getScAgreementId($Doc2,$Applicationtype);
+        $data->indemnity = $this->common->getScAgreement($docId2,$applicationId,NULL);
+
         //get stamp duty agreement uploaded by dycdo
         $Agreementstatus1 = ApplicationStatusMaster::where('status_name','=','Stamp_by_dycdo')->value('id');
         $StampSaleId1  = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype,$Agreementstatus1);
@@ -676,9 +680,9 @@ class DYCOController extends Controller
         $draftId = $this->common->getScAgreementId($draft,$masterId);
         
         $content = str_replace('_', "", $_POST['ckeditorText']);
-        $folder_name = 'Conveynace_Draft_NOC';
+        $folder_name = 'Conveynace_Final_Letter';
 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
         // $pdf = \App::make('dompdf.wrapper');
         $pdf = new Mpdf();
@@ -690,7 +694,7 @@ class DYCOController extends Controller
         $pdf->SetHTMLFooter($footer_file);
         $pdf->WriteHTML($content);        
     
-        $fileName = time().'_draft_noc_'.$id.'.pdf';
+        $fileName = time().'_final_letter_'.$id.'.pdf';
         $filePath = $folder_name."/".$fileName;
 
         if (!(Storage::disk('ftp')->has($folder_name))) {            
@@ -710,12 +714,12 @@ class DYCOController extends Controller
         $text  = config('commanConfig.scAgreements.conveynace_text_NOC');
         $textId = $this->common->getScAgreementId($text,$masterId);
 
-        $folder_name1 = 'Conveynace_Text_NOC';
+        $folder_name1 = 'Conveynace_Text_Final_Letter';
 
         if (!(Storage::disk('ftp')->has($folder_name1))) {            
             Storage::disk('ftp')->makeDirectory($folder_name1, $mode = 0777, true, true);
         }        
-        $file_nm =  time()."_text_noc_".$id.'.txt';
+        $file_nm =  time()."_text_final_".$id.'.txt';
         $filePath1 = $folder_name1."/".$file_nm;
 
         Storage::disk('ftp')->put($filePath1, $content);
@@ -728,7 +732,7 @@ class DYCOController extends Controller
             $this->common->createScAgreement($id,$textId,$filePath1,NULL);
         } 
         $applicationId = encrypt($request->applicationId);
-        return redirect('conveyance_noc/'.$applicationId)->with('success', 'NOC Generated Successfully..');        
+        return redirect('conveyance_noc/'.$applicationId)->with('success', 'Final Letter of Conveyance Generated Successfully..');        
     }
 
     public function saveUploadedNOC(Request $request){
@@ -959,7 +963,7 @@ class DYCOController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Conveyance_Draft_Stamp_duty_Letter';
 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf();
@@ -1169,7 +1173,7 @@ class DYCOController extends Controller
         $content = str_replace('_', "", $_POST['ckeditorText']);
         $folder_name = 'Renewal_Draft_Stamp_duty_Letter';
 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         $pdf = new Mpdf();
@@ -1288,7 +1292,7 @@ class DYCOController extends Controller
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true; 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         if (isset($saleContent)){
@@ -1411,7 +1415,7 @@ class DYCOController extends Controller
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true; 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         if (isset($saleContent)){
@@ -1527,7 +1531,7 @@ class DYCOController extends Controller
         $pdf = new Mpdf();
         $pdf->autoScriptToLang = true;
         $pdf->autoLangToFont = true; 
-        $header_file = view('admin.REE_department.offer_letter_header');        
+        $header_file = view('admin.common.conveyance_header');        
         $footer_file = view('admin.REE_department.offer_letter_footer');
 
         if (isset($leaseContent)){

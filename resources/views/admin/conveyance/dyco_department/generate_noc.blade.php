@@ -24,7 +24,7 @@
                             </div>
                             <div style="clear: both;"></div>
                         </div>
-                        <h3 style="text-decoration: underline; text-align: center;">NOC </h3>
+                        <h3 style="text-decoration: underline; text-align: center;">Final Letter of Conveyance </h3>
                         <p style="margin-bottom:0; line-height:0.25;">To,</p>
                         <span style="margin-bottom:0; line-height:0.25;">The Secretary,</span>
                         <p style="margin-bottom:0; line-height:1;">{{ isset($data->societyApplication->address) ? $data->societyApplication->address : '' }}</p>

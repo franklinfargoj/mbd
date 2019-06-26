@@ -35,7 +35,7 @@
                 </a>
             </li>
         </ul>
-    </div>
+    <!-- </div> -->
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
@@ -139,20 +139,20 @@
 
     @if($data->status->status_id != config('commanConfig.conveyance_status.forwarded') && $data->status->status_id != config('commanConfig.conveyance_status.reverted') )
 
-        <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
-            @csrf   
-             <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
             <div class="m-portlet m-portlet--mobile m_panel">  
-                <div class="m-portlet__body">   
-                    <div class="col-xs-12 row">
-                        <div class="col-md-12">
-                            <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
-                                <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                    <form class="nav-tabs-form" id ="CommentFRM" role="form" method="POST" action="{{ route('conveyance.save_agreement_comments')}}">
+                        @csrf   
+                         <input type="hidden" name="application_id" value="{{ isset($data->id) ? $data->id : '' }}">
+                    <div class="m-portlet__body">   
+                        <div class="col-xs-12 row">
+                            <div class="col-md-12">
+                                <h3 class="section-title section-title--small">Remark</h3>
+                                    <textarea rows="4" cols="63" name="remark"></textarea>
+                                    <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-        </form>
     @endif   
 @endsection

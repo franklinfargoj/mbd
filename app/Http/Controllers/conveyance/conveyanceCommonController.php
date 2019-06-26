@@ -275,7 +275,7 @@ class conveyanceCommonController extends Controller
                 $Tostatus = $applicationStatus;
                 $Scstatus = $Tostatus;
             }
-        }elseif((session()->get('role_name') == config('commanConfig.dycdo_engineer') && $request->to_role_id == $dycoId)){
+        }elseif((session()->get('role_name') == config('commanConfig.cdo_engineer') && $request->to_role_id == $dycoId)){
             if ($applicationStatus == config('commanConfig.conveyance_status.Approved_sale_&_lease_deed')){
 
                 $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
@@ -288,7 +288,7 @@ class conveyanceCommonController extends Controller
 
             }elseif($applicationStatus == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')){
                 
-                $Tostatus = config('commanConfig.conveyance_status.NOC_Issued');
+                $Tostatus = config('commanConfig.conveyance_status.Conveyance_Issued');
                 $Scstatus = $Tostatus;                
             }
             else{
@@ -416,7 +416,7 @@ class conveyanceCommonController extends Controller
         if (session()->get('role_name') == config('commanConfig.ee_junior_engineer') || config('commanConfig.ee_deputy_engineer') || config('commanConfig.ee_branch_head')){
             $folder = 'ee_department';
         }        
-        if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')){
+        if (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer')){
             $folder = 'dyco_department';
         }         
         if (session()->get('role_name') == config('commanConfig.junior_architect') || session()->get('role_name') == config('commanConfig.senior_architect') || session()->get('role_name') == config('commanConfig.architect')){
@@ -644,7 +644,7 @@ class conveyanceCommonController extends Controller
       if (session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.joint_co')){
         $route = 'admin.conveyance.co_department.forward_application';
 
-      } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')){
+      } elseif (session()->get('role_name') == config('commanConfig.dyco_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer')){
              $route = 'admin.conveyance.dyco_department.forward_application';
 
         }elseif (session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.ee_deputy_engineer') || session()->get('role_name') == config('commanConfig.ee_junior_engineer') ) {
@@ -1378,7 +1378,7 @@ class conveyanceCommonController extends Controller
 
     public function pendingApplicationCount($roles){
 
-        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Approved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.NOC_Issued'));
+        $status = array(config('commanConfig.conveyance_status.in_process'),config('commanConfig.conveyance_status.Draft_sale_&_lease_deed'),config('commanConfig.conveyance_status.Approved_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed'),config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed'),config('commanConfig.conveyance_status.Registered_sale_&_lease_deed'),config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'),config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease'),config('commanConfig.conveyance_status.Conveyance_Issued'));
 
         $count = scApplicationLog::where('is_active',1)
             ->whereIn('status_id',$status)
@@ -1413,7 +1413,7 @@ class conveyanceCommonController extends Controller
         $status['stampSign'] = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
         $status['sendForRegistration'] = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
         $status['registered'] = config('commanConfig.conveyance_status.Registered_sale_&_lease_deed');
-        $status['noc'] = config('commanConfig.conveyance_status.NOC_Issued');
+        $status['noc'] = config('commanConfig.conveyance_status.Conveyance_Issued');
 
         return $status;
     } 
