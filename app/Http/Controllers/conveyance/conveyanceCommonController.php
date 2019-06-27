@@ -308,7 +308,6 @@ class conveyanceCommonController extends Controller
             
         foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
-
             $application = [[
                 'application_id' => $request->applicationId,
                 'user_id'        => Auth::user()->id,
@@ -316,7 +315,7 @@ class conveyanceCommonController extends Controller
                 'status_id'      => $status,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $user_data->role_id,
-                'remark'         => count($request->remark) > 0 ? $request->remark[$to_user_id] : $request->remark,
+                'remark'         => count($request->remark) > 0 ? (isset($request->remark[$to_user_id]) ? $request->remark[$to_user_id] : $request->remark) : $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => '0',
                 'is_active'      => 1,
@@ -329,7 +328,7 @@ class conveyanceCommonController extends Controller
                 'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
-                'remark'        => count($request->remark) > 0 ? $request->remark[$to_user_id] : $request->remark,
+                'remark'        => count($request->remark) > 0 ? (isset($request->remark[$to_user_id]) ? $request->remark[$to_user_id] : $request->remark) : $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => $request->society_flag,
                 'is_active'      => 1,

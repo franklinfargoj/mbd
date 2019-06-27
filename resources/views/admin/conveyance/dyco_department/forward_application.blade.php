@@ -25,7 +25,16 @@
                     </a>
                 </li>
 
-                @if(((session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer')) && $data->status->status_id != config('commanConfig.conveyance_status.forwarded')) || $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') || $data->status->status_id == config('commanConfig.conveyance_status.in_process') )
+                @if(( (session()->get('role_name') == config('commanConfig.dycdo_engineer') || session()->get('role_name') == config('commanConfig.cdo_engineer') || session()->get('role_name') == config('commanConfig.dyco_engineer')) 
+
+                && $data->status->status_id != config('commanConfig.conveyance_status.forwarded') 
+                && $data->status->status_id != config('commanConfig.conveyance_status.reverted'))
+
+                || $data->status->status_id == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed') 
+
+                || $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') 
+
+                || $data->status->status_id == config('commanConfig.conveyance_status.in_process') )
                 <li class="nav-item m-tabs__item">
                     <a class="nav-link m-tabs__link show" data-toggle="tab" href="#forward-application-tab">
                         <i class="la la-cog"></i> Forward Application
@@ -193,48 +202,58 @@
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
-                                        <!-- <input type="hidden" name="to_user_id" id="to_user_id"> -->
+                                        
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
                                             <div class="m-radio-inline">
+                                                <!-- disable forward  -->
+                                                @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                                
                                                 <label class="m-radio m-radio--primary">
                                                     <input type="radio" name="remarks_suggestion" id="forward" class="forward-application"
                                                         value="1" checked> Forward Application
                                                     <span></span>
                                                 </label>
+                                                @endif
+
                                                 @if($data->child != "")    
                                                     <label class="m-radio m-radio--primary">
                                                         <input type="radio" name="remarks_suggestion" id="remark" class="forward-application"
                                                             value="0"> Revert Application
                                                         <span></span>
                                                     </label>  
-                                                @endif                                              
+                                                @endif
                                             </div>
-                                            <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
-                                                <label class="col-form-label col-lg-2 col-sm-12">
-                                                    Forward To:
-                                                </label>
-                                                <div class="col-lg-4 col-md-9 col-sm-12">
-                                                    <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" value="" name="to_user_id[]" {{(count($parentData) > 1 && session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
+                                            <!-- forward parent -->
+                                            @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                                <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
+                                                    <label class="col-form-label col-lg-2 col-sm-12">
+                                                        Forward To:
+                                                    </label>
+                                                    <div class="col-lg-4 col-md-9 col-sm-12">
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" value="" name="to_user_id[]" {{(count($parentData) > 1 && session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
 
-                                                        @if(count($parentData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
+                                                            @if(count($parentData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
 
-                                                        @foreach($parentData as $parent)
-                                                            <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
-                                                        @endforeach
-
-                                                        @elseif($data->parent)
-                                                            @foreach($data->parent as $parent)
+                                                            @foreach($parentData as $parent)
                                                                 <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
                                                             @endforeach
-                                                        @endif    
-                                                         
-                                                        
-                                                    </select> 
-                                                    <span class="error" style="display: none;color: #ce2323;margin-bottom: 17px;"> * Required</span>
-                                                </div>                                                 
-                                            </div>
+
+                                                            @elseif($data->parent)
+                                                                @foreach($data->parent as $parent)
+                                                                    <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
+                                                                @endforeach
+                                                            @endif    
+                                                             
+                                                            
+                                                        </select> 
+                                                        <span class="error" style="display: none;color: #ce2323;margin-bottom: 17px;"> * Required</span>
+                                                    </div>
+                                                </div>
+                                            @endif
+
+                                            <!-- revert child -->
                                             <input type="hidden" id="society_flag" name="society_flag" value="0">
                                              @if($data->child != "")
                                             <div class="form-group m-form__group row mt-3 child-data" style="display: none">
@@ -262,7 +281,7 @@
                                             </div>
                                             @endif
                                             
-                                            @if(count($parentData) > 0)
+                                            @if(count($parentData) > 1)
                                                 @foreach($parentData as $parent)
                                                     <div class="mt-3 table--box-input">
                                                         <label for="remark" style="font-weight: 500;">Remark for {{ $parent->roles[0]->display_name }}:</label>
@@ -270,6 +289,12 @@
                                                             cols="30" rows="5"></textarea>
                                                     </div>
                                                 @endforeach
+                                            @else
+                                                <div class="mt-3 table--box-input">
+                                                    <label for="remark" style="font-weight: 500;">Remark :</label>
+                                                    <textarea class="form-control form-control--custom" name="remark" id="remark"
+                                                        cols="30" rows="5"></textarea>
+                                                </div>
                                             @endif
 
                                                 <div class="mt-3 btn-list">

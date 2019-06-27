@@ -201,7 +201,7 @@
                         <div class="row">
                             <div class="col-sm-6">
                                 <div class="d-flex flex-column h-100 two-cols">
-                                    <h5>Send to Stamp Duty Letter Society</h5>
+                                    <span style="font-weight: 500">Send to Stamp Duty Letter Society</span>
                                     <div class="mt-auto">
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
@@ -247,7 +247,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <h3 class="section-title section-title--small">Riders</h3>
-                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                        <textarea class="form-control form-control--custom" rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -264,7 +264,7 @@
                     <div class="col-xs-12 row">
                         <div class="col-md-12">
                             <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <textarea class="form-control form-control--custom" rows="4" cols="63" name="remark"></textarea>
                                 <button type="submit" class="btn btn-primary mt-3" id="remark_btn" style="display:block">Save</button>
                         </div>
                     </div>
