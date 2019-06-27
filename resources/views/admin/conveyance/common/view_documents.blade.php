@@ -20,7 +20,7 @@
                         <table class="table mb-0">
                             <thead class="thead-default">
                                 <tr>
-                                    <th> # </th>
+                                    <th> Sr.no </th>
                                     <th> Document Name </th>
                                     <th> Status </th>
                                     <th> Actions </th>

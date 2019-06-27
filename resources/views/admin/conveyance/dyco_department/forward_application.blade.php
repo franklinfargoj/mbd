@@ -211,7 +211,6 @@
                                                     </label>  
                                                 @endif                                              
                                             </div>
-
                                             <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                 <label class="col-form-label col-lg-2 col-sm-12">
                                                     Forward To:
@@ -262,11 +261,17 @@
                                                 </div>
                                             </div>
                                             @endif
-                                            <div class="mt-3 table--box-input">
-                                                <label for="remark">Remark:</label>
-                                                <textarea class="form-control form-control--custom" name="remark" id="remark"
-                                                    cols="30" rows="5"></textarea>
-                                            </div>
+                                            
+                                            @if(count($parentData) > 0)
+                                                @foreach($parentData as $parent)
+                                                    <div class="mt-3 table--box-input">
+                                                        <label for="remark" style="font-weight: 500;">Remark for {{ $parent->roles[0]->display_name }}:</label>
+                                                        <textarea class="form-control form-control--custom" name="remark[{{$parent->id}}]" id="remark"
+                                                            cols="30" rows="5"></textarea>
+                                                    </div>
+                                                @endforeach
+                                            @endif
+
                                                 <div class="mt-3 btn-list">
                                                     <button type="submit" class="btn btn-primary">Save</button>
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
