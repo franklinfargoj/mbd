@@ -506,7 +506,10 @@ class RCController extends Controller
            return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
         }
 
-        return view('admin.rc_department.generate_receipt_tenant', compact('bill'));
+        $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
+            ->where('building_id',$request->building_id)->get()->toArray();
+
+         return view('admin.rc_department.generate_receipt_tenant', compact('bill','receipt_data'));
     }
 
 
@@ -782,7 +785,7 @@ class RCController extends Controller
 
                 $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
                 return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
-            }          
+            }
         } else {
            return redirect()->back()->with('warning', 'Invalid Bill Data.');
         }
@@ -906,8 +909,9 @@ class RCController extends Controller
                 $data['bill'] = $bill;
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
-                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
-                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+
+//                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+//                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
 
             } else {
                 $data['building'] = MasterBuilding::find($request->building_id);
@@ -916,11 +920,29 @@ class RCController extends Controller
                 $data['bill'] = $receipt;
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
 
-                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
-                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
-                return redirect()->back()->with('warning', 'Bill Already Paid.');
+//                $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
+//                    ->where('building_id',$request->building_id)->get();
+
+//                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+//                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+//                return redirect()->back()->with('warning', 'Bill Already Paid.');
             }
-          
+
+            $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+                ->where('building_id', '=', $request->building_id)
+                //    ->where('bill_month', '=',  $data['month'])
+                //    ->where('bill_year', '=', $data['year'])
+                ->with('tenant_detail')
+                ->with('building_detail')
+                ->with('society_detail')
+                ->orderBy('id','DESC')
+                ->first();
+
+            $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
+                ->where('building_id',$request->building_id)->get();
+
+            return view('admin.rc_department.generate_receipt_tenant', compact('bill' , 'receipt_data'));
+
         } else {
            return redirect()->back()->with('warning', 'Invalid Bill Data.');
         }
