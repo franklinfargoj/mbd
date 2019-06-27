@@ -281,7 +281,7 @@
                                       </tr>
                                       <tr>
                                          <td>4</td>
-                                         <td>From discretionary 10% quota of HON, VP/A from balance built up area of layout</td>
+                                         <td>From discretionary 10% quota of HOD, VP/A from balance built up area of layout</td>
                                          <td><input type="text" class="form-control--custom text-box number" name="area[balance_buildup_area]" id="balance_buildup_area" value="{{ isset($data) ? $data->balance_buildup_area : '' }}" onkeyup="calculateTotalBUA()" readonly> </td>
                                       </tr>
                                       <tr>
@@ -297,6 +297,7 @@
                                       <tr>
                                          <td>7</td>
                                          <td style="line-height: 3.5;">
+                                         <span style="font-weight: 700;"> Total built-up area permitted for obtaining Commencement Certificate. </span>
                                           <input type="text" id="" class="form-control--custom text-box float total_existing" readonly value="{{ isset($data) ? $data->total_existing_permitted_area : '' }}" > m<sup>2</sup> 
                                                 [i.e <input type="text" id="existing_residential_use" name="area[existing_residential_use]" class="form-control--custom text-box float noc_area" value="{{ isset($data) ? $data->existing_residential_use : '' }}" readonly> m<sup>2</sup> for residential use + 
 

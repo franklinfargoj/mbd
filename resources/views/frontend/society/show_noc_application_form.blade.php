@@ -58,7 +58,7 @@
                         <p>
                             Whereas, vide our letter under ref no .2 we have already submitted the Indemnity bond and Undertakings. Now, we are submitting here with the No Dues Certificate along with the payment receipts. Therefore, we here by request you to issue the NOC for IOD for full BUA i.e <input class="letter-form-input" type="text" value="{{$noc_application->request_form->full_bua}}"> m2 and NOC for CC for Existing BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->existing_bua}}"> m2  + <input class="letter-form-input" type="text" value="{{$noc_application->request_form->selected_bua}}"> % BUA <input class="letter-form-input" type="text" value="{{$noc_application->request_form->percent_bua}}">m2 i.e Total <input class="letter-form-input" type="text" value="{{$noc_application->request_form->total_bua}}">m2, for which we have made the payment to MHADA.
                         </p>
-                        <p>Hence we request you to grant us the No Objection Certificate at the earliest.</p>
+                        <!-- <p>Hence we request you to grant us the No Objection Certificate at the earliest.</p> -->
                         @elseif(isset($noc_applications->model) && $noc_applications->model == 'Sharing')
                         <p>
                             With reference to the offer letter, we have made payment for offsite infrastructure charges of Rs. 
@@ -70,7 +70,7 @@
                              <!-- is requested to the subject mentioned above vide Reference MHADA issued us the offer letter for additional FSI. Accordingly we have made payment to the Chief Accounts officer vide Demand draft / Pay order of Rs  <input class="letter-form-input" type="text" id="" name="demand_draft_amount" value="{{ $noc_application->request_form->demand_draft_amount}}" readonly> in favour of Chief accounts officer,Mumbai board,MHADA bearing No. <input class="letter-form-input" type="text" id="" name="demand_draft_number" value="{{$noc_application->request_form->demand_draft_number}}" readonly> Dtd <input class="letter-form-input" type="text" id="" name="demand_draft_date" value="{{date('j F Y',strtotime($noc_application->request_form->demand_draft_date))}}" readonly> drawn on <input class="letter-form-input" type="text" id="" name="demand_draft_bank" value="{{$noc_application->request_form->demand_draft_bank}}" readonly> towards first installment payment of allotment of said FSI. A copy of the receipt is enclosed herewith for your reference. Also we are submitting various Undertakings 
                             & Indemnity Bonds and No Dues Certificate as mentioned in the Offer Letter. -->
                         </p>
-                        <p>Hence we request you to grant issue us NOC for IOD / IOA.</p>
+                        <!-- <p>Hence we request you to grant issue us NOC for IOD / IOA.</p> -->
                         @endif
                         
                         <p>Thanking you,</p>
