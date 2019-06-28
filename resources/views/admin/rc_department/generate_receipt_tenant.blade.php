@@ -72,9 +72,10 @@
                         <span class="help-block"></span>
                     </div>
 
+                    @php dd((strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date))))) @endphp
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill[0]->balance_amount ?? $bill[0]->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
