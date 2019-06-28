@@ -892,7 +892,7 @@ class RCController extends Controller
             $serviceChargesRate = ServiceChargesRate::where('building_id',$request->building_id)->where('society_id',$request->society_id)->where('year',$year)->first();
             $totalServiceCharge = $serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge;
 
-            if(!$receipt){
+//            if(!$receipt){
 
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
                     $dd = DdDetails::where('bill_no', '=', $request->bill_no)
@@ -999,20 +999,20 @@ class RCController extends Controller
 //                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
 //                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
 
-            } else {
-                $data['building'] = MasterBuilding::find($request->building_id);
-                $data['society'] = SocietyDetail::find($data['building']->society_id);
-                $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
-                $data['bill'] = $receipt;
-                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
-
-//                $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
-//                    ->where('building_id',$request->building_id)->get();
-
-//                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
-//                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
-//                return redirect()->back()->with('warning', 'Bill Already Paid.');
-            }
+//            } else {
+//                $data['building'] = MasterBuilding::find($request->building_id);
+//                $data['society'] = SocietyDetail::find($data['building']->society_id);
+//                $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
+//                $data['bill'] = $receipt;
+//                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
+//
+////                $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
+////                    ->where('building_id',$request->building_id)->get();
+//
+////                $pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+////                       return $pdf->download('payment_receipt_tenant'.date('YmdHis').'.pdf');
+////                return redirect()->back()->with('warning', 'Bill Already Paid.');
+//            }
 
             $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
                 ->where('building_id', '=', $request->building_id)
@@ -1027,7 +1027,10 @@ class RCController extends Controller
             $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
                 ->where('building_id',$request->building_id)->get();
 
-            return view('admin.rc_department.generate_receipt_tenant', compact('bill' , 'receipt_data'));
+            return redirect()->back()->with(['bill' => $bill , 'receipt_data'=> $receipt_data ] );
+
+
+//            return view('admin.rc_department.generate_receipt_tenant', compact('bill' , 'receipt_data'));
 
         } else {
            return redirect()->back()->with('warning', 'Invalid Bill Data.');
