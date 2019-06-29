@@ -64,3 +64,7 @@ background: white;
 transition: all 0.3s linear 0s;
 text-decoration: none;
 }
+
+h4{
+	color: #fff;
+}

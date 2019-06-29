@@ -35,6 +35,9 @@
 
 <div class="container text-content">
 	<div class="row">
+        <div class="col-12 text-center">
+            <h4>MUMBAI HOUSING AND AREA DEVELOPMENT BOARD</h4>
+        </div>
 		<div class="col-xl-4">
 			<div class="sim-button button6">
 				<a href="http://mb.mhada.gov.in/society_offer_letter" target="_blank">
