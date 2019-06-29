@@ -1,95 +1,100 @@
-<!doctype html>
-<html lang="{{ app()->getLocale() }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-
-        <title>Laravel</title>
-
-        <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Raleway:100,600" rel="stylesheet" type="text/css">
-
-        <!-- Styles -->
-        <style>
-            html, body {
-                background-color: #fff;
-                color: #636b6f;
-                font-family: 'Raleway', sans-serif;
-                font-weight: 100;
-                height: 100vh;
-                margin: 0;
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Mhada Presentation</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/webfont/1.6.16/webfont.js"></script>
+		<script>
+          WebFont.load({
+            google: {"families":["Poppins:300,400,500,600,700","Roboto:300,400,500,600,700"]},
+            active: function() {
+                sessionStorage.fonts = true;
             }
+          });
+        </script>
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/presentation/css/bootstrap.min.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/presentation/css/icomoon.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/presentation/css/main.css') }}">
+        <link rel="stylesheet" type="text/css" href="{{ asset('assets/presentation/css/style.css') }}">
+        
+</head>
+<body>
 
-            .full-height {
-                height: 100vh;
-            }
+<div class="main">
+	<div class="bg-image">
+		<div class="after"></div>
+	</div>
+</div>
 
-            .flex-center {
-                align-items: center;
-                display: flex;
-                justify-content: center;
-            }
 
-            .position-ref {
-                position: relative;
-            }
+<div class="logo">
+	<a href="#">
+        <img src="{{ asset('assets/presentation//images/logo-big.png') }}" alt="">
+	</a>
+</div>
 
-            .top-right {
-                position: absolute;
-                right: 10px;
-                top: 18px;
-            }
+<div class="container text-content">
+	<div class="row">
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/society_offer_letter" target="_blank">
+				<span>Society Offer Letter</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/society_offer_letter" target="_blank">
+				<span>Estate and Conveyance</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/" target="_blank">
+				<span>Land Module</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/" target="_blank">
+				<span>E-Billing</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/" target="_blank">
+				<span>Hearing</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/" target="_blank">
+				<span>RTI</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/" target="_blank">
+				<span>Resolution</span>
+			</a>
+			</div>
+		</div>
+		<div class="col-xl-4">
+			<div class="sim-button button6">
+				<a href="http://mb.mhada.gov.in/society_offer_letter" target="_blank">
+				<span>Architect</span>
+			</a>
+			</div>
+		</div>
+	</div>
+</div>
 
-            .content {
-                text-align: center;
-            }
-
-            .title {
-                font-size: 84px;
-            }
-
-            .links > a {
-                color: #636b6f;
-                padding: 0 25px;
-                font-size: 12px;
-                font-weight: 600;
-                letter-spacing: .1rem;
-                text-decoration: none;
-                text-transform: uppercase;
-            }
-
-            .m-b-md {
-                margin-bottom: 30px;
-            }
-        </style>
-    </head>
-    <body>
-        <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-                        <a href="{{ route('register') }}">Register</a>
-                    @endauth
-                </div>
-            @endif
-
-            <div class="content">
-                <div class="title m-b-md">
-                    Laravel
-                </div>
-
-                <div class="links">
-                    <a href="https://laravel.com/docs">Documentation</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
-            </div>
-        </div>
-    </body>
+<script src="{{ asset('assets/presentation/js/jquery.js') }}" defer></script>
+<script src="{{ asset('assets/presentation/js/script.js') }}" defer></script>
+</body>
 </html>

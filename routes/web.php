@@ -10,6 +10,9 @@ use App\Events\SmsHitEvent;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('welcome',function(){
+    return view('welcome');
+});
 Route::get('send_sms',function(){
     event(new SmsHitEvent('9769121477','testing'));
 
