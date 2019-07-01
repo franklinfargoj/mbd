@@ -72,10 +72,21 @@
                         <span class="help-block"></span>
                     </div>
 
-                    @php dd((strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date))))) @endphp
+                    @php
+                        if(isset($receipt_data) && !empty($receipt_data)){
+                                $amount = $bill->balance_amount;
+                        }else{
+                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
+                                $amount = $bill->total_bill;
+                            }
+                            else{
+                                $amount = $bill->total_bill_after_due_date;
+                            }
+                        }
+                    @endphp
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill[0]->balance_amount ?? $bill[0]->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -162,13 +173,13 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Balance:</label>
-                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
+                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
                         <span class="help-block"></span>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Credit Amount:</label>
-                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="00" readonly>
+                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="<?php echo ($receipt_data['0']['credit_amount']) ?? '00' ?>" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -284,23 +295,21 @@
 
         function calc(amount){
            
-            var bill_amount = '@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif';
+            var bill_amount = '{{$amount}}';
             var balance = '<?php echo 0; ?>';
-            var credit = '<?php echo 0; ?>'; 
-            
-            
+            var credit = '<?php echo ($receipt_data['0']['credit_amount']) ?? '00' ?>';
+
+
             //if (/^\d+$/.test(amount)) {              
             if (amount.match(/^-?\d*(\.\d+)?$/)) {              
                //console.log(amount);
                 var diff = bill_amount - amount;
                 if(diff < 0){
                     credit = (parseFloat(credit) + parseFloat(Math.abs(diff))).toFixed(2);
-                    //console.log(credit);
                     $('#balance_amount').val(balance);
                     $('#credit_amount').val(credit);
                 } else {
                     balance = (parseFloat(balance) + parseFloat(Math.abs(diff))).toFixed(2);
-                    //console.log(balance);
                     $('#credit_amount').val(credit);
                     $('#balance_amount').val(balance);
                 }
