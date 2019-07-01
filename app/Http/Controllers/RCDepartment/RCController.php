@@ -526,10 +526,10 @@ class RCController extends Controller
         $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
             ->where('building_id',$request->building_id)->get()->toArray();
 
+//        dd($receipt_data);
+
          return view('admin.rc_department.generate_receipt_tenant', compact('bill','receipt_data'));
     }
-
-
 
     public function payment_receipt_society(Request $request){
     //   echo '<pre>';
@@ -558,7 +558,7 @@ class RCController extends Controller
             
             $totalServiceCharge = ($serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge)*$number_of_tenants->tenant_count()->first()->count;
             
-            if(count($receipt->toArray()) <= 0 ){
+//            if(count($receipt->toArray()) <= 0 ){
                 //dd($bill_ids);
             $bill = TransBillGenerate::where('status', '!=', 'paid')
 //                ->where('bill_no', $request->bill_no)
@@ -781,48 +781,48 @@ class RCController extends Controller
 //                $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
 //                return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
 
-            } else {
-              
-               
-              $receipt1 = TransPayment::with('dd_details')->with(array('bill_details'=>function($query){
-                             $query->where('status', '=' ,'paid');
-                          }))
-                  ->where('bill_no', $request->bill_no)
-                  ->where('building_id', '=', $request->building_id)
-                  ->where('society_id', '=', $request->society_id)
-                  ->get();
-
-                //dd($receipt);
-                $data['bill_amount'] = 0;
-                $data['amount_paid'] = 0;
-                $data['balance_amount'] = 0;
-                $data['credit_amount'] = 0;
-                foreach ($receipt as $key => $value) {
-                  $value->id = $request->bill_no;   
-                  $data['bill_amount'] += $value->bill_amount;
-                  $data['amount_paid'] += $value->amount_paid;
-                  $data['credit_amount'] += $value->credit_amount;    
-                  $data['balance_amount'] += $value->balance_amount;    
-                }
-
-                $data['building'] = MasterBuilding::find($request->building_id);
-                $data['society'] = SocietyDetail::find($data['building']->society_id);
-
-                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->get();
-
-                $data['bill'] = $receipt;
-
-                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
-                 $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
-                //dd($data);
-                 //dd($data['number_of_tenants']->tenant_count()->first());
-                if(!$data['number_of_tenants']->tenant_count()->first()) {
-                    return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
-                }
-
-//                $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
-//                return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
-            }
+//            } else {
+//
+//
+//              $receipt1 = TransPayment::with('dd_details')->with(array('bill_details'=>function($query){
+//                             $query->where('status', '=' ,'paid');
+//                          }))
+//                  ->where('bill_no', $request->bill_no)
+//                  ->where('building_id', '=', $request->building_id)
+//                  ->where('society_id', '=', $request->society_id)
+//                  ->get();
+//
+//                //dd($receipt);
+//                $data['bill_amount'] = 0;
+//                $data['amount_paid'] = 0;
+//                $data['balance_amount'] = 0;
+//                $data['credit_amount'] = 0;
+//                foreach ($receipt as $key => $value) {
+//                  $value->id = $request->bill_no;
+//                  $data['bill_amount'] += $value->bill_amount;
+//                  $data['amount_paid'] += $value->amount_paid;
+//                  $data['credit_amount'] += $value->credit_amount;
+//                  $data['balance_amount'] += $value->balance_amount;
+//                }
+//
+//                $data['building'] = MasterBuilding::find($request->building_id);
+//                $data['society'] = SocietyDetail::find($data['building']->society_id);
+//
+//                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->get();
+//
+//                $data['bill'] = $receipt;
+//
+//                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+//                 $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
+//                //dd($data);
+//                 //dd($data['number_of_tenants']->tenant_count()->first());
+//                if(!$data['number_of_tenants']->tenant_count()->first()) {
+//                    return redirect()->back()->with('warning', 'Number of Tenants Is zero.');
+//                }
+//
+////                $pdf = PDF::loadView('admin.rc_department.payment_receipt_society', $data);
+////                return $pdf->download('payment_receipt_society'.date('YmdHis').'.pdf');
+//            }
 
 
 
@@ -865,9 +865,17 @@ class RCController extends Controller
             $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
                 ->where('building_id',$request->building_id)->get()->toArray();
 
-
 //            dd($bill);
-            return view('admin.rc_department.generate_receipt_society', compact('receipt_data','bill','tenament', 'buildings', 'data', 'Tenant_bill_id', 'building_detail', 'society_detail'));
+            return redirect()->back()->with(['bill' => $bill ,
+                'receipt_data'=> $receipt_data,
+                'tenament' => $tenament,
+                'buildings' =>$buildings,
+                'data' => $data,
+                'building_detail' => $building_detail,
+                'society_detail' => $society_detail,
+            ] );
+
+//            return view('admin.rc_department.generate_receipt_society', compact('receipt_data','bill','tenament', 'buildings', 'data', 'Tenant_bill_id', 'building_detail', 'society_detail'));
 
 
 
@@ -880,7 +888,7 @@ class RCController extends Controller
 
     public function payment_receipt_tenant(Request $request){
         
-     //dd($request->all());
+//     dd($request->all());
         if($request->bill_no){
             
             $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
@@ -892,6 +900,7 @@ class RCController extends Controller
             $serviceChargesRate = ServiceChargesRate::where('building_id',$request->building_id)->where('society_id',$request->society_id)->where('year',$year)->first();
             $totalServiceCharge = $serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge;
 
+//            dd($totalServiceCharge);
 //            if(!$receipt){
 
                 if($request->payment_mode == 'dd' && $request->dd_no != ''){
@@ -921,9 +930,9 @@ class RCController extends Controller
 
                 $bill_status = TransBillGenerate::find($request->bill_no);
                 
-                if( $amount_paid < $totalServiceCharge) {
-                    return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
-                }
+//                if( $amount_paid < $totalServiceCharge) {
+//                    return redirect()->back()->with('warning', 'You need to pay atleast basic service charges.');
+//                }
                 
                 $bill = new TransPayment;
                 $bill->bill_no = $request->bill_no;
