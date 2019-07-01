@@ -208,7 +208,8 @@
                                         <div class="m-form__group form-group">
                                             <div class="m-radio-inline">
                                                 <!-- disable forward  -->
-                                                @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                                @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                                @else
                                                 
                                                 <label class="m-radio m-radio--primary">
                                                     <input type="radio" name="remarks_suggestion" id="forward" class="forward-application"
@@ -226,7 +227,8 @@
                                                 @endif
                                             </div>
                                             <!-- forward parent -->
-                                            @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id != config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                            @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                            @else
                                                 <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                     <label class="col-form-label col-lg-2 col-sm-12">
                                                         Forward To:
@@ -298,7 +300,7 @@
                                             @endif
 
                                                 <div class="mt-3 btn-list">
-                                                    <button type="submit" class="btn btn-primary">Save</button>
+                                                    <button type="submit" class="btn btn-primary">Forward</button>
                                                     {{--<button type="submit" id="sign" class="btn btn-primary forwrdBtn">Sign</button>
                                                     <button type="submit" class="btn btn-primary forwrdBtn">Sign & Forward</button>
                                                     <button type="submit" class="btn btn-primary forwrdBtn">Forward</button>--}}
