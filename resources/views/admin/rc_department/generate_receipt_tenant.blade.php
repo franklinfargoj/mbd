@@ -224,8 +224,8 @@
                             <td>{{date('d-m-Y', strtotime($data['created_at']))}}</td>
                             @php
                                 $url = route('downloadReceipt', ['building_id'=>encrypt($data['building_id']),
-                                'society_id'=>encrypt($data['society_id']),
-                                'bill_no'=>encrypt($data['bill_no'])]);
+                                'tenant_id'=>encrypt($data['tenant_id']),
+                                'bill_no'=>encrypt($data['id'])]);
                             @endphp
                             <td>
                                 <a href='{{$url}}' class='d-flex flex-column'

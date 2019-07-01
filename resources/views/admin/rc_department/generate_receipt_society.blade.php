@@ -65,9 +65,22 @@
                         <input type="text" name="amount_paid_by" class="form-control form-control--custom m-input" value="" required>
                     </div>
 
+                    @php
+                        if(isset($receipt_data) && !empty($receipt_data)){
+                                $amount = $bill[0]->balance_amount;
+                        }else{
+                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
+                                $amount = $bill[0]->total_bill;
+                            }
+                            else{
+                                $amount = $bill[0]->total_bill_after_due_date;
+                            }
+                        }
+                    @endphp
+                    {{--@php dd($bill); @endphp--}}
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill[0]->total_bill}}" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -181,12 +194,12 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Amount Balance:</label>
-                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="00" readonly>
+                        <input type="text" id="balance_amount" name="balance_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
                     </div>
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Credit Amount:</label>
-                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="00" readonly>
+                        <input type="text" id="credit_amount" name="credit_amount" class="form-control form-control--custom m-input" value="<?php echo ($receipt_data['0']['credit_amount']) ?? '00' ?>" readonly>
                     </div>
                 </div>
 
@@ -226,15 +239,16 @@
                         <th>Download receipt</th>
                     </tr>
                     @foreach ($receipt_data as $key => $data)
+                        {{--@php dd($data)@endphp--}}
                         <tr>
                             <td>{{$key + 1}}</td>
                             <td>{{$data['bill_no']}}</td>
                             <td>{{date('d-m-Y', strtotime($data['created_at']))}}</td>
                             @php
                                 $url = route('downloadReceipt',
-                                ['building_id'=>encrypt($bill[0]->building_id),
-                                'society_id'=>encrypt($bill[0]->society_id),
-                                'bill_no'=>encrypt($bill[0]->id)]);
+                                ['building_id'=>encrypt($data['building_id']),
+                                'society_id'=>encrypt($data['society_id']),
+                                'bill_no'=>encrypt($data['id'])]);
 
                             @endphp
                             <td>
@@ -316,9 +330,9 @@
 
         function calc(amount){
            
-            var bill_amount = '<?php echo $bill[0]->total_bill; ?>';
+            var bill_amount = '<?php echo $amount; ?>';
             var balance = '<?php echo 0; ?>';
-            var credit = '<?php echo 0; ?>';             
+            var credit = '<?php echo ($receipt_data['0']['credit_amount']) ?? '00' ?>';
             
             //if (/^\d+$/.test(amount)) {              
             if (amount.match(/^-?\d*(\.\d+)?$/)) {              
