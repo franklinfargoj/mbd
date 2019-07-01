@@ -52,28 +52,35 @@ class GenerateBills extends Command
     {
         $year = $this->argument('year');
         $month = $this->argument('month');
+        if(($this->argument('year') != null) || ($this->argument('month') != null)){
 
-        $data = array(
-            'year' => $year,
-            'month'  => $month
-        );
+            $data = array(
+                'year' => $year,
+                'month'  => $month
+            );
 
-        $rules = array(
-            'year' => 'digits:4|numeric',
-            'month' => 'digits_between:1,2|numeric',
-        );
+            $rules = array(
+                'year' => 'digits:4|numeric',
+                'month' => 'digits_between:1,2|numeric',
+            );
 
-        $validator = \Validator::make($data, $rules);
+            $validator = \Validator::make($data, $rules);
 
-        if ($validator->fails()) {
-            $messages = $validator->messages();
-            $this->info($this->error($messages));
+            if ($validator->fails()) {
+                $messages = $validator->messages();
+                $this->info($this->error($messages));
+            }else{
+
+                $this->generateSocityLevelBills($year, $month);
+                $this->generateTenantLevelBills($year, $month);
+
+            }
         }else{
-
             $this->generateSocityLevelBills($year, $month);
             $this->generateTenantLevelBills($year, $month);
-
         }
+
+
 
     }
 
