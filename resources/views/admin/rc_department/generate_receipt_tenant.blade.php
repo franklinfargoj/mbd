@@ -72,9 +72,10 @@
                         <span class="help-block"></span>
                     </div>
 
+                    @php dd((strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date))))) @endphp
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="@if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))) {{$bill[0]->balance_amount ?? $bill[0]->total_bill}} @else  {{$bill->total_bill_after_due_date}} @endif" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>
@@ -186,6 +187,52 @@
             </div>
         </form>
     </div>
+
+    @if(isset($receipt_data) && !empty($receipt_data))
+        <div class="m-portlet m-portlet--compact m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right">
+                    <!-- <div class="form-group m-form__group row align-items-center"> -->
+
+                    <!-- </div> -->
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <table class="table">
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Receipt No</th>
+                        <th>Date of Receipt</th>
+                        <th>Download receipt</th>
+                    </tr>
+                    @foreach ($receipt_data as $key => $data)
+                        <tr>
+                            <td>{{$key + 1}}</td>
+                            <td>{{$data['bill_no']}}</td>
+                            <td>{{date('d-m-Y', strtotime($data['created_at']))}}</td>
+                            @php
+                                $url = route('downloadReceipt', ['building_id'=>encrypt($data['building_id']),
+                                'society_id'=>encrypt($data['society_id']),
+                                'bill_no'=>encrypt($data['bill_no'])]);
+                            @endphp
+                            <td>
+                                <a href='{{$url}}' class='d-flex flex-column'
+                                   style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'>
+                                    <span style="margin-left: 40px;" class='btn-icon btn-icon--edit'><img src='{{asset('/img/generate-bill-icon.svg')}}'>
+                                    </span>Download Receipt</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+                <!--end: Datatable -->
+            </div>
+        </div>
+    @endif
+
+
+
+
 </div>
 @endsection
 

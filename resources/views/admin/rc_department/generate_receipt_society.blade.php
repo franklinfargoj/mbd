@@ -24,8 +24,8 @@
     <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
         <form method="post" action="{{route('payment_receipt_society')}}">
             {{ csrf_field() }}
-            <input type="text" name="building_id" value="{{$data['building_id']}}" hidden>
-            <input type="text" name="society_id" value="{{$data['society_id']}}" hidden>
+            <input type="text" name="building_id" value="{{$bill[0]->building_id}}" hidden>
+            <input type="text" name="society_id" value="{{$bill[0]->society_id}}" hidden>
 
             <div class="m-portlet__body m-portlet__body--spaced">
                 <div class="form-group m-form__group row">
@@ -37,7 +37,7 @@
 
                     <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Bill No:</label>
-                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$Tenant_bill_id->id}}" readonly>
+                        <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$bill['0']->id}}" readonly>
                     </div>                   
                 </div>
 
@@ -67,7 +67,7 @@
 
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$data['total_bill']}}" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$bill[0]->total_bill}}" readonly>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -171,10 +171,10 @@
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
                     <div class="col-sm-4 form-group">
-                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input" value="{{$data['bill_from']}}" readonly>
+                        <input type="text" id="payment-made-from-month" name="from_date" class="form-control form-control--custom m-input" value="{{$bill[0]->bill_from}}" readonly>
                     </div>
                     <div class="col-sm-4 offset-sm-1 form-group">
-                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input" value="{{$data['bill_to']}}" readonly>
+                        <input type="text" id="payment-made-to-month" name="to_date" class="form-control form-control--custom m-input" value="{{$bill[0]->bill_to}}" readonly>
                     </div>
                 </div>
 
@@ -206,6 +206,51 @@
 
         </form>
     </div>
+
+    @if(isset($receipt_data) && !empty($receipt_data))
+        <div class="m-portlet m-portlet--compact m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right">
+                    <!-- <div class="form-group m-form__group row align-items-center"> -->
+
+                    <!-- </div> -->
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <table class="table">
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Receipt No</th>
+                        <th>Date of Receipt</th>
+                        <th>Download receipt</th>
+                    </tr>
+                    @foreach ($receipt_data as $key => $data)
+                        <tr>
+                            <td>{{$key + 1}}</td>
+                            <td>{{$data['bill_no']}}</td>
+                            <td>{{date('d-m-Y', strtotime($data['created_at']))}}</td>
+                            @php
+                                $url = route('downloadReceipt',
+                                ['building_id'=>encrypt($bill[0]->building_id),
+                                'society_id'=>encrypt($bill[0]->society_id),
+                                'bill_no'=>encrypt($bill[0]->id)]);
+
+                            @endphp
+                            <td>
+                                <a href='{{$url}}' class='d-flex flex-column'
+                                   style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'>
+                                    <span style="margin-left: 40px;" class='btn-icon btn-icon--edit'><img src='{{asset('/img/generate-bill-icon.svg')}}'>
+                                    </span>Download Receipt</a>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+                <!--end: Datatable -->
+            </div>
+        </div>
+    @endif
+
 </div>
 
 @endsection
@@ -271,7 +316,7 @@
 
         function calc(amount){
            
-            var bill_amount = '<?php echo $data['total_bill']; ?>';
+            var bill_amount = '<?php echo $bill[0]->total_bill; ?>';
             var balance = '<?php echo 0; ?>';
             var credit = '<?php echo 0; ?>';             
             

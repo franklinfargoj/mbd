@@ -158,7 +158,7 @@ class GenerateBills extends Command
                     }
 
                     $bill_month = $data['month'];
-                    $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
+//                    $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
                     $bill_date = date('04-m-Y');
                     $due_date = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
