@@ -450,7 +450,7 @@ class RCController extends Controller
             ->orderBy('id','DESC')
             ->get();
 
-        if(!empty($bill)){
+        if(/*!empty($bill)*/ (count($bill) > 0 )){
         $data = array('monthly_bill' => 0,'arrear_bill' => 0 , 'total_bill' => 0, 'total_service_after_due' => 0, 'late_fee_charge' => 0, 'arrear_id' => '', 'bill_year' => $bill[0]->bill_year, 'bill_month' => $bill[0]->bill_month, 'building_id' => $bill[0]->building_id, 'society_id' => $bill[0]->society_id, 'bill_date' => $bill[0]->bill_date, 'due_date' => $bill[0]->due_date, 'bill_from' => $bill[0]->bill_from, 'bill_to' => $bill[0]->bill_to, 'consumer_number' => $bill[0]->consumer_number);    
         } else {
           return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
@@ -524,7 +524,7 @@ class RCController extends Controller
         }
 
         $receipt_data = TransPayment::where('tenant_id',$request->tenant_id)
-            ->where('building_id',$request->building_id)->get()->toArray();
+            ->where('building_id',$request->building_id)->orderBy('id','desc')->get()->toArray();
 
 //        dd($receipt_data);
 
@@ -1483,7 +1483,6 @@ class RCController extends Controller
                 $this->downloadReceiptTenant($request);
             }
           } else {
-             
              if($request->flag) {
                  $data = $this->downloadReceiptSociety($request);
                 return view('admin.rc_department.view_payment_receipt_tenant',$data);
@@ -1504,8 +1503,12 @@ class RCController extends Controller
         $data['building'] = MasterBuilding::find($request->building_id);
         $data['society']  = SocietyDetail::find($data['building']->society_id);
 
-        $receipt = TransPayment::with('dd_details')->with('bill_details')->whereIn('bill_no', $bill_ids)->where('building_id', '=', $request->building_id)->where('society_id', '=', $data['building']->society_id)->get();
-
+        $receipt = TransPayment::with('dd_details')->with('bill_details')
+            ->whereIn('bill_no', $bill_ids)
+            ->where('building_id', '=', $request->building_id)
+            ->where('society_id', '=', $data['building']->society_id)
+            ->orderBy('id','desc')
+            ->get();
         //dd($receipt);
         $data['bill_amount'] = 0;
         $data['amount_paid'] = 0;
