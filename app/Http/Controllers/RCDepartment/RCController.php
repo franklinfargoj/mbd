@@ -891,7 +891,9 @@ class RCController extends Controller
 //     dd($request->all());
         if($request->bill_no){
             
-            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('bill_no', '=', $request->bill_no)->first();
+            $receipt = TransPayment::with('dd_details')->with('bill_details')
+                ->where('bill_no', '=', $request->bill_no)
+                ->first();
             if(date('m',strtotime($request->from_date)) < 4 ) {
                 $year = date('Y',strtotime($request->from_date)) -1;
             } else {
@@ -1471,6 +1473,7 @@ class RCController extends Controller
 
      public function downloadReceipt(Request $request) {
          //dd('ok');
+//         dd($request->flag);
         if($request->has('building_id') && '' != $request->building_id) {
           $request->building_id = decrypt($request->building_id);
           $request->bill_no = decrypt($request->bill_no);
@@ -1565,24 +1568,34 @@ class RCController extends Controller
      }
 
 
-     public function downloadReceiptTenant(Request $request) { 
+     public function downloadReceiptTenant(Request $request) {
+//         dd($request->bill_no);
         if($request->bill_no){
             //dd($request->bill_no);
-            $receipt = TransPayment::with('dd_details')->with('bill_details')->where('id', '=', $request->bill_no)->first();
-         //print_r($receipt);exit;
+            $receipt = TransPayment::with('dd_details')
+                ->with('bill_details')
+                ->where('id', '=', $request->bill_no)
+                ->where('tenant_id',$request->tenant_id)
+                ->orderBy('id','desc')
+                ->first();
+//         print_r($receipt);exit;
 
+//            dd($receipt);
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
             $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
             $data['bill'] = $receipt;
             $data['consumer_number'] = substr(sprintf('%08d', $data['building']->id),0,8).'|'.substr(sprintf('%08d', $data['tenant']->id),0,8);
-            
+
+//            dd($data);
+//            dd($data['bill']['bill_details']);
              if($request->flag!=null) {
                  
                 return  $data;
             } else {
                 // dd('ok');
                 //$pdf = PDF::loadView('admin.rc_department.payment_receipt_tenant', $data);
+//                 dd($data);
                 $content=view('admin.rc_department.payment_receipt_tenant', $data);
                 
                 $fileName='payment_receipt_tenant'.date('YmdHis').'.pdf';
