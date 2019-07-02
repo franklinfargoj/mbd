@@ -66,10 +66,10 @@
                     </div>
 
                     @php
-                        if(isset($receipt_data) && !empty($receipt_data)){
+                        if(isset($receipt_data) && (count($receipt_data) > 0)){
                                 $amount = $bill[0]->balance_amount;
                         }else{
-                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
+                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill[0]->due_date)))){
                                 $amount = $bill[0]->total_bill;
                             }
                             else{
@@ -220,7 +220,8 @@
         </form>
     </div>
 
-    @if(isset($receipt_data) && !empty($receipt_data))
+
+    @if(isset($receipt_data) && (count($receipt_data) > 0))
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
             <div class="m-portlet__body">
                 <!--begin: Search Form -->
