@@ -156,11 +156,11 @@ class GenerateBills extends Command
                         $dateObj   = \DateTime::createFromFormat('!m', $data['month']);
                         $month_name = $dateObj->format('F');
                         $timestamp    = strtotime($month_name.' '.$bill_year );
-                        $bill_from = date('m-01-Y', $timestamp);
-                        $bill_to  = date('m-t-Y', $timestamp);
+                        $bill_from = date('01-m-Y', $timestamp);
+                        $bill_to  = date('t-m-Y', $timestamp);
 
                     }else{
-                        $bill_from  = date('1-m-Y', strtotime('-1 month'));
+                        $bill_from  = date('01-m-Y', strtotime('-1 month'));
                         $bill_to    = date('t-m-Y', strtotime('-1 month'));
                     }
 
@@ -539,8 +539,8 @@ class GenerateBills extends Command
                         $dateObj   = \DateTime::createFromFormat('!m', $data['month']);
                         $month_name = $dateObj->format('F');
                         $timestamp    = strtotime($month_name.' '.$bill_year );
-                        $bill_from = date('m-01-Y', $timestamp);
-                        $bill_to  = date('m-t-Y', $timestamp);
+                        $bill_from = date('01-m-Y', $timestamp);
+                        $bill_to  = date('t-m-Y', $timestamp);
 
                     }else{
                         $bill_from  = date('1-m-Y', strtotime('-1 month'));
