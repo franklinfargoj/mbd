@@ -897,6 +897,7 @@ class RCController extends Controller
     public function payment_receipt_tenant(Request $request){
         
 //     dd($request->all());
+
         if($request->bill_no){
             
             $receipt = TransPayment::with('dd_details')->with('bill_details')
@@ -907,8 +908,16 @@ class RCController extends Controller
             } else {
                 $year = date('Y',strtotime($request->from_date));
             }
-            $serviceChargesRate = ServiceChargesRate::where('building_id',$request->building_id)->where('society_id',$request->society_id)->where('year',$year)->first();
-            $totalServiceCharge = $serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge;
+            $serviceChargesRate = ServiceChargesRate::where('building_id',$request->building_id)
+                ->where('society_id',$request->society_id)->where('year',$year)
+                ->first();
+
+//dd($serviceChargesRate);
+
+                if($serviceChargesRate != null){
+
+                    $totalServiceCharge = $serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge;
+                }
 
 //            dd($totalServiceCharge);
 //            if(!$receipt){
