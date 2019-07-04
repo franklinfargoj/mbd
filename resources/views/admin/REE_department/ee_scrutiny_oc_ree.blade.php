@@ -13,6 +13,7 @@
    {{ session()->get('error') }}
 </div> 
 @endif
+
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
@@ -29,6 +30,7 @@
                </a>
             </li>
          </ul>
+         <!-- society details -->
          <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
             <div class="portlet-body">
                <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
@@ -43,45 +45,45 @@
                            <div class="d-flex">
                               <span class="field-name">Application Number:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->application_no ?
-                              $arrData['society_detail']->application_no : '' }}</span>
+                              $oc_application->application_no ?
+                              $oc_application->application_no : '' }}</span>
                            </div>
                         </div>
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
                               <span class="field-name">Application Date:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->submitted_at ?
+                              $oc_application->submitted_at ?
                               date(config('commanConfig.dateFormat'),
-                              strtotime($arrData['society_detail']->submitted_at)) : ''}}</span>
+                              strtotime($oc_application->submitted_at)) : ''}}</span>
                            </div>
                         </div>
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
                               <span class="field-name">Society Registration No:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->registration_no }}</span>
+                              $oc_application->eeApplicationSociety->registration_no }}</span>
                            </div>
                         </div>                        
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
                               <span class="field-name">Society Name:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->name }}</span>
+                              $oc_application->eeApplicationSociety->name }}</span>
                            </div>
                         </div>
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
                               <span class="field-name">Society Address:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->address }}</span>
+                              $oc_application->eeApplicationSociety->address }}</span>
                            </div>
                         </div>
                         <div class="col-sm-6 field-col">
                            <div class="d-flex">
                               <span class="field-name">Building Number:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->building_no
+                              $oc_application->eeApplicationSociety->building_no
                               }}</span>
                            </div>
                         </div>
@@ -98,7 +100,7 @@
                            <div class="d-flex">
                               <span class="field-name">Name of Architect:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->name_of_architect
+                              $oc_application->eeApplicationSociety->name_of_architect
                               }}</span>
                            </div>
                         </div>
@@ -106,7 +108,7 @@
                            <div class="d-flex">
                               <span class="field-name">Architect Mobile Number:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_mobile_no
+                              $oc_application->eeApplicationSociety->architect_mobile_no
                               }}</span>
                            </div>
                         </div>
@@ -114,7 +116,7 @@
                            <div class="d-flex">
                               <span class="field-name">Architect Address:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_address
+                              $oc_application->eeApplicationSociety->architect_address
                               }}</span>
                            </div>
                         </div>
@@ -122,7 +124,7 @@
                            <div class="d-flex">
                               <span class="field-name">Architect Telephone Number:</span>
                               <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_telephone_no
+                              $oc_application->eeApplicationSociety->architect_telephone_no
                               }}</span>
                            </div>
                         </div>
@@ -131,216 +133,120 @@
                </div>
             </div>
          </div>
+
+         <!-- Scrutiny table -->
          <div class="tab-content">
-            @php
-            $style = "display:none";
-            $style1 = "display:none";
-            $disabled='disabled';
-            @endphp
-            <div>
-               <div class="m-portlet m-portlet--no-top-shadow">
-                  <div class="tab-content">
-                     <div>
-                           <h3 class="section-title">
-                                 <center>EE Scrutiny Pointers</center>
-                           </h3>
+            <div class="m-portlet m-portlet--no-top-shadow">
+               <h3 class="section-title">
+                  <center>EE Scrutiny Pointers</center>
+               </h3>
+               <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class="thead-default">
+                           <th>Sr.No</th>
+                           <th class="table-data--xl">Topics</th>
+                           <th>Yes</th>
+                           <th>No</th>
+                           <th>Comments</th>
+                        </thead>
+                        <tbody>
+                           @php $i = 1; @endphp
+                           @foreach($data as $question)
+                              <tr>
+                                 <td>{{ isset($question->group) && isset($question->sort_by) ? $question->group.'.'.$question->sort_by : $question->group }}</td>
+                                 <td>{{ $question->question }}</td>
+                                 <td>
+                                    <label class="m-radio m-radio--primary">
+                                    <input disabled type="radio" value="1" {{ (isset($question->ocScrutinyAnswer) && $question->ocScrutinyAnswer->answer == 1) ? 'checked' : '' }}>
+                                    <span></span>
+                                    </label>
+                                 </td>
+                                 <td> 
+                                    <label class="m-radio m-radio--primary">
+                                    <input disabled type="radio" value="0" {{ (isset($question->ocScrutinyAnswer) && $question->ocScrutinyAnswer->answer == 0) ? 'checked' : '' }}>
+                                    <span></span>
+                                    </label>
+                                 </td>
+                                 <td>
+                                    @if($question->remarks_applicable == 1)
+                                       <textarea readonly class="form-control form-control--custom form-control--textarea">{{ isset($question->ocScrutinyAnswer) ? $question->ocScrutinyAnswer->remark : '' }} </textarea>
+                                    @else
+                                       {{'Not Applicable'}};
+                                    @endif
+                                    @if($question->is_upload == 1)
 
-                           @if(isset($oc_application->ee_scrutiny_completed) && $oc_application->ee_scrutiny_completed == 1)
-                           <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
-                              <div class="table-responsive">
-                                 <table class="table">
-                                    <thead class="thead-default">
-                                       <th>Sr.No</th>
-                                       <th class="table-data--xl">Topics</th>
-                                       <th>Yes</th>
-                                       <th>No</th>
-                                       <th>Comments</th>
-                                    </thead>
-                                    <tbody>
-                                       @php
-                                       $i = 1;
-                                       @endphp
-                                       <input type="hidden" name="society_id" value="{{ $arrData['society_detail']->id }}">
-                                       <input type="hidden" name="application_id" value="{{ $oc_application->id }}">
-                                       @foreach($arrData['scrutiny_questions_oc'] as
-                                       $each_question)
-                                       <input type="hidden" name="question_id[{{$i}}]" value="{{ $each_question->id }}">
-                                       @php if(isset($each_question->is_compulsory) && $each_question->is_compulsory == '1'){
-                                       $required = 'required';
-                                       }
-                                       else{
-                                       $required = '';
-                                       }
-                                       @endphp
-                                       <tr>
-                                          <td>{{ isset($each_question->group) && isset($each_question->sort_by) ? $each_question->group.'.'.$each_question->sort_by : $each_question->group }}</td>
-                                          <td>{{ $each_question->question }}</td>
-                                          <td>
-                                             <label class="m-radio m-radio--primary">
-                                             <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                             value="1" required
-                                             {{ (isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) && $arrData['scrutiny_answers_to_questions'][$each_question->id]['answer'] == 1) ? 'checked' : '' }}>
-                                             <span></span>
-                                             </label>
-                                          </td>
-                                          @php
-                                          if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['answer'])
-                                          &&
-                                          $arrData['scrutiny_answers_to_questions'][$each_question->id]['answer']
-                                          == 0)
-                                          {
-                                          $checked = 'checked';
-                                          }
-                                          else{
-                                          $checked = '';
-                                          }
-                                          @endphp
-
-                                          <td> 
-                                             <label class="m-radio m-radio--primary">
-                                             <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                             value="0" {{ $checked }}>
-                                             <span></span>
-                                             </label>
-                                          </td>
-                                          <td>
-                                             @php
-                                             if($each_question->remarks_applicable == 1)
-                                             {
-                                             @endphp
-                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) ? $arrData['scrutiny_answers_to_questions'][$each_question->id]['remark'] : '' }}
-                                             </textarea>
-                                             @php
-                                             }else{
-                                             echo 'Not Applicable';
-                                             }
-                                             @endphp
-                                             @if($each_question->is_upload == 1)
-
-                                                <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" download >Download</a>
-                                             @endif
-                                          </td>
-                                       </tr>
-                                       @php
-                                       $i++;
-                                       @endphp
-                                       @endforeach
-                                       <tr>
-                                          <td colspan="2">Additional Remarks (If any)</td>
-                                          <td colspan="3">
-                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                           @if(isset($arrData['scrutiny_answers_to_questions']) && count($arrData['scrutiny_answers_to_questions']) > 0)
-                              <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
-                           @endif
-                           @else
-                           <div class="col-sm-12" >
-                              <div class="d-flex flex-column h-100">
-                                 <h5 style="color: red">Scrutiny points are not yet submitted by EE.</h5>
-                              </div>
-                           </div>
-                           @endif
-                     </div>
+                                       <a target="_blank" class="btn-link" href="{{isset($question->ocScrutinyAnswer) ? config('commanConfig.storage_server').'/'.$question->ocScrutinyAnswer->document_path : ''}}" download >Download</a>
+                                    @endif
+                                 </td>
+                              </tr>
+                           @endforeach
+                           <tr>
+                              <td colspan="2">Additional Remarks (If any)</td>
+                              <td colspan="3">
+                                 <textarea readonly class="form-control form-control--custom form-control--textarea" >{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
                </div>
+               @if(isset($ansCount) && count($ansCount) > 0)
+                  <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
+               @endif
             </div>
-            <div>
-               <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                  <div class="portlet-body">
-                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                           <div class="d-flex">
-                              <h4 class="section-title">
-                                 EE Note
-                              </h4>
-                           </div>
+            <!-- EE note -->
+            <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+               <div class="portlet-body">
+                  <div class="m-portlet__body m-portlet__body--table">
+                     <div class="m-subheader" style="padding: 0;">
+                        <div class="d-flex">
+                           <h4 class="section-title">
+                              EE Note
+                           </h4>
                         </div>
-                     @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
-                        <div class="m-section__content mb-0 table-responsive">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download EE Note</h5>
-                                               
-                                                    <div class="table-responsive">
-                                                    <table class="mt-2 table table-hover" id="dtBasicExample"> 
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Document Name</th>
-                                                            <th class="text-center">Download</th>
-                                                            <th class="text-center" style="{{$style}}">Delete</th>   
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                     </div>
+                  @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
+                     <div class="m-section__content mb-0 table-responsive">
+                           <div class="col-sm-8">
+                              <div class="d-flex flex-column h-100 two-cols">
+                                 <h5>Download EE Note</h5>
+                                 <div class="table-responsive">
+                                 <table class="mt-2 table table-hover" id="dtBasicExample"> 
+                                 <thead>
+                                   <tr>
+                                       <th>Document Name</th>
+                                       <th class="text-center">Download</th>
+                                   </tr>
+                                 </thead>
+                                 <tbody>
+                                    @foreach($arrData['eeNote'] as $note)  
+                                      <tr>
+                                          <td>                                                                  @php
+                                             if($note->document_name){
+                                                $fileName = explode(".",$note->document_name)[0]; 
+                                             }elseif($note->document_path){
+                                                $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                             }
+                                          @endphp 
 
-                                                    @foreach($arrData['eeNote'] as $note)  
-                                                        <tr>
-                                                            <td>                                                                    @php
-                                                        if($note->document_name){
-                                                            $fileName = explode(".",$note->document_name)[0]; 
-                                                        }elseif($note->document_path){
-                                                            $fileName = explode(".",explode('/',$note->document_path)[1])[0];
-                                                        }
-                                                        @endphp 
+                                          {{ isset($fileName) ? $fileName : ''}} 
+                                          </td>
+                                          <td class="text-center">
+                                              <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download> Download </a> 
+                                          </td>
+                                      </tr>
+                                    @endforeach
+                                 </tbody>    
+                              </table>
 
-                                                        {{ isset($fileName) ? $fileName : ''}} 
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
-                                                        Download </a> 
-                                                            </td>
-                                                            <td class="text-center" style="{{$style}}">
-                                                                <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
-                                                                <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>    
-                                                    </table>
-
-                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    * Note : EE note not available. </span>
-                                                @endif
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              </div>
-                        </div>
-                        <!-- <div class="m-section__content mb-0 table-responsive">
-                           <div class="container">
-                              <div class="row">
-                                 @if(isset($oc_application->ee_office_note_oc) && !empty($oc_application->ee_office_note_oc))
-                                 <div class="col-sm-6">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                       <h5>Download Note</h5>
-                                       <div class="mt-auto">
-                                          <a download href="{{ config('commanConfig.storage_server').'/'.$oc_application->ee_office_note_oc}} ">
-                                          <button class="btn btn-primary">
-                                          Download</button>
-                                          </a>
-                                       </div>
-                                    </div>
-                                 </div>
-                                 @else
-                                 <div class="col-sm-12" >
-                                    <div class="d-flex flex-column h-100">
-                                       <h5 style="color: red">EE Cover letter has not been uploaded yet.</h5>
-                                    </div>
-                                 </div>
+                                 @elseif(isset($oc_application->status) && ($oc_application->status->status_id == config('commanConfig.applicationStatus.forwarded')))
+                                 <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                 * Note : EE note not available. </span>
                                  @endif
-                              </div>
+                                 </div>
                            </div>
-                        </div> -->
+                       </div>
                      </div>
                   </div>
                </div>
@@ -348,7 +254,6 @@
          </div>
       </div>
    </div>
-</div>
 </div>
 @endsection
 @section('js')

@@ -2863,20 +2863,16 @@ class REEController extends Controller
 
         $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
 
-        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $applicationId)->first();
+        $data = OcSrutinyQuestionMaster::with(['ocScrutinyAnswer' => function($q) use ($applicationId){
+            $q->where('application_id',$applicationId);
+        }])->where('is_deleted',0)->get();
 
-        $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
+        // $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
 
-        $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
+        // $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $applicationId)->get()->keyBy('question_id')->toArray();
         $arrData['eeNote'] = OCEENote::where('application_id',$applicationId)->orderBy('id','DESC')->get();
 
-        $arrData['get_last_status'] = OcApplicationStatusLog::where([
-                'application_id' =>  $applicationId,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id')
-            ])->orderBy('id', 'desc')->first();
-
-        return view('admin.REE_department.ee_scrutiny_oc_ree', compact('arrData','oc_application'));
+        return view('admin.REE_department.ee_scrutiny_oc_ree', compact('arrData','oc_application','data'));
     }
 
     function generateOccertificate($applicationId)
@@ -2910,6 +2906,7 @@ class REEController extends Controller
         }else{
            $content = ""; 
         }
+        // dd($blade);
         $status = $this->CommonController->getCurrentStatusOc($applicatonId);
         return view('admin.REE_department.'.$blade,compact('applicatonId','content','model','OcType','application','status'));
     }

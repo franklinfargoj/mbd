@@ -56,36 +56,25 @@
                                     (Optional Document)</small> </span>
                                     @endif
                                 </td>
-                                <td class="text-center">
-                                    <h2 class="m--font-danger">
-                                        @if(count($document->oc_documents_uploaded) > 0 )
-                                        @foreach($document->oc_documents_uploaded as $document_uploaded)
-                                        @if($document_uploaded['society_id'] == $society->id)
-                                        <i class="fa fa-check"></i>
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                        @endforeach
-                                        @else
-                                        <i class="fa fa-remove"></i>
-                                        @endif
-                                    </h2>
-                                </td>
-                                <td>
-                                    @if(count($document->oc_documents_uploaded) > 0 )
-                                    @foreach($document->oc_documents_uploaded as $document_uploaded)
-                                    @if($document_uploaded['society_id'] == $society->id)
-                                    <span>
-                                        <a href="{{ asset($document_uploaded['society_document_path']) }}" data-value='{{ $document->id }}'
+                                @if(count($document->ocDocumentsUploaded) > 0 )
+                                    <td class="text-center">
+                                        <h2 class="m--font-danger">
+                                             <i class="fa fa-check"></i>
+                                        </h2>
+                                    </td>
+                                    <td>
+                                        <a href="{{ asset($document->ocDocumentsUploaded->society_document_path) }}" data-value='{{ $document->id }}'
                                             class="btn btn-primary btn-custom" download target="_blank" rel="noopener">
                                                 Download</a>
-                                    </span>
-                                    @endif
-                                    @endforeach
-                                    @else
-
-                                    @endif
-                                </td>
+                                    </td>
+                                @else 
+                                <td class="text-center">
+                                    <h2 class="m--font-danger">
+                                        <i class="fa fa-remove"></i>
+                                    </h2>
+                                </td>   
+                                <td></td>  
+                                @endif
                             </tr>
                             @php $i++; @endphp
                             @endforeach

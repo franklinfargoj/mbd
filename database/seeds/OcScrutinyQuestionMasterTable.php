@@ -25,7 +25,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 1,
                     'sort_by' => NULL,
-                    'is_upload' => 1
+                    'is_upload' => 1,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'   => 1,
@@ -34,7 +35,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 2,
                     'sort_by' => NULL,
-                    'is_upload' => 1
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],                 
                 [
                     'language_id'   => 1,
@@ -43,7 +45,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 3,
                     'sort_by' => 1,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'   => 1,
@@ -52,7 +55,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 3,
                     'sort_by' => 2,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 // [
                 //     'language_id'   => 1,
@@ -62,12 +66,23 @@ class OcScrutinyQuestionMasterTable extends Seeder
                 // ],                 
                 [
                     'language_id'   => 1,
-                    'question' => "You are also requested to infrom whether the applicant has relacated R G as per VP/A's approval, whether license to enter upon the leased is complied with whether the rectification to lease deed & compiled with",
+                    'question' => "You are also requested to inform whether the applicant has relocated R G as per VP/A's approval.",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 4,
-                    'sort_by' => NULL,
-                    'is_upload' => 0
+                    'sort_by' => 1,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "Whether the society has compiled in offer letter about the relocation of RG.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 4,
+                    'sort_by' => 2,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],                 
                 [
                     'language_id'   => 1,
@@ -76,7 +91,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 5,
                     'sort_by' => NULL,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ], 
                 [
                     'language_id'   => 1,
@@ -85,16 +101,28 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'is_compulsory' => 1,
                     'group' => 6,
                     'sort_by' => NULL,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'   => 1,
-                    'question' => "whether the applicant has taken seperate water connection with a seperate water meter directly from MCGM or whether the applicant is using MH & AD board's water for construction purpose",
+                    'question' => "whether the applicant has taken separate water connection with a separate water meter directly from MCGM.",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 7,
-                    'sort_by' => NULL,
-                    'is_upload' => 0
+                    'sort_by' => 1,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "Whether the applicant is using MH & AD board's water for construction purpose.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 7,
+                    'sort_by' => 2,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 // [
                 //     'language_id'   => 1,
@@ -104,39 +132,73 @@ class OcScrutinyQuestionMasterTable extends Seeder
                 // ],
                 [
                     'language_id'   => 1,
-                    'question' => "whether the entire premium as intimateed are paid by the applicant. the lease rent is received and whether any other dues are pending whether NA assessment charges are paid, whether the applicant has compiled the supplymentary lease deed for additional land",
+                    'question' => "Whether the lease rent, NA assessment & any other dues are paid by the society.",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 8,
-                    'sort_by' => NULL,
-                    'is_upload' => 0
+                    'sort_by' => 1,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'   => 1,
-                    'question' => "You are requested to recover the water charges as intimated by CE-II/A and intimate this office regarding receipt of payment so as to enable this office to process the consent of OC case with referance to this letter",
+                    'question' => "Whether the applicant has executed the supplementary lease deed for additional land allotted to society.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 8,
+                    'sort_by' => 2,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "And intimate this office regarding receipt of payment so as to enable this office to process the consent of OC case with referance to this letter.",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 9,
                     'sort_by' => NULL,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'   => 1,
-                    'question' => "Whether the applicant has complied all the terms & conditions mentioned in the NOC & Offer letters issued to him & the constructed bldg. is as per the approved plan. The report of it may please be submitted stating therein that all the terms & conditions of Offer Letter & NOC Letter have been complied by the society",
+                    'question' => "The report of it may please be submitted stating therein that all the terms & conditions of Offer Letter & NOC Letter have been complied by the society",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 10,
                     'sort_by' => NULL,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "Whether the applicant has complied all the terms & conditions mentioned in the NOC & Offer letters issued to him.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 10,
+                    'sort_by' => 1,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "The constructed building is as per the approved plan.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 10,
+                    'sort_by' => 2,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ],
                 [
                     'language_id'  => 1,
-                    'question' => "Details of rehab component",
+                    'question' => "Details of rehab component ( area, no of tenements )",
                     'group' => 11,
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'sort_by' => 1,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 0
                 ],
                 [
                     'language_id'   => 1,
@@ -145,16 +207,18 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'sort_by' => 2,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 0
                 ],
                 [
                     'language_id'   => 1,
-                    'question' => "Details of comestial component, if any",
+                    'question' => "Details of commercial component, if any",
                     'group' => 11,
                     'remarks_applicable' => 1,
                     'is_compulsory' => 0,
                     'sort_by' => 3,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 0
                 ],
                 [
                     'language_id'   => 1,
@@ -163,7 +227,8 @@ class OcScrutinyQuestionMasterTable extends Seeder
                     'remarks_applicable' => 1,
                     'is_compulsory' => 0,
                     'sort_by' => 4,
-                    'is_upload' => 0
+                    'is_upload' => 0,
+                    'option_applicable' => 0
                 ],
                 // [
                 //     'language_id'   => 1,
@@ -173,12 +238,23 @@ class OcScrutinyQuestionMasterTable extends Seeder
                 // ],
                 [
                     'language_id'   => 1,
-                    'question' => "Whether applicant has submitted list installation NOC ?",
+                    'question' => "Whether applicant has submitted lift installation NOC ?",
                     'remarks_applicable' => 1,
                     'is_compulsory' => 1,
                     'group' => 12,
                     'sort_by' => NULL,
-                    'is_upload' => 1
+                    'is_upload' => 1,
+                    'option_applicable' => 1
+                ],
+                [
+                    'language_id'   => 1,
+                    'question' => "Whether applicant has submitted cheif fire officer,MCGM.",
+                    'remarks_applicable' => 1,
+                    'is_compulsory' => 1,
+                    'group' => 13,
+                    'sort_by' => NULL,
+                    'is_upload' => 0,
+                    'option_applicable' => 1
                 ]
             ];
             OcSrutinyQuestionMaster::insert($questionArr);   

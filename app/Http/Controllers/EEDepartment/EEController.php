@@ -257,27 +257,15 @@ class EEController extends Controller
 
         $application_master_id = OcApplication::where('society_id', $oc_application->eeApplicationSociety->id)->value('application_master_id');
 
-        $arrData['society_detail'] = OcApplication::with('eeApplicationSociety')->where('id', $application_id)->first();
+        $data = OcSrutinyQuestionMaster::with(['ocScrutinyAnswer' => function($q) use ($application_id){
+            $q->where('application_id',$application_id);
+        }])->where('is_deleted',0)->get();
 
-        $arrData['scrutiny_questions_oc'] = OcSrutinyQuestionMaster::all();
-
-        $arrData['scrutiny_answers_to_questions'] = OcEEScrutinyAnswer::where('application_id', $application_id)->get()->keyBy('question_id')->toArray();
-/*
-        // EE Note download
-
-        $arrData['eeNote'] = EENote::where('application_id', $application_id)->orderBy('id', 'desc')->first();
-
-        // Get Application last Status
-        // dd($arrData);*/
+        $ansCount = OcEEScrutinyAnswer::where('application_id', $application_id)->count();
         $arrData['eeNote'] = OCEENote::where('application_id',$application_id)
         ->orderBy('id','DESC')->get();
-        $arrData['get_last_status'] = OcApplicationStatusLog::where([
-                'application_id' =>  $application_id,
-                'user_id' => Auth::user()->id,
-                'role_id' => session()->get('role_id')
-            ])->orderBy('id', 'desc')->first();
 
-        return view('admin.ee_department.scrutiny-remark-oc', compact('arrData','oc_application'));
+        return view('admin.ee_department.scrutiny-remark-oc', compact('arrData','oc_application','data','ansCount'));
     }
 
     public function oCScrutinyVerification(Request $request)

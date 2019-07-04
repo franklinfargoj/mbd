@@ -29,6 +29,26 @@
 </div>
 @endif
 
+@php
+   $i = 1; $required = '';
+   if(isset($oc_application->status) && ($oc_application->status->status_id ==
+   config('commanConfig.applicationStatus.forwarded')))
+   { 
+      $style = "display:none";
+      $disabled='disabled';
+   }
+   elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
+   { 
+      $style = "display:none";
+      $disabled='disabled';
+   }
+   else
+   {
+      $style = "";
+      $disabled="";
+   }
+@endphp
+
 <div class="custom-wrapper">
    <div class="col-md-12">
       <div class="d-flex">
@@ -45,379 +65,273 @@
                </a>
             </li>
          </ul>
+
+         <!-- society details -->
          <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
-            <div class="portlet-body">
-               <div class="m-portlet__body m-portlet__body--table m-portlet__body--serial-no">
-                  <div class="m-subheader">
-                     <div class="d-flex align-items-center">
-                        <h3 class="section-title section-title--small">
-                           Society Details:
-                        </h3>
-                     </div>
-                     <div class="row field-row">
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Application Number:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->application_no ?
-                              $arrData['society_detail']->application_no : '' }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Application Date:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->submitted_at ?
-                              date(config('commanConfig.dateFormat'),
-                              strtotime($arrData['society_detail']->submitted_at)) : ''}}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Society Registration No:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->registration_no }}</span>
-                           </div>
-                        </div>                        
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Society Name:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->name }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Society Address:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->address }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Building Number:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->building_no
-                              }}</span>
-                           </div>
-                        </div>
+            <div class="m-subheader">
+               <div class="d-flex align-items-center">
+                  <h3 class="section-title section-title--small">
+                     Society Details:
+                  </h3>
+               </div>
+               <div class="row field-row">
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Application Number:</span>
+                        <span class="field-value">{{
+                        $oc_application->application_no ?
+                        $oc_application->application_no : '' }}</span>
                      </div>
                   </div>
-                  <div class="m-subheader">
-                     <div class="d-flex align-items-center">
-                        <h3 class="section-title section-title--small">
-                           Appointed Architect Details:
-                        </h3>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Application Date:</span>
+                        <span class="field-value">{{
+                        $oc_application->submitted_at ?
+                        date(config('commanConfig.dateFormat'),
+                        strtotime($oc_application->submitted_at)) : ''}}</span>
                      </div>
-                     <div class="row field-row">
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Name of Architect:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->name_of_architect
-                              }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Architect Mobile Number:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_mobile_no
-                              }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Architect Address:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_address
-                              }}</span>
-                           </div>
-                        </div>
-                        <div class="col-sm-6 field-col">
-                           <div class="d-flex">
-                              <span class="field-name">Architect Telephone Number:</span>
-                              <span class="field-value">{{
-                              $arrData['society_detail']->eeApplicationSociety->architect_telephone_no
-                              }}</span>
-                           </div>
-                        </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Society Registration No:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->registration_no }}</span>
+                     </div>
+                  </div>                        
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Society Name:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->name }}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Society Address:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->address }}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Building Number:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->building_no
+                        }}</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="m-subheader">
+               <div class="d-flex align-items-center">
+                  <h3 class="section-title section-title--small">
+                     Appointed Architect Details:
+                  </h3>
+               </div>
+               <div class="row field-row">
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Name of Architect:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->name_of_architect
+                        }}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Architect Mobile Number:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->architect_mobile_no
+                        }}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Architect Address:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->architect_address
+                        }}</span>
+                     </div>
+                  </div>
+                  <div class="col-sm-6 field-col">
+                     <div class="d-flex">
+                        <span class="field-name">Architect Telephone Number:</span>
+                        <span class="field-value">{{
+                        $oc_application->eeApplicationSociety->architect_telephone_no
+                        }}</span>
                      </div>
                   </div>
                </div>
             </div>
          </div>
-         <div class="tab-content">
-            @php
-            if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id ==
-            config('commanConfig.applicationStatus.forwarded')))
-            { 
-            $style = "display:none";
-            $style1 = "display:none";
-            $disabled='disabled';
-            }
-            elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
-            { 
-            $style = "display:none";
-            $style1 = "display:none";
-            $disabled='disabled';
-            }
-            else
-            {
-            $style = "";
-            $style1 = "";
-            $disabled="";
-            }
-            @endphp
-            <div>
-               <div class="m-portlet m-portlet--no-top-shadow">
-                  <div class="tab-content">
-                     <div>
-                        <form class="form--custom" action="{{ route('ee.scrutiny_verification_oc') }}" method="post">
-                           @csrf
-                           <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
-                              <div class="table-responsive">
-                                 <table class="table">
-                                    <thead class="thead-default">
-                                       <th>Sr.No</th>
-                                       <th class="table-data--xl">Topics</th>
-                                       <th>Yes</th>
-                                       <th>No</th>
-                                       <th>Comments</th>
-                                    </thead>
-                                    <tbody>
-                                       @php
-                                       $i = 1;
-                                       @endphp
-                                       <input type="hidden" name="society_id" value="{{ $arrData['society_detail']->id }}">
-                                       <input type="hidden" name="application_id" id="application_id" value="{{ $oc_application->id }}">
 
-                                       @foreach($arrData['scrutiny_questions_oc'] as
-                                       $each_question)
-                                       <input type="hidden" name="question_id[{{$i}}]" value="{{ $each_question->id }}">
-                                       @php if(isset($each_question->is_compulsory) && $each_question->is_compulsory == '1'){
-                                       $required = 'required';
-                                       }
-                                       else{
-                                       $required = '';
-                                       }
-                                       @endphp
-                                       {{--
-                                       @php
-                                       if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]))
-                                       {
-                                       $disabled='disabled';
-                                       $style = "display:none";
-                                       }else{
-                                       if(session()->get('role_name') == config('commanConfig.ee_junior_engineer'))
-                                       {
-                                       $disabled='';
-                                       $style = "";
-                                       }
-                                       }
-                                       @endphp
-                                       --}} 
-                                       
-                                       <tr>
-                                          <td>{{ isset($each_question->group) && isset($each_question->sort_by) ? $each_question->group.'.'.$each_question->sort_by : $each_question->group }}</td>
-                                          <td><p>{{ $each_question->question }}</p></td>
-                                          <td>
-                                             <label class="m-radio m-radio--primary">
-                                             <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                             value="1" {{($each_question->is_compulsory == 1) ? 'required' : '' }}
-                                             {{ (isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) && $arrData['scrutiny_answers_to_questions'][$each_question->id]['answer'] == 1) ? 'checked' : '' }}>
-                                             <span></span>
-                                             </label>
-                                          </td>
-                                          @php
-                                          if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['answer'])
-                                          &&
-                                          $arrData['scrutiny_answers_to_questions'][$each_question->id]['answer']
-                                          == 0)
-                                          {
-                                          $checked = 'checked';
-                                          }
-                                          else{
-                                          $checked = '';
-                                          }
-                                          @endphp
+         <!-- oc scrutiny question nd answer -->
+         <div class="m-portlet m-portlet--no-top-shadow">
+            <form class="form--custom" action="{{ route('ee.scrutiny_verification_oc') }}" method="post">
+               @csrf
+               <input type="hidden" name="society_id" value="{{ $oc_application->society_id }}">
+               <input type="hidden" name="application_id" id="application_id" value="{{ $oc_application->id }}">
+               <div class="table-checklist m-portlet__body m-portlet__body--table table--box-input">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class="thead-default">
+                           <th>Sr.No</th>
+                           <th class="table-data--xl">Topics</th>
+                           <th>Yes</th>
+                           <th>No</th>
+                           <th>Comments</th>
+                        </thead>
+                        <tbody>
+                        @foreach($data as $question)
+                           <input type="hidden" name="question_id[{{$i}}]" value="{{ $question->id }}">
+                              @php if($question->is_compulsory == '1'){
+                                 $required = 'required';
+                              } @endphp
+                           <tr>
+                              <td>{{ isset($question->group) && isset($question->sort_by) ? $question->group.'.'.$question->sort_by : $question->group }}
+                              </td>
 
-                                          <td>
-                                             <label class="m-radio m-radio--primary">
-                                             <input {{$disabled}} type="radio" name="answer[{{$i}}]"
-                                             value="0" {{ $checked }}>
-                                             <span></span>
-                                             </label>
-                                          </td>
-                                          <td>
-                                             @if($each_question->remarks_applicable == 1)
-                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="remark[{{$i}}]" id="remark-one">{{ isset($arrData['scrutiny_answers_to_questions'][$each_question->id]) ? $arrData['scrutiny_answers_to_questions'][$each_question->id]['remark'] : '' }}</textarea>
-                                             @else
-                                             {{'Not Applicable'}};
-                                             @endif 
-                                             @if($each_question->is_upload == 1)
+                              <td><p>{{ $question->question }}</p></td>
+                              <td>
+                                 @if($question->option_applicable == 1)
+                                    <label class="m-radio m-radio--primary">
+                                    <input {{$disabled}} type="radio" name="answer[{{$i}}]" value="1" 
+                                    {{ $required }} {{ (isset($question->ocScrutinyAnswer) && $question->ocScrutinyAnswer->answer == 1) ? 'checked' : '' }}>
+                                    <span></span>
+                                    </label>
+                                 @endif   
+                              </td>
+                              <td>
+                                 @if($question->option_applicable == 1)
+                                    <label class="m-radio m-radio--primary">
+                                    <input {{$disabled}} type="radio" name="answer[{{$i}}]"
+                                    value="0" {{ $required }} {{ (isset($question->ocScrutinyAnswer) && $question->ocScrutinyAnswer->answer == 0) ? 'checked' : '' }}>
+                                    <span></span>
+                                    </label>
+                                 @endif   
+                              </td>
+                              <td>
+                                 <!-- display remark -->
+                                 @if($question->remarks_applicable == 1)
+                                    <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea" name="remark[{{$i}}]" id="remark-one">{{ isset($question->ocScrutinyAnswer) ? $question->ocScrutinyAnswer->remark : '' }}</textarea>
+                                 @else
+                                    {{'Not Applicable'}};
+                                 @endif 
 
-                                             <input type="hidden" id="question_id" value="{{ isset($each_question) ? $each_question->id : '' }}">
-                                                <div class="custom-file mt-3" style="{{$style}}">
-                                                   <input class="custom-file-input file-upload" type="file" id="test-upload_{{$each_question->id}}" data-index = "{{$each_question->id}}" {{(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'])) ? '' : 'required' }}>
-                                                   <label class="custom-file-label" for="test-upload_{{$each_question->id}}">Choose
-                                                file...</label>
-                                                <input type="hidden" id="document_{{$each_question->id}}" name="document_path[{{$i}}]" value="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) : '' }}"> 
-                                                @php
-                                                if(isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'])){
-                                                   $displayFile = "display:block";
-                                                }else{
-                                                   $displayFile = "display:none";
-                                                }
+                                 @if($question->is_upload == 1)
 
-                                                @endphp
-                                                <span class="text-danger file_error_{{$each_question->id}}"></span>
-                                                
-                                                </div>
-                                                 <a target="_blank" class="btn-link" id="file_{{$each_question->id}}" href="{{isset($arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path']) ? config('commanConfig.storage_server').'/'.$arrData['scrutiny_answers_to_questions'][$each_question->id]['document_path'] : ''}}" style="{{$displayFile}}" download >Download</a>
-                                          @endif
-                                          </td>
-               
-                                       </tr>
-                                       @php
-                                       $i++;
-                                       @endphp
-                                       @endforeach
-                                       <tr>
-                                          <td colspan="2">Additional Remarks (If any)</td>
-                                          <td colspan="3">
-                                             <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
-                                             name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
-                                          </td>
-                                       </tr>
-                                    </tbody>
-                                 </table>
-                              </div>
-                           </div>
-                           <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
-                           @if(isset($arrData['scrutiny_answers_to_questions']) && count($arrData['scrutiny_answers_to_questions']) > 0)
-                              <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
-                           @endif
-                        </form>
-                     </div>
+                                    <input type="hidden" id="question_id" value="{{ isset($question) ? $question->id : '' }}">
+                                    <div class="custom-file mt-3" style="{{$style}}">
+                                       <input class="custom-file-input file-upload" type="file" id="test-upload_{{$question->id}}" data-index = "{{$question->id}}" 
+                                       {{(isset($question->ocScrutinyAnswer->document_path)) ? '' : 'required' }}>
+                                       <label class="custom-file-label" for="test-upload_{{$question->id}}">Choose file...</label>
+                                       <input type="hidden" id="document_{{$question->id}}" name="document_path[{{$i}}]" value="{{isset($question->ocScrutinyAnswer) ? $question->ocScrutinyAnswer->document_path : '' }}"> 
+                                       <span class="text-danger file_error_{{$question->id}}"></span>
+                                    </div>
+                                    @if(isset($question->ocScrutinyAnswer))
+                                       <a target="_blank" class="btn-link" id="file_{{$question->id}}" href="{{isset($question->ocScrutinyAnswer) ? config('commanConfig.storage_server').'/'.$question->ocScrutinyAnswer->document_path : ''}}" download >Download</a>
+                                    @endif 
+                                 @endif
+                              </td>
+                           </tr>
+                           @php $i++; @endphp
+                        @endforeach
+                           <tr>
+                              <td colspan="2">Additional Remarks (If any)</td>
+                              <td colspan="3">
+                                 <textarea {{$disabled}} class="form-control form-control--custom form-control--textarea"
+                                 name="ee_additional_remarks" id="remark-one">{{ isset($oc_application->ee_additional_remarks) ? $oc_application->ee_additional_remarks : '' }}</textarea>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
                   </div>
                </div>
-            </div>
-            <!-- <div class="tab-pane" id="three" aria-expanded="false">
-               three
-               </div> -->
-            @php
-            if(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id ==
-            config('commanConfig.applicationStatus.forwarded')))
-            $display = "display:none";
-            elseif (session()->get('role_name') != config('commanConfig.ee_junior_engineer'))
-            $display = "display:none";
-            else
-            $display = "";
-            @endphp
-            <div>
-               <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                  <div class="portlet-body">
-                     <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-subheader" style="padding: 0;">
-                           <div class="d-flex">
-                              <h3 class="section-title">
-                                 Note
-                              </h3>
+               <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
+               @if(isset($ansCount) && count($ansCount) > 0)
+                  <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
+               @endif
+            </form>
+         </div>
+
+         <!-- EE note -->
+         <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+            <div class="m-portlet__body m-portlet__body--table">
+               <div class="m-subheader" style="padding: 0;">
+                  <div class="d-flex">
+                     <h3 class="section-title">
+                        Note
+                     </h3>
+                  </div>
+               </div>
+               <div class="m-section__content mb-0 table-responsive">
+                  <div class="col-sm-6" style="{{ $style }}">
+                     <div class="d-flex flex-column h-100 two-cols">
+                        <h5>Upload Note</h5>
+                        <span class="hint-text">Click on 'Upload' to upload EE Note</span>
+                        <form action="{{ route('ee.upload_office-note-oc') }}" method="post"
+                           enctype="multipart/form-data" style="margin-left: -2%;">
+                           @csrf
+                           <input type="hidden" name="application_id" value="{{ $oc_application->id }}">
+                           <div class="custom-file">
+                              <input class="custom-file-input" name="ee_office_note_oc" type="file"
+                                 id="test-upload" required="">
+                              <label class="custom-file-label" for="test-upload">Choose
+                              file...</label>
                            </div>
-                        </div>
-                        <div class="m-section__content mb-0 table-responsive">
-                                 
-                                 <!-- <div class="col-sm-6">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                       <h5>Download Note</h5>
-                                       <div class="mt-auto">
-                                          <a target="_blank" href="{{ config('commanConfig.storage_server').'/'.$oc_application->ee_office_note_oc}} ">
-                                          <button class="btn btn-primary">
-                                          Download EE Note</button>
-                                          </a>
-                                       </div>
-                                    </div>
-                                 </div> -->
-                                 <div class="col-sm-6" style="{{ $display }}">
-                                    <div class="d-flex flex-column h-100 two-cols">
-                                       <h5>Upload Note</h5>
-                                       <span class="hint-text">Click on 'Upload' to upload EE Note</span>
-                                       <form action="{{ route('ee.upload_office-note-oc') }}" method="post"
-                                          enctype="multipart/form-data" style="margin-left: -2%;">
-                                          @csrf
-                                          <input type="hidden" name="application_id" value="{{ $oc_application->id }}">
-                                          <div class="custom-file">
-                                             <input class="custom-file-input" name="ee_office_note_oc" type="file"
-                                                id="test-upload" required="">
-                                             <label class="custom-file-label" for="test-upload">Choose
-                                             file...</label>
-                                          </div>
-                                          <span class="text-danger" id="file_error"></span>
-                                          <div class="mt-auto">
-                                             <button type="submit" style="{{ $style1 }}" class="btn btn-primary btn-custom upload_note"
-                                                id="uploadBtn">Upload</button>
-                                          </div>
-                                       </form>
-                                    </div> 
-                                 </div>
-                        </div>
-                        @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
-                        <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-8">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download EE Note</h5>
-                                               
-                                                    <div class="table-responsive">
-                                                    <table class="mt-2 table table-hover" id="dtBasicExample"> 
-                                                    <thead>
-                                                        <tr>
-                                                            <th>Document Name</th>
-                                                            <th class="text-center">Download</th>
-                                                            <th class="text-center" style="{{$style}}">Delete</th>   
-                                                        </tr>
-                                                    </thead>
-                                                    <tbody>
+                           <span class="text-danger" id="file_error"></span>
+                           <div class="mt-auto">
+                              <button type="submit" style="{{ $style }}" class="btn btn-primary btn-custom upload_note"
+                                 id="uploadBtn">Upload</button>
+                           </div>
+                        </form>
+                     </div> 
+                  </div>
+               </div>
+               
+               <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
+                  <div class="col-sm-8 d-flex flex-column h-100 two-cols row" style="padding-left: 66px;">
+                    <h5>Download EE Note</h5>
+                     @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
+                        <div class="table-responsive">
+                           <table class="mt-2 table table-hover" id="dtBasicExample"> 
+                              <thead>
+                                 <tr>
+                                    <th>Document Name</th>
+                                    <th class="text-center">Download</th>
+                                    <th class="text-center" style="{{$style}}">Delete</th>   
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 @foreach($arrData['eeNote'] as $note)  
+                                    <tr>
+                                       <td>                                       
+                                          @php
+                                            if($note->document_name){
+                                                $fileName = explode(".",$note->document_name)[0]; 
+                                            }elseif($note->document_path){
+                                                $fileName = explode(".",explode('/',$note->document_path)[1])[0];
+                                            }
+                                          @endphp 
 
-                                                    @foreach($arrData['eeNote'] as $note)  
-                                                        <tr>
-                                                            <td>                                                                    @php
-                                                        if($note->document_name){
-                                                            $fileName = explode(".",$note->document_name)[0]; 
-                                                        }elseif($note->document_path){
-                                                            $fileName = explode(".",explode('/',$note->document_path)[1])[0];
-                                                        }
-                                                        @endphp 
-
-                                                        {{ isset($fileName) ? $fileName : ''}} 
-                                                            </td>
-                                                            <td class="text-center">
-                                                                <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download>
-                                                        Download </a> 
-                                                            </td>
-                                                            <td class="text-center" style="{{$style}}">
-                                                                <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
-                                                                <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
-                                                            </td>
-                                                        </tr>
-                                                    @endforeach
-                                                    </tbody>    
-                                                    </table>
-
-                                                @elseif(isset($arrData['get_last_status']) && ($arrData['get_last_status']->status_id == config('commanConfig.applicationStatus.forwarded')))
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    * Note : EE note not available. </span>
-                                                @endif
-                                        </div>
-                                    </div>
-                                </div>
-                              </div>
-                              </div>
+                                          {{ isset($fileName) ? $fileName : ''}} 
+                                       </td>
+                                       <td class="text-center">
+                                           <a class="btn-link" download href="{{ config('commanConfig.storage_server').'/'.$note->document_path}} " target="_blank" download> Download </a> 
+                                       </td>
+                                       <td class="text-center" style="{{$style}}">
+                                           <i class="fa fa-close icon2 d-icon hide-print" id="{{ isset($note->id) ? $note->id : '' }}" onclick="removeDocuments(this.id)"></i>
+                                           <input type="hidden" name= "oldFile" id="oldFile_{{$note->id}}" value="{{ isset($note->document_path) ? $note->document_path : '' }}"> 
+                                       </td>
+                                    </tr>
+                                 @endforeach
+                              </tbody>    
+                           </table>
                         </div>
-                     </div>
+                     @elseif(isset($oc_application->status) && ($oc_application->status->status_id == config('commanConfig.applicationStatus.forwarded')))
+                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;"> * Note : EE note not available. </span>
+                     @endif
                   </div>
                </div>
             </div>
@@ -425,7 +339,7 @@
       </div>
    </div>
 </div>
-</div>
+
 @endsection
 @section('js')
 <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
