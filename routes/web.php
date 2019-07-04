@@ -638,6 +638,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
         Route::get('signed_sale_lease_deed/{id}', 'SocietyConveyanceController@show_signed_sale_lease')->name('show_signed_sale_lease');
         Route::post('save_sale_lease_deed', 'SocietyConveyanceController@upload_sale_lease')->name('upload_sale_lease');
         Route::post('save_signed_sale_lease_deed', 'SocietyConveyanceController@upload_signed_sale_lease')->name('upload_signed_sale_lease');
+
+        Route::post('stamp_forward_application', 'SocietyConveyanceController@stampForwardApplication')->name('stamp_forward_application');
         Route::resource('/society_conveyance','SocietyConveyanceController');
 
         //Society Conveyance END
@@ -717,6 +719,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::post('upload_society_oc','SocietyOfferLetterController@uploadOcAfterSign')->name('upload_society_oc');
     Route::get('society_oc_application_download/{id}','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
     Route::post('submit_society_oc','SocietyOfferLetterController@submitOCApplication')->name('submit_society_oc');
+
+    Route::post('save_oc_construction','SocietyOfferLetterController@saveOCConstruction')->name('save_oc_construction');
 
 
 
@@ -1323,6 +1327,7 @@ Route::get('delete_uploaded_documents_noc/{id}/{documentId}','SocietyNocControll
 Route::get('upload_noc_application/{id}','SocietyNocController@showuploadNoc')->name('upload_noc_application');
 Route::post('add_uploaded_documents_comment_noc','SocietyNocController@addSocietyDocumentsComment')->name('add_documents_comment_noc');
 Route::get('society_noc_application_download/{id}','SocietyNocController@download_noc_application')->name('society_noc_application_download');
+
 Route::post('upload_society_noc','SocietyNocController@uploadNocAfterSign')->name('upload_society_noc');
 Route::get('documents_uploaded_noc/{id}','SocietyNocController@viewSocietyDocuments')->name('documents_uploaded_noc');
 Route::post('resubmit_noc_application','SocietyNocController@resubmitNocApplication')->name('resubmit_noc_application');

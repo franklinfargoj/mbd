@@ -728,6 +728,16 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'revalidation delete other documents',
                 'description'  => 'revalidation delete other documents'
             ],
+            [
+                'name'         => 'stamp_forward_application',
+                'display_name' => 'stamp forward application for conveyance',
+                'description'  => 'stamp forward application for conveyance'
+            ],
+            [
+                'name'         => 'save_oc_construction',
+                'display_name' => 'save oc construction',
+                'description'  => 'save oc construction'
+            ],
             
         ];
         

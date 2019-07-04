@@ -23,4 +23,7 @@ class OlSocietyDocumentsMaster extends Model
     public function oc_documents_uploaded(){
         return $this->hasMany(OcSocietyDocumentStatus::class, 'document_id', 'id');
     }
+    public function ocDocumentsUploaded(){
+        return $this->hasOne(OcSocietyDocumentStatus::class, 'document_id', 'id');
+    }
 }

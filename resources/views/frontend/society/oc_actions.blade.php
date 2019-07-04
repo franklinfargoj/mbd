@@ -22,9 +22,10 @@ $status = $oc_applications->ocApplicationStatus[0]->status_id;
         </span>
 	</a>
 </li>
+
 <li id="ree-actions" class="collapse show">
 	<ul class="list-unstyled">
-		@if($status == '4' || $status == '3')
+		@if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted'))
 		@if(isset($applicationCount) && $applicationCount <= 0)
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_oc_edit')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('society_oc_edit',encrypt($oc_applications->id)) }}">
@@ -68,7 +69,7 @@ $status = $oc_applications->ocApplicationStatus[0]->status_id;
 		</li>
 		@endif
 		@endif
-		@if($status == '2' || $status== '7')
+		@if($status == config('commanConfig.applicationStatus.forwarded') || $status== config('commanConfig.applicationStatus.sent_to_society'))
 			<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_oc_preview')?'m-menu__item--active':''}}">
 				<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_oc_preview',encrypt($oc_applications->id)) }}">
 					<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">

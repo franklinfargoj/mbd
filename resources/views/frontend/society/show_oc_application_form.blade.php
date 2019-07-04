@@ -32,7 +32,7 @@
                 <div class="letter-form-header-content">
                     <p>
                         <span class="d-block font-weight-semi-bold">प्रति,</span>
-                        <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input" type="text" id="" name="department_name" value="Executive Engineer/ Estate Manager" required> विभाग,</span>
+                        <span class="d-block">कार्यकारी अभियंता, <input class="letter-form-input" type="text" id="" name="department_name" value="Executive Engineer" required> विभाग,</span>
                         <span class="d-block">मुंबई गृहनिर्माण व क्षेत्रविकास मंडळ,</span>
                         <span class="d-block">गृहनिर्माण भवन, वांद्रे (पुर्व),</span>
                         <span class="d-block">मुंबई -४०००५१.</span>
@@ -42,16 +42,23 @@
             <!-- END: Subheader -->
             <div class="m-content letter-form-content">
                 <div class="letter-form-subject">
+                    <p><span class="font-weight-semi-bold"> Subject - Request for Occupation Certificate  for the building no <input class="letter-form-input" type="text" value="{{ $society_details->building_no }}" readonly>, <input class="letter-form-input" type="text" value="{{ $society_details->name }}" readonly>, cts no <input class="letter-form-input" type="text" value="{{ $oc_applications->request_form->cts_no }}" readonly>, <input class="letter-form-input" type="text" value="{{ $oc_application->applicationMasterLayout[0]->layout_name }}" readonly>
 
-                    <p><span class="font-weight-semi-bold"> Subject - </span>Application for @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif  for rehab portion and sale component of the Proposed redevelopment of the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> For (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly>
+                    <!-- </span>Application for @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif  for rehab portion and sale component of the Proposed redevelopment of the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly><input class="letter-form-input" type="text" id="" name="building_no" value="{{ $society_details->building_no }}" readonly>(address )<input class="letter-form-input" type="text" id="" name="address" value="{{ $society_details->address }}" readonly> For (society name) <input class="letter-form-input" type="text" id="" name="name" value="{{ $society_details->name }}" readonly> -->
 
                    
                     <p class="font-weight-semi-bold">Dear sir,</p>
                     <p>
-                        With reference to the subject mentioned above, as per permissible B.U.A. allotted by MHADA we have completed the construction work.
+                        With reference to the above subject, we have completed building construction, as per NOC issued by your office.
                     </p>
-
-                    <p>
+                    <p>Photograph of newly constructed building and other documents are attached herewith for your reference.</p>
+                    @if($oc_application->request_form->is_full_oc)
+                        <p>We therfore request you to kindly grant us the Consent for Full OC to the building at the earlist. </p> 
+                    @else
+                        <p>But since supplymentry lease deed of <input class="letter-form-input" type="text" value="{{ $oc_applications->request_form->lease_deed_area }}" readonly> sq.mt of tit bit land, is not executed, we request you to kindly grant us consent for part occupasion certificate of <input class="letter-form-input" type="text" value="{{ $oc_applications->request_form->floor }}" readonly> + <input class="letter-form-input" type="text" value="{{ $oc_applications->request_form->floor_no }}" readonly> floors.</p>
+                    @endif    
+                    
+                    <!-- <p>
                         <textarea readonly style="width: 100%" name="construction_details" id="construction_details" >{{ $oc_application->request_form->construction_details }}</textarea>
                     </p>
 
@@ -61,7 +68,7 @@
 
                     <p>
           We therefore request you to kindly grant us the NOC for  @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif for rehab unit and sale component as mentioned above at the earliest.
-                    </p>
+                    </p> -->
 
                     <p>Thanking you,</p>
                     <p>{{ ($oc_applications->request_form->architect_name)}}</p>
