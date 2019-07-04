@@ -15,7 +15,7 @@ class OlRequestForm extends Model
         'ol_vide_no',
         'ol_issue_date',
         'reason_for_revalidation',
-        'construction_details',
+        'lease_deed_area',
         'is_full_oc',
         'offer_letter_number',
         'offer_letter_date',
@@ -25,6 +25,9 @@ class OlRequestForm extends Model
         'noc_for_iod_purpose_date',
         'developer_name',
         'noc_date',
-        'noc_number'
+        'noc_number',
+        'cts_no',
+        'floor',
+        'floor_no',
     ];
 }

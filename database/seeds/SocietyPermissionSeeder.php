@@ -733,6 +733,11 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'stamp forward application for conveyance',
                 'description'  => 'stamp forward application for conveyance'
             ],
+            [
+                'name'         => 'save_oc_construction',
+                'display_name' => 'save oc construction',
+                'description'  => 'save oc construction'
+            ],
             
         ];
         

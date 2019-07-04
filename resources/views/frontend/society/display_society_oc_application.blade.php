@@ -10,7 +10,7 @@
                     <table style="margin-left: -5px; margin-top: 5px; margin-bottom: 5px;">
                         <tbody>
                             <tr>
-                                <td style="font-size: 18px;">Executive Engineer / Estate Manager</td>
+                                <td style="font-size: 18px;">Executive Engineer</td>
                                <!--  <td style="border-bottom: 1px solid #000; font-size: 18px;">REE</td> -->
                                 <!-- <td style="font-size: 18px;">विभाग,</td> -->
                             </tr>
@@ -25,25 +25,38 @@
         <div>
             <div style="line-height: 1.5;">
 
-                <p><span class="font-weight-semi-bold"> Subject - </span>Application for @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif  for rehab portion and sale component of the Proposed redevelopment of the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly>{{ $society_details->building_no }} (address ) {{ $society_details->address }} For (society name) {{ $society_details->name }}
+                <p><span class="font-weight-semi-bold"> Subject - 
+                </span>Request for Occupation Certificate  for the building no {{ $society_details->building_no }} , {{ $society_details->name }} , cts no {{ $oc_application->request_form->cts_no }}, {{ $oc_application->applicationMasterLayout[0]->layout_name }} 
+               <!--  </span>Application for @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif  for rehab portion and sale component of the Proposed redevelopment of the existing Building No. <input type="hidden" name="application_master_id" value="{{ $id }}" readonly>{{ $society_details->building_no }} (address ) {{ $society_details->address }} For (society name) {{ $society_details->name }} -->
 
 
                 <p class="font-weight-semi-bold">Dear sir,</p>
                 <p>
-                    With reference to the subject mentioned above, as per permissible B.U.A. allotted by MHADA we have completed the construction work.
+                    With reference to the above subject, we have completed building construction, as per NOC issued by your office.
                 </p>
+                <p>Photograph of newly constructed building and other documents are attached herewith for your reference.</p>
 
-                <p><span class="font-weight-semi-bold">Construction Details: </span>
+                @if($oc_application->request_form->is_full_oc)
+                    <p>We therfore request you to kindly grant us the Consent for Full OC to the building at the earlist. </p> 
+                @else
+                    <p>But since supplymentry lease deed of {{ $oc_application->request_form->lease_deed_area }} sq.mt of tit bit land, is not executed, we request you to kindly grant us consent for part occupasion certificate of {{ $oc_application->request_form->floor }}, {{ $oc_application->request_form->floor_no }} floors.</p>
+                @endif 
+                
+                @if(isset($comments))
+                <p>Society Comments : {{ $comments->society_documents_comment }}</p>
+                @endif 
+
+                <!-- <p><span class="font-weight-semi-bold">Construction Details: </span>
                     {{ $oc_application->request_form->construction_details }}
-                </p>
+                </p> -->
 
-                <p>
+                <!-- <p>
                     As the work is completed we have to obtain  @if($oc_application->request_form->is_full_oc==1) full @else part @endif occupation permission from MCGM to reaccomodate the existing members. As per the condition of the offer letter and NOC issued by MHADA, MHADA shall issue NOC for OC.
                 </p>
 
                 <p>
                     We therefore request you to kindly grant us the NOC for  @if($oc_application->request_form->is_full_oc==1) Full OC @else Part OC @endif for rehab unit and sale component as mentioned above at the earliest.
-                </p>
+                </p> -->
 
                 <p>
                     Thanking you,

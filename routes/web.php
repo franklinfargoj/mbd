@@ -720,6 +720,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('society_oc_application_download/{id}','SocietyOfferLetterController@generate_oc_pdf')->name('society_oc_application_download');
     Route::post('submit_society_oc','SocietyOfferLetterController@submitOCApplication')->name('submit_society_oc');
 
+    Route::post('save_oc_construction','SocietyOfferLetterController@saveOCConstruction')->name('save_oc_construction');
+
 
 
 

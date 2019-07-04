@@ -707,93 +707,128 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
 
 
         // Consent for OC - documents
-        $english_lang = LanguageMaster::select('id')->where(['language'=>'English'])->get();
         $application5_arr=OlApplicationMaster::Where('title', 'like', '%Consent for OC%')->pluck('id')->toArray();
         foreach($application5_arr as $app)
         {
             $app_insertArr= [
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 1,
+                    'full_oc_document' => 0,
                     'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे "
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Latest Approved Drawings"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Matching statement"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Stability certificate from structure consultant"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Completion certificate from society architect"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
-                    'name' => "Supplymentry lease deed"
+                    'full_oc_document' => 1,
+                    'name' => "Registered Supplymentry lease deed"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
-                    'name' => "Building photos from 4 sides - front side"
+                    'full_oc_document' => 0,
+                    'name' => "Building photo's - Front side"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
-                    'name' => "Building photos from 4 sides - side 2"
+                    'full_oc_document' => 0,
+                    'name' => "Building photo's - Back side"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
-                    'name' => "Building photos from 4 sides - side 3"
+                    'full_oc_document' => 0,
+                    'name' => "Building photo's - Left side"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
-                    'name' => "Building photos from 4 sides - side 4"
+                    'full_oc_document' => 0,
+                    'name' => "Building photo's - Right side"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
                     'is_optional'=>0,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Google Image"
                 ],
                 [
                     'application_id'   => $app,
-                    'language_id'   => $english_lang[0]['id'],
+                    'language_id'   => $Englang,
+                    'is_optional'=>0,
+                    'is_deleted' => 0,
+                    'full_oc_document' => 0,
+                    'name' => "No dues certificate from EM."
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $Englang,
+                    'is_optional'=>0,
+                    'is_deleted' => 0,
+                    'full_oc_document' => 0,
+                    'name' => "Noc from chief fire officer, MCGM."
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $Englang,
+                    'is_optional'=>0,
+                    'is_deleted' => 0,
+                    'full_oc_document' => 0,
+                    'name' => "List Installation Certificate."
+                ],
+                [
+                    'application_id'   => $app,
+                    'language_id'   => $Englang,
                     'is_optional'=>1,
                     'is_deleted' => 0,
+                    'full_oc_document' => 0,
                     'name' => "Other"
                 ]
             ];

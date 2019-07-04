@@ -25,18 +25,10 @@
                     <table class="table mb-0">
                         <thead class="thead-default">
                             <tr>
-                                <th>
-                                    Sr. No
-                                </th>
-                                <th>
-                                    Document Name
-                                </th>
-                                <th>
-                                    Status
-                                </th>
-                                <th>
-                                    Actions
-                                </th>
+                                <th> Sr. No </th>
+                                <th> Document Name </th>
+                                <th> Status </th>
+                                <th> Actions </th>
                             </tr>
                         </thead>
                         <tbody>
@@ -45,8 +37,24 @@
                             <tr>
                                 <td>{{ $i }}</td>
                                 <td>
-                                    {{ $document->name }}<span class="compulsory-text">@if(in_array($document->id, $optional_docs))<small><span style="color: green;">(Optional
-                                            Document)</span></small> @else <small>(Compulsory Document)</small> @endif</span>
+                                    {{ $document->name }}
+                                    @if($document->is_optional == 0)
+                                        @if($document->full_oc_document == 0)
+                                            <span class="compulsory-text">
+                                            <small>(Compulsory Document)</small></span>
+                                        @elseif($document->full_oc_document == 1 && $oc_applications->request_form->is_full_oc == 1)   
+                                            <span class="compulsory-text">
+                                            <small>(Compulsory Document)</small></span>
+                                        @else
+                                            <span class="compulsory-text"> <small>
+                                            <span style="color: green;">
+                                            (Optional Document)</small> </span>    
+                                        @endif    
+                                    @else
+                                    <span class="compulsory-text"> <small>
+                                    <span style="color: green;">
+                                    (Optional Document)</small> </span>
+                                    @endif
                                 </td>
                                 <td class="text-center">
                                     <h2 class="m--font-danger">
