@@ -44,6 +44,7 @@ use Mpdf\Mpdf;
 use App\LayoutUser;
 use App\OlTitBitSimulationValuesMaster;
 use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
+use App\OCConstructionDetails;
 
 class EEController extends Controller
 {
@@ -173,7 +174,7 @@ class EEController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($ee_application_data) {
-                    $url = route('ee.view_oc_application', $ee_application_data->id);
+                    $url = route('ee.view_oc_application', encrypt($ee_application_data->id));
                     return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a></div>';
@@ -235,6 +236,7 @@ class EEController extends Controller
 
     public function viewOCApplication(Request $request, $applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->comman->downloadConsentforOc($applicationId);
         $oc_application->folder = 'ee_department';
         /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
@@ -243,15 +245,19 @@ class EEController extends Controller
 
     public function societyDocumentsOC(Request $request,$applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->comman->getOcApplication($applicationId);    
         $societyDocuments = $this->comman->getSocietyDocumentsforOC($applicationId);
         $oc_application->status = $this->comman->getCurrentStatusOc($applicationId);
         $comments = $this->comman->getOCApplicationComments($applicationId);
-        return view('admin.ee_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments'));
+        //get OC constructed details
+        $conDetails=OCConstructionDetails::where('application_id',$applicationId)->first();
+        return view('admin.ee_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments','conDetails'));
     }
 
     public function scrutinyRemarkOcByEE($application_id)
     {
+        $application_id = decrypt($application_id);
         $oc_application = $this->comman->getOcApplication($application_id);
         $oc_application->status = $this->comman->getCurrentStatusOc($application_id);
 
@@ -328,7 +334,7 @@ class EEController extends Controller
     }
 
     public function forwardApplicationOcEE(Request $request, $applicationId){
-
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->comman->getOcApplication($applicationId);
         $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->comman->getForwardOcApplication($applicationId);

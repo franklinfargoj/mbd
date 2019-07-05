@@ -46,6 +46,7 @@ use Config;
 use Auth;
 use DB;
 use App\LayoutUser;
+use App\OCConstructionDetails;
  
 class COController extends Controller
 {
@@ -418,7 +419,7 @@ class COController extends Controller
                     static $i = 0; $i++; return $i;
                 })
                 ->editColumn('radio', function ($co_application_data) {
-                    $url = route('co.view_oc_application', $co_application_data->id);
+                    $url = route('co.view_oc_application', encrypt($co_application_data->id));
                     return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a></div>';
@@ -1551,6 +1552,7 @@ class COController extends Controller
 
     public function viewApplicationConsentOc(Request $request, $applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->downloadConsentforOc($applicationId);
         $oc_application->folder = 'co_department';
         /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
@@ -1558,13 +1560,14 @@ class COController extends Controller
     }
 
     public function societyconsentOcDocuments(Request $request,$applicationId){
-
+        $applicationId = decrypt($applicationId);
        $oc_application = $this->CommonController->getOcApplication($applicationId);
        $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
        $comments = $this->CommonController->getOCApplicationComments($applicationId);
         $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
-
-       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments','comments'));
+        //get OC constructed details
+        $conDetails=OCConstructionDetails::where('application_id',$applicationId)->first();
+       return view('admin.co_department.society_oc_documents',compact('oc_application','societyDocuments','comments','conDetails'));
     }
 
     public function viewEMScrutinyOc($applicationId)
@@ -1587,6 +1590,7 @@ class COController extends Controller
 
     public function viewEEScrutinyOc($applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
 
@@ -1609,7 +1613,7 @@ class COController extends Controller
     }
 
     public function consentforOcREEnote(Request $request,$applicationId){
-
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
 
@@ -1627,7 +1631,7 @@ class COController extends Controller
     }
 
     public function approveConsentforOc(Request $request, $applicationId){
-
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
         // dd($ol_application->status->status_id);
@@ -1659,7 +1663,7 @@ class COController extends Controller
     }
 
     public function forwardOcApplication(Request $request, $applicationId){
-        
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
         $applicationData = $this->CommonController->getForwardOcApplication($applicationId);

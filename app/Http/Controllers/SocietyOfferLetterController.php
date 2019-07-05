@@ -1348,7 +1348,6 @@ class SocietyOfferLetterController extends Controller
         $docs_count = $document['docs_count'];
         $documents_uploaded = $docs_uploaded_count = $document['docs_uploaded_count'];
         $optional_docs = $document['optional_docs'];
-
         $documents = OlSocietyDocumentsMaster::where('application_id', $application->application_master_id)
         ->where('is_deleted',0)->with(['ocDocumentsUploaded' => function($q) use ($society,$applicationId){ 
             $q->where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc');
@@ -1608,7 +1607,10 @@ class SocietyOfferLetterController extends Controller
         $oc_applications = $application;
         $documents_comment = OcSocietyDocumentsComment::where('application_id',$applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
-        return view('frontend.society.view_society_uploaded_oc_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'oc_applications','documents_uploaded', 'documents_comment', 'society'));
+        //get OC constructed details
+        $conDetails=OCConstructionDetails::where('application_id',$applicationId)->first();
+
+        return view('frontend.society.view_society_uploaded_oc_documents', compact('documents', 'optional_docs', 'docs_uploaded_count','docs_count', 'oc_applications','documents_uploaded', 'documents_comment', 'society','conDetails'));
     }
 
 
@@ -2762,7 +2764,13 @@ class SocietyOfferLetterController extends Controller
         }])->get();
 
         $document['optional_docs'] = $this->getOCOptionalDocument($oc_application->application_master_id);
-        $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->where('is_deleted',0)->count();
+        if ($oc_application->request_form->is_full_oc == 0){
+            $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->where('full_oc_document',0)->where('is_deleted',0)->count();
+        }
+        else{
+            $document['docs_count'] = OlSocietyDocumentsMaster::where('application_id', $oc_application->application_master_id)->where('is_optional',0)->where('is_deleted',0)->count();
+        }
+
         $docs_uploaded_count = 0;
 
         foreach($documents as $documents_key => $documents_val){

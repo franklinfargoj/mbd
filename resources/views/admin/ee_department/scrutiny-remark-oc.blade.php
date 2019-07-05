@@ -249,7 +249,7 @@
                   </div>
                </div>
                <button type="submit" style="{{ $style }}" class="btn btn-primary saveBtn" next_tab = "nested_tab_2">Save</button>
-               @if(isset($ansCount) && count($ansCount) > 0)
+               @if(isset($ansCount) && $ansCount > 0)
                   <a href="{{ route('ee.oc_ee_variation_report',$oc_application->id)}}" class="btn btn-primary">Generate Variation Report</a>
                @endif
             </form>
@@ -292,8 +292,8 @@
                
                <div class="m-section__content mb-0 table-responsive" style="margin-top: 30px">
                   <div class="col-sm-8 d-flex flex-column h-100 two-cols row" style="padding-left: 66px;">
-                    <h5>Download EE Note</h5>
                      @if(isset($arrData['eeNote']) && count($arrData['eeNote']) > 0)
+                        <h5>Download EE Note</h5>
                         <div class="table-responsive">
                            <table class="mt-2 table table-hover" id="dtBasicExample"> 
                               <thead>
