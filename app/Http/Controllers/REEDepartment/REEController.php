@@ -57,6 +57,7 @@ use Illuminate\Support\Facades\Session;
 use Carbon\Carbon;
 use Mpdf\Mpdf;
 use App\LayoutUser;
+use App\OCConstructionDetails;
 
 class REEController extends Controller
 {
@@ -2761,7 +2762,7 @@ class REEController extends Controller
                      static $i = 0; $i++; return $i;
                 })
             ->editColumn('radio', function ($oc_application_data) {
-                $url = route('ree.view_application_consent_oc', $oc_application_data->id);
+                $url = route('ree.view_application_consent_oc', encrypt($oc_application_data->id));
                 return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="village_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
                         <img src="'. asset("img/view-icon.svg").'">
                     </span>View</span></a></div>';
@@ -2822,6 +2823,7 @@ class REEController extends Controller
 
     public function viewApplicationConsentOc(Request $request, $applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->downloadConsentforOc($applicationId);
         $oc_application->folder = 'REE_department';
         /*$oc_application->status = $this->comman->getCurrentStatus($applicationId);*/
@@ -2830,12 +2832,14 @@ class REEController extends Controller
 
     public function societyOcDocuments(Request $request,$applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);    
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
         $comments = $this->CommonController->getOCApplicationComments($applicationId);
         $societyDocuments = $this->CommonController->getSocietyDocumentsforOC($applicationId);
-
-        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments'));
+        //get OC constructed details
+        $conDetails=OCConstructionDetails::where('application_id',$applicationId)->first();
+        return view('admin.REE_department.society_documents_consent_oc', compact('societyDocuments','oc_application','comments','conDetails'));
     }
 
     public function viewEMScrutinyOc($applicationId)
@@ -2858,6 +2862,7 @@ class REEController extends Controller
 
     public function viewEEScrutinyOc($applicationId)
     {
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($applicationId);
 
@@ -2876,7 +2881,8 @@ class REEController extends Controller
     }
 
     function generateOccertificate($applicationId)
-    {
+    {   
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
         $applicationLog = $this->CommonController->getCurrentStatusOc($applicationId);
@@ -2886,8 +2892,6 @@ class REEController extends Controller
         $societyData->ree_Jr_id = (session()->get('role_name') == config('commanConfig.ree_junior')); 
         $societyData->ree_branch_head = (session()->get('role_name') == config('commanConfig.ree_branch_head')); 
 
-        //$societyData->drafted_offer_letter = OlApplication::where('id',$applicationId)->value('drafted_offer_letter');   
-        // dd($oc_application->oc_type);
         return view('admin.REE_department.generate-consent-oc',compact('societyData','oc_application','applicationLog'));
     }
 
@@ -2958,13 +2962,13 @@ class REEController extends Controller
         }
 
         \Session::flash('success_msg', 'Changes in OC draft has been saved successfully..');
-        
+        $id = encrypt($request->applicationId);
         if((session()->get('role_name') == config('commanConfig.ree_junior')) && $status->status_id == config('commanConfig.applicationStatus.OC_Approved'))
         {
-            return redirect('approved_consent_oc_letter/'.$request->applicationId)->with('success', 'Changes in OC has been incorporated successfully.');
+            return redirect('approved_consent_oc_letter/'.$id)->with('success', 'Changes in OC has been incorporated successfully.');
         }else{
             
-        return redirect('generate_oc_certificate/'.$request->applicationId);
+        return redirect('generate_oc_certificate/'.$id);
         }
     }
 
@@ -2982,9 +2986,9 @@ class REEController extends Controller
                     $draftNocPath = $folder_name."/".$file_name;
 
                     if ($status->status_id == config('commanConfig.applicationStatus.OC_Approved')){
-                        OcApplication::where('id',$applicationId)->update(["final_oc_agreement" => $draftNocPath]);
+                        $a = OcApplication::where('id',$applicationId)->update(["final_oc_agreement" => $draftNocPath]);
                     } else{
-                        OcApplication::where('id',$applicationId)->update(["oc_path" => $draftNocPath]);
+                        OcApplication::where('id',$applicationId)->update(["final_oc_agreement" => $draftNocPath]);
                     }
 
                     return redirect()->back()->with('success', 'Draft copy of OC has been uploaded successfully.');
@@ -2996,6 +3000,7 @@ class REEController extends Controller
 
     public function uploadNoteConsentOC($application_id)
     {
+        $application_id = decrypt($application_id);
         $oc_application = $this->CommonController->getOcApplication($application_id);
         $oc_application->status = $this->CommonController->getCurrentStatusOc($application_id);
 
@@ -3041,7 +3046,7 @@ class REEController extends Controller
     }
 
     public function forwardApplicationConsentOc(Request $request, $applicationId){
-
+        $applicationId = decrypt($applicationId);
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();
         $applicationData = $this->CommonController->getForwardOcApplication($applicationId);
@@ -3115,7 +3120,7 @@ class REEController extends Controller
     }
 
     public function approvedConsentOcletter(Request $request,$applicationId){
-
+        $applicationId = decrypt($applicationId);
         $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
         $oc_application = $this->CommonController->getOcApplication($applicationId);
         $oc_application->model = OcApplication::with(['oc_application_master'])->where('id',$applicationId)->first();

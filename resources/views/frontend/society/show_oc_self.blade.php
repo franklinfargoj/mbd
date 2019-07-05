@@ -98,12 +98,12 @@
                     <div class="m-form__group row mhada-lease-margin part_visible" style="display:none">
                         <div class="col-xl-4 col-lg-4 form-group">
                             <label class="col-form-label" for="lease_deed_area">Supplymantry lease deed area(sq.mt) <span class="star">*</span></label>
-                            <input type="text" id="lease_deed_area" name="lease_deed_area" class="form-control form-control--custom m-input" value="" required>
+                            <input type="text" id="lease_deed_area" name="lease_deed_area" class="form-control form-control--custom m-input" value="">
 
                             <span class="help-block">{{$errors->first('construction_details')}}</span>
                         </div>
                         <div class="col-xl-4 col-lg-4 form-group">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor" name="floor" required>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor" name="floor">
                             @if(isset($floor))
                                 @foreach($floor as $value)
                                     <option value="{{ $value }}">{{ $value }}</option>
@@ -112,7 +112,7 @@
                             </select>
                         </div>    
                         <div class="col-xl-4 col-lg-4 form-group">
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor_no" name="floor_no" data-live-search="true" required>
+                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor_no" name="floor_no" data-live-search="true">
                             @for($i=1;$i<=100;$i++)
                                 <option value="{{$i}}">{{ $i }}</option>
                             @endfor    

@@ -3,6 +3,10 @@
 @include('admin.ee_department.action_oc',compact('oc_application'))
 @endsection
 @section('content')
+@php
+    $floor = ['Ground','Stilt','parking'];
+    $i = 1;
+@endphp
 <div class="col-md-12">
    <div class="m-subheader px-0 m-subheader--top">
       <div class="d-flex align-items-center">
@@ -29,23 +33,39 @@
                         </th>
                      </tr>
                   </thead>
-                  <tbody> 
-                     <?php $i=0; ?>
+                  <tbody>  
+                     <?php $i=1; ?>
                      @if($societyDocuments)
                         @foreach($societyDocuments as $data)
                            <tr>
-                              <td>{{ $i+1}}.</td>
+                              <td>{{ $i}}.</td>
                               <td>{{($data->name)}}
-                                @if(isset($data->is_optional) && $data->is_optional == 1)
-                                      <span style="color: green;display:block"><small>(Optional Document)</small></span>
-                                  @else
-                                      <span class="compulsory-text"><small>(Compulsory Document)</small></span>
-                                  @endif
+                                @if($data->is_optional == 0)
+                                     @if($data->full_oc_document == 0)
+                                         <span class="compulsory-text">
+                                         <small>(Compulsory Document)</small></span>
+                                     @elseif($data->full_oc_document == 1 && $oc_application->request_form->is_full_oc == 1)   
+                                         <span class="compulsory-text">
+                                         <small>(Compulsory Document)</small></span>
+                                     @else
+                                         <span class="compulsory-text"> <small>
+                                         <span style="color: green;">
+                                         (Optional Document)</small> </span>    
+                                     @endif    
+                                 @else
+                                    <span class="compulsory-text"> <small>
+                                    <span style="color: green;">
+                                    (Optional Document)</small> </span>
+                                 @endif
                               </td>
                               <td class="text-center">
                                  @if(isset($data->oc_documents_uploaded[0]->society_document_path))
-                                 <a target="_blank" href="{{ asset($data->oc_documents_uploaded[0]->society_document_path) }}">
-                                 <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                    <a target="_blank" href="{{ asset($data->oc_documents_uploaded[0]->society_document_path) }}">
+                                    <img class="pdf-icon" src="{{ asset('/img/pdf-icon.svg')}}"></a>
+                                 @else
+                                    <h2 class="m--font-danger">
+                                        <i class="fa fa-remove"></i>
+                                    </h2>
                                  @endif
                               </td>
                            </tr>
@@ -58,6 +78,82 @@
          </div>
       </div>
    </div>
+
+   <!-- constructed building details table -->
+    <div class="m-portlet m-portlet--bordered-semi mb-0">
+        <div class="m-portlet__body m-portlet__body--table">
+            <div class="m-portlet__body m-portlet__body--table">
+                <div class="m-section__content mb-0 table-responsive">
+                    <span class="heading">Details of newly constructed building</span>
+                    <table class="table mb-0">
+                        <thead class="thead-default">
+                            <tr>
+                                <th> Name </th>
+                                <th> Values </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Floors <span class="star">*</span></td>
+                                <td>
+                                    <div class="row col-md-12">
+                                        <div class="col-md-6">
+                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor" name="floor" disabled>
+                                            @if(isset($floor))
+                                                @foreach($floor as $value)
+                                                    @if(isset($conDetails) && $value == $conDetails->floor)
+                                                        <option value="{{ $value }}" selected>{{ $value }}</option>
+                                                    @else
+                                                        <option value="{{ $value }}">{{ $value }}</option>
+                                                    @endif
+                                                @endforeach    
+                                            @endif
+                                            </select>
+                                        </div>    
+                                        <div class="col-md-6">
+                                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="floor_no" name="floor_no" data-live-search="true" disabled>
+                                            @for($i=1;$i<=100;$i++)
+                                                @if(isset($conDetails) && $i == $conDetails->floor_no)
+                                                    <option value="{{$i}}" selected>{{ $i }}</option>
+                                                @else
+                                                    <option value="{{$i}}">{{ $i }}</option>
+                                                @endif
+                                            @endfor    
+                                            </select>
+                                        </div>
+                                    </div>        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>No of rehab tenements <span class="star">*</span></td>
+                                <td>
+                                    <input type="text" id="rehab_tenements" name="rehab_tenements" class="form-control form-control--custom m-input" value="{{ isset($conDetails) ? $conDetails->rehab_tenements : '' }}" readonly>  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>No of sale tenements <span class="star">*</span></td>
+                                <td>
+                                    <input type="text" id="sale_tenements" name="sale_tenements" class="form-control form-control--custom m-input" value="{{ isset($conDetails) ? $conDetails->sale_tenements : '' }}" readonly>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>No of MHADA tenements <span class="star">*</span></td>
+                                <td>
+                                   <input type="text" id="mhada_tenements" name="mhada_tenements" class="form-control form-control--custom m-input" value="{{ isset($conDetails) ? $conDetails->mhada_tenements : '' }}"  readonly> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Total No of constructed tenements <span class="star">*</span></td>
+                                <td>
+                                   <input type="text" id="constructed_tenements" name="constructed_tenements" class="form-control form-control--custom m-input" value="{{ isset($conDetails) ? $conDetails->constructed_tenements : '' }}" readonly> 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 @if($comments)        
 <div class="col-md-12">
