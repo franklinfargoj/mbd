@@ -157,7 +157,7 @@ class REEController extends Controller
             ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
             ->make(true);
         }        
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             
         return view('admin.REE_department.index', compact('html','header_data','getData'));        
     }
@@ -1133,7 +1133,7 @@ class REEController extends Controller
                 ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
                 ->make(true);
         }
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.REE_department.reval_applications', compact('html','header_data','getData'));
     }
@@ -1481,7 +1481,7 @@ class REEController extends Controller
             ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
             ->make(true);
         }        
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             
         return view('admin.REE_department.noc_list', compact('html','header_data','getData')); 
     }
@@ -1931,7 +1931,7 @@ class REEController extends Controller
                 ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
             ->make(true);
         }        
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             
         return view('admin.REE_department.noc_cc_list', compact('html','header_data','getData')); 
     }
@@ -2815,7 +2815,7 @@ class REEController extends Controller
             ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
             ->make(true);
         }        
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             
         return view('admin.REE_department.oc_list', compact('html','header_data','getData')); 
     }

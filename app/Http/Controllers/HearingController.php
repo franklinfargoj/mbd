@@ -377,7 +377,7 @@ class HearingController extends Controller
         }
 
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.hearing.index', compact('html','header_data','getData', 'hearing_status','hearing_data'));
     }

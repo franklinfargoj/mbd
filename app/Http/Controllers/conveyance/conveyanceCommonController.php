@@ -114,7 +114,7 @@ class conveyanceCommonController extends Controller
 
         }  
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.conveyance.common.index', compact('html','header_data','getData','folder_name'));         
 

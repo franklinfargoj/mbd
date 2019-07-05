@@ -498,7 +498,7 @@ class SocietyController extends Controller
         $villages = VillageDetail::get();
         $layouts = MasterLayout::get();
         //dd($layouts);
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.society_detail.index', compact('html','header_data','villages','getData','layouts'));
     }
@@ -855,7 +855,7 @@ class SocietyController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         $villages = VillageDetail::get();
         $layouts = MasterLayout::get();

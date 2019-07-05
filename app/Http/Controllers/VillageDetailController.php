@@ -351,7 +351,7 @@ lm_village_detail.updated_at'))->get();
         }
 
         $lands = LandSource::get();
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.village_detail.index', compact('html','lands' ,'header_data','getData'));
     }

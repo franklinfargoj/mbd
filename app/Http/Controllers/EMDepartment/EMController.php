@@ -137,7 +137,7 @@ class EMController extends Controller
                 ->make(true);
         }
         
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.em_department.index', compact('html','header_data','getData'));
     }
@@ -226,7 +226,7 @@ class EMController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.em_department.oc_applications', compact('html','header_data','getData'));
     }
@@ -510,7 +510,7 @@ class EMController extends Controller
             
         }
      
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.em_department.society', compact('layout_data','html','layout_id'));
 
@@ -607,7 +607,7 @@ class EMController extends Controller
             ->rawColumns(['actions'])
             ->make(true);
          }
-         $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+         $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
          return view('admin.em_department.building', compact('html', 'society_id','building_name','building_no'));
         // if(!empty($request->input('search'))) {
         //     $society_id = $id;
@@ -677,7 +677,7 @@ class EMController extends Controller
                 ->rawColumns(['actions'])
                 ->make(true);
         }
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.em_department.tenant', compact('html', 'tenament','building_id','society_id'));
         // if(!empty($request->input('search'))) {
         //     $building_id = $id;
@@ -929,7 +929,7 @@ class EMController extends Controller
                         ->rawColumns(['actions'])
                         ->make(true);
             }
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
                     // return $buildings;
 
 
@@ -1038,7 +1038,7 @@ class EMController extends Controller
                 ->make(true);           
             }
 
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
 //            dd(isset($request->download));
             if(isset($request->search)){
