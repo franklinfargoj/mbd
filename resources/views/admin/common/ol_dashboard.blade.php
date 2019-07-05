@@ -13,12 +13,16 @@
 @section('content')
     <div class="container-fluid mhada-dash-new">
 
-        @if($ol_count != null  ||
-        $ol_pending_count != null ||
-        $oc_count != null ||
-        $oc_pending_count != null ||
-        $reval_count != null)
-            <div class="d-flex flex-wrap db-wrapper">
+        {{--@if($ol_count != null  ||--}}
+        {{--$ol_pending_count != null ||--}}
+        {{--$oc_count != null ||--}}
+        {{--$oc_pending_count != null ||--}}
+        {{--$reval_count != null)--}}
+        @if(in_array(session()->get('role_name'),$offerLetterRoles) ||
+        (in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head')))) ||
+        (in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'), config('commanConfig.vp_engineer'))))
+        )
+        <div class="d-flex flex-wrap db-wrapper">
                 {{--@php dd($ol_count || ($dashboardData1 != null) || $oc_count || $oc_pending_count || $reval_count ); @endphp--}}
                 <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
                     <div class="d-flex align-items-center">
@@ -70,11 +74,13 @@
             </div>
         @endif
 
-        @if($conveyance_count != null ||
-        $conveyance_pending_count != null ||
-        $renewal_count != null ||
-        $renewal_pending_count != null )
-            <div class="d-flex flex-wrap db-wrapper">
+        {{--@if($conveyance_count != null ||--}}
+        {{--$conveyance_pending_count != null ||--}}
+        {{--$renewal_count != null ||--}}
+        {{--$renewal_pending_count != null )--}}
+
+        @if(in_array(session()->get('role_name'),$renewalRoles) || (in_array(session()->get('role_name'),$conveyanceRoles)))
+        <div class="d-flex flex-wrap db-wrapper">
                 <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
                     <div class="d-flex align-items-center">
                         <h3 class="m-subheader__title">Estate & Conveyance</h3>
@@ -100,8 +106,20 @@
             </div>
         @endif
 
-        @if($appointing_count != null ||
-        $architect_layout_counts != null)
+        {{--@if($appointing_count != null ||--}}
+        {{--$architect_layout_counts != null)--}}
+        @if((session()->get('role_name')==config('commanConfig.junior_architect'))||
+                (session()->get('role_name')==config('commanConfig.senior_architect')) ||
+                (session()->get('role_name')==config('commanConfig.architect')) ||
+                session()->get('role_name')==config('commanConfig.land_manager') ||
+                session()->get('role_name')==config('commanConfig.estate_manager') ||
+                in_array(session()->get('role_name'),array(config('commanConfig.ee_junior_engineer'), config('commanConfig.ee_deputy_engineer'), config('commanConfig.ee_branch_head'))) ||
+                in_array(session()->get('role_name'),array(config('commanConfig.ree_junior'), config('commanConfig.ree_deputy_engineer'), config('commanConfig.ree_assistant_engineer'), config('commanConfig.ree_branch_head'))) ||
+                in_array(session()->get('role_name'),array(config('commanConfig.co_engineer'))) ||
+                in_array(session()->get('role_name'),array(config('commanConfig.senior_architect_planner'))) ||
+                in_array(session()->get('role_name'),array(config('commanConfig.cap_engineer'))) ||
+                in_array(session()->get('role_name'),array(config('commanConfig.vp_engineer'))))
+
             <div class="d-flex flex-wrap db-wrapper">
                 <div class="m-subheader px-0 m-subheader--top col-sm-12 mb-3">
                     <div class="d-flex align-items-center">
