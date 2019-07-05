@@ -661,7 +661,7 @@ class BillingDetailController extends Controller
             }
             // echo '<pre>';
             // print_r($data['arreas_calculations']);exit;
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         }
 
         return view('admin.em_department.billing_calculations', compact('html','data','select_year','years','society','building','tenant','search_year'));

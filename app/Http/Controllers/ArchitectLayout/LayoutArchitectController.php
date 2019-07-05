@@ -96,7 +96,7 @@ class LayoutArchitectController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         //dd($html);
         return view('admin.architect_layout.index', compact('html', 'getData'));
     }
@@ -162,7 +162,7 @@ class LayoutArchitectController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.architect_layout.index', compact('html', 'getData'));
     }

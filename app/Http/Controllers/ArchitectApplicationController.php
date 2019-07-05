@@ -127,7 +127,7 @@ class ArchitectApplicationController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.architect.index', compact('html', 'header_data', 'shortlisted', 'finalSelected', 'getData', 'is_view', 'is_commitee'));
     }

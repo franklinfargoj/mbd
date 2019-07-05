@@ -116,7 +116,7 @@ class LayoutArchitectDetailController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.architect_layout_detail.list_of_issued_offer_letters', compact('html', 'ol_applications', 'ol_application_count', 'ArchitectLayout'));
     }
 

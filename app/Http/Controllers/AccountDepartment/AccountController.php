@@ -141,7 +141,7 @@ class AccountController extends Controller
         }
         $society = SocietyDetail::find(decrypt($request->society_id));
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.account_department.tenant_list', compact('html','society'));
     }
@@ -247,7 +247,7 @@ class AccountController extends Controller
 					});
 				})->export('xls');
 			} else {
-				$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+				$html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 				return view('admin.account_department.view_calculations',compact('data','html'));
 				//return view('admin.account_department.view_calculations',$data);
 			}
@@ -323,7 +323,7 @@ class AccountController extends Controller
 			}
     		// $data['paymentDetails'] = TransPayment::where('tenant_id',decrypt($tenant_id))->with('bill_details')->get();
     		
-    		$html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+    		$html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
     		
     		return view('admin.account_department.payment_details',compact('html','data','ward','society','building'));
     	}

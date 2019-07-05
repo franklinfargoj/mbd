@@ -49,7 +49,7 @@ class EmailTemplateController extends Controller
                 ->make(true);
         }
         
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.email_templates.index', compact('email_templates', 'html'));
     }
 

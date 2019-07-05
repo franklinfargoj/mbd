@@ -62,7 +62,7 @@ class BoardController extends Controller
                 ->make(true);
         }
         
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.board.index', compact('boards', 'html','header_data'));
     }

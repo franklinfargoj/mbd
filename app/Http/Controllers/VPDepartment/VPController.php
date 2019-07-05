@@ -115,7 +115,7 @@ class VPController extends Controller
                 ->rawColumns(['radio','society_name', 'Status', 'building_name', 'society_address','date','eeApplicationSociety.address'])
                 ->make(true);
         }        
-    	        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+    	        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             
             return view('admin.vp_department.index', compact('html','header_data','getData'));    
    	
@@ -192,7 +192,7 @@ class VPController extends Controller
                 ->rawColumns(['radio','society_name', 'building_name', 'society_address','date','Status','eeApplicationSociety.address'])
                 ->make(true);
         }
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.vp_department.reval_applications', compact('html','header_data','getData'));
     }

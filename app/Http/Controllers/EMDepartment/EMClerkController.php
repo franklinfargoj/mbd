@@ -217,7 +217,7 @@ class EMClerkController extends Controller
 
         //dd($datatables);
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         //dd($html);
         return view('admin.em_clerk_department.index', compact('layout_id','building_id','society_id','society_list','building_list','html','building','society','layout_data','societies_data', 'building_data','layoutData'));
        
@@ -348,7 +348,7 @@ class EMClerkController extends Controller
             ->make(true);
         }         
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         //dd($html->table());
 

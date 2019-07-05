@@ -342,7 +342,7 @@ class RCController extends Controller
                         ->make(true);
             }
             //return $buildings;
-            $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+            $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
             // return  Redirect::route('get_building_bill_collection')->with(array('html'=>$html));
             return view('admin.rc_department.collect_bill_tenant')
                 ->with([
@@ -396,7 +396,7 @@ class RCController extends Controller
             
         }
       
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         // return $buildings;
         return view('admin.rc_department.collect_bill_tenant', compact( 'society_list',
                     'colony_list',

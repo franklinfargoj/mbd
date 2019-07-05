@@ -70,7 +70,7 @@ class UserLayoutController extends Controller
 
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
 
         return view('admin.crud_admin.user_layout.index',compact('html'));
 

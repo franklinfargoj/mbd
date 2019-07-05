@@ -129,7 +129,7 @@ class SocietyConveyanceController extends Controller
 
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('frontend.society.conveyance.index', compact('html'));
     }
 

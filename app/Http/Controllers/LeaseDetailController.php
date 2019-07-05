@@ -332,7 +332,7 @@ class LeaseDetailController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.lease_detail.index', compact('society_name','html','header_data','getData', 'count', 'id'));
     }
 
@@ -792,7 +792,7 @@ class LeaseDetailController extends Controller
 
         $tenants = MasterTenant::with('MasterBuilding')->where('building_id',$request['building_id'])->get();
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.lease_detail.payment_details', compact('tenants','society','html','header_data','buildings','getData'));
 
     }

@@ -159,7 +159,7 @@ class RtiFormController extends Controller
                 ->make(true);
         }
 
-        $html = $datatables->getHtmlBuilder()->columns($columns)->parameters($this->getParameters());
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
         return view('admin.rti_form.index', compact('html', 'rti_statuses', 'getData'));
     }
 
