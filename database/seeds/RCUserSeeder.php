@@ -90,6 +90,16 @@ class RCUserSeeder extends Seeder
                 'description' => 'Generate Receipt Society',
             ],
             [
+                'name' => 'dispute_amount_tenant',
+                'display_name' => 'dispute_amount_tenant',
+                'description' => 'dispute_amount_tenant',
+            ],
+            [
+                'name' => 'dispute_amount_society',
+                'display_name' => 'dispute_amount_society',
+                'description' => 'dispute_amount_society',
+            ],
+            [
                 'name' => 'generate_receipt_tenant',
                 'display_name' => 'Generate Receipt Tenant',
                 'description' => 'Generate Receipt Tenant',
@@ -103,6 +113,16 @@ class RCUserSeeder extends Seeder
                 'name' => 'payment_receipt_tenant',
                 'display_name' => 'payment receipt tenant',
                 'description' => 'payment receipt tenant',
+            ],
+            [
+                'name' => 'payment_dispute_society',
+                'display_name' => 'payment dispute society',
+                'description' => 'payment dispute society',
+            ],
+            [
+                'name' => 'payment_dispute_tenant',
+                'display_name' => 'payment dispute tenant',
+                'description' => 'payment dispute tenant',
             ],
             [
                 'name' => 'view_bill_tenant',

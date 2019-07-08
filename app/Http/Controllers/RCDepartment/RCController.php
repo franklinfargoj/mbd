@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\RCDepartment;
 
+use App\DisputeBillDetail;
 use App\EENote;
 use App\Http\Controllers\Common\CommonController;
+use App\Http\Controllers\EMDepartment\BillingDetailController;
 use App\OlApplication;
 use App\OlApplicationStatus;
 use App\OlChecklistScrutiny;
@@ -332,6 +334,8 @@ class RCController extends Controller
                             <a href='".route('billing_calculations', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                         
                             <a href='".route('generate_receipt_society', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
+                            
+                            <a href='".route('dispute_amount_society', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Dispute Bill</a>
 
                             <a href='".route('view_bill_building', ['building_id'=>encrypt($buildings->id),'society_id'=>encrypt($buildings->society_id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
             
@@ -385,6 +389,8 @@ class RCController extends Controller
                     <a href='".route('billing_calculations', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--view'><img src='".asset('/img/view-billing-details-icon.svg')."'></span>View Billing Details</a>
                 
                     <a href='".route('generate_receipt_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Generate Reciept</a>
+                    
+                    <a href='".route('dispute_amount_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Dispute Bill</a>
 
                     <a href='".route('view_bill_tenant', ['tenant_id'=>encrypt($buildings->id),'building_id'=>encrypt($buildings->building_id),'society_id'=>encrypt($society_Id)])."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>View Bill</a>
     
@@ -774,7 +780,8 @@ class RCController extends Controller
                 $bill_status->status = 'paid';
                 $bill_status->balance_amount = $request->balance_amount;
                 $bill_status->credit_amount = $request->credit_amount;
-                $bill_status->save(); 
+                $bill_status->save();
+
                 $receipt = TransPayment::with('dd_details')
                     ->with('bill_details')
                     ->where('bill_no', $request->bill_no)
@@ -1635,4 +1642,237 @@ class RCController extends Controller
             }
         }
      }
+
+     public function dispute_amount_tenant(Request $request){
+
+//         dd('dispute_amount_tenant');
+
+         $request->tenant_id = decrypt($request->tenant_id);
+         $request->building_id = decrypt($request->building_id);
+
+         $currentMonth = date('m');
+         if($currentMonth < 4) {
+             if($currentMonth == 1) {
+                 $data['month'] = 12;
+                 $data['year'] = date('Y') -1;
+             } else {
+                 $data['month'] = date('m') -1;
+                 $data['year'] = date('Y');
+             }
+         } else {
+             $data['month'] = date('m');
+             $data['year'] = date('Y');
+         }
+         // dd($request->tenant_id." ". $request->building_id);
+         $bill = TransBillGenerate::where('tenant_id', '=', $request->tenant_id)
+             ->where('building_id', '=', $request->building_id)
+             //    ->where('bill_month', '=',  $data['month'])
+             //    ->where('bill_year', '=', $data['year'])
+             ->with('tenant_detail')
+             ->with('building_detail')
+             ->with('society_detail')
+             ->orderBy('id','desc')
+             ->first();
+
+         if(empty($bill) || is_null($bill)){
+             return redirect()->back()->with('warning', 'Receipt Generation is not done for user.');
+         }
+
+         $dispute_data = DisputeBillDetail::where('trans_bill_generate_id', $bill->id)->get();
+
+         return view('admin.rc_department.dispute_amount_tenant', compact('bill','dispute_data'));
+
+
+     }
+
+     public function dispute_amount_society(Request $request){
+
+         $request->building_id = decrypt($request->building_id);
+         $request->society_id = decrypt($request->society_id);
+
+         $currentMonth = date('m');
+         if($currentMonth < 4) {
+             if($currentMonth == 1) {
+                 $data['month'] = 12;
+                 $data['year'] = date('Y') -1;
+             } else {
+                 $data['month'] = date('m') -1;
+                 $data['year'] = date('Y') -1;
+             }
+         } else {
+             $data['month'] = date('m') - 1;
+             $data['year'] = date('Y');
+         }
+
+         $bill = TransBillGenerate::where('building_id',$request->building_id)
+             ->where('society_id',$request->society_id)
+             ->where('bill_month', '=',  $data['month'])
+             ->where('bill_year', '=', $data['year'])
+             ->orderBy('id','desc')
+             ->get();
+
+//        dd($bill);
+
+         if(/*!empty($bill)*/ (count($bill) > 0 )){
+             $data = array('monthly_bill' => 0,'arrear_bill' => 0 , 'total_bill' => 0, 'total_service_after_due' => 0, 'late_fee_charge' => 0, 'arrear_id' => '', 'bill_year' => $bill[0]->bill_year, 'bill_month' => $bill[0]->bill_month, 'building_id' => $bill[0]->building_id, 'society_id' => $bill[0]->society_id, 'bill_date' => $bill[0]->bill_date, 'due_date' => $bill[0]->due_date, 'bill_from' => $bill[0]->bill_from, 'bill_to' => $bill[0]->bill_to, 'consumer_number' => $bill[0]->consumer_number);
+         } else {
+             return redirect()->back()->with('success', 'Bill Generation is not done for Society. Contact Estate Manager for bill generation.');
+         }
+         foreach ($bill as $key => $value) {
+             $data['monthly_bill'] +=  $value->monthly_bill;
+             $data['arrear_bill']  += $value->arrear_bill;
+             $data['total_bill']  += $value->total_bill;
+             $data['total_service_after_due']  += $value->total_service_after_due;
+             $data['late_fee_charge']  += $value->late_fee_charge;
+             if($value->arrear_id != ''){
+                 if($data['arrear_id'] == ''){
+                     $data['arrear_id'] .= $value->arrear_id;
+                 } else {
+                     $data['arrear_id'] .= ','.$value->arrear_id;
+                 }
+             }
+         }
+         //dd($data);
+         $tenament = DB::table('master_tenant_type')->get();
+         $building_id = $request->input('building_id');
+
+         $buildings = MasterTenant::where('building_id', '=', $request->building_id)
+             ->select("id", DB::raw("CONCAT(first_name,' ',last_name)  AS name"))->get()->toArray();
+         array_unshift($buildings, array('id'=> '', 'name' => 'NA'));
+         //dd($buildings);
+
+         $buildings = json_encode($buildings);
+
+         $building_detail = MasterBuilding::where('id', $request->building_id)->first();
+         $society_detail = SocietyDetail::where('id', $request->society_id)->first();
+
+         $dispute_data = DisputeBillDetail::where('trans_bill_generate_id',$bill[0]['id'])
+             ->get();
+         //return $buildings;
+
+         return view('admin.rc_department.dispute_amount_society', compact('dispute_data','bill','tenament', 'buildings', 'data', 'Tenant_bill_id', 'building_detail', 'society_detail'));
+     }
+
+     public function payment_dispute_tenant(Request $request){
+
+//         dd($request->all());
+         if ($request->trans_bill_generate_id) {
+
+             $bill = new DisputeBillDetail();
+             $bill->trans_bill_generate_id = $request->trans_bill_generate_id;
+             $bill->amount = $request->amount;
+             $bill->remark = $request->remark;
+             $bill->save();
+
+             $amount_paid = $request->amount;
+
+             $bill_status = TransBillGenerate::find($request->trans_bill_generate_id);
+             if ($bill_status->service_charge_balance <= $amount_paid) {
+
+                 $amount_paid = $amount_paid - ceil($bill_status->service_charge_balance);
+                 $bill_status->service_charge_balance = 0;
+                 if ($amount_paid > 0) {
+                     if ($amount_paid >= ceil($bill_status->arrear_balance)) {
+
+                         $amount_paid = $amount_paid - ceil($bill_status->arrear_balance);
+                         $bill_status->arrear_balance = 0;
+                         if ($amount_paid > $bill_status->arrear_interest_balance) {
+                             $amount_paid = $amount_paid - ceil($bill_status->arrear_interest_balance);
+                             $bill_status->arrear_interest_balance = 0;
+                         } else {
+                             $bill_status->arrear_interest_balance = ceil($bill_status->arrear_interest_balance) - $amount_paid;
+                             $amount_paid = 0;
+                         }
+                     } else {
+                         $bill_status->arrear_balance = $amount_paid - ceil($bill_status->arrear_balance);
+                         $amount_paid = 0;
+                     }
+                 } else {
+                     $bill_status->arrear_balance = ceil($bill_status->arrear_balance) - $amount_paid;
+                     $amount_paid = 0;
+                 }
+             } else {
+                 $bill_status->service_charge_balance = ceil($bill_status->service_charge_balance) - $amount_paid;
+                 $amount_paid = 0;
+             }
+             $bill_status->status = 'paid';
+             $bill_status->balance_amount = $request->balance_amount;
+             $bill_status->credit_amount = $request->credit_amount;
+             $bill_status->save();
+
+
+             $dispute_data = DisputeBillDetail::where('trans_bill_generate_id', $request->trans_bill_generate_id)->get();
+
+             return redirect()->back()->with(['bill' => $bill, 'dispute_data' => $dispute_data]);
+
+
+//            return view('admin.rc_department.generate_receipt_tenant', compact('bill' , 'receipt_data'));
+
+         } else {
+             return redirect()->back()->with('warning', 'Invalid Bill Data.');
+         }
+
+     }
+
+     public function payment_dispute_society(Request $request){
+
+         if ($request->trans_bill_generate_id) {
+
+             $bill = new DisputeBillDetail();
+             $bill->trans_bill_generate_id = $request->trans_bill_generate_id;
+             $bill->amount = $request->amount;
+             $bill->remark = $request->remark;
+             $bill->save();
+
+             $amount_paid = $request->amount;
+
+//             dd($amount_paid);
+             $bill_status = TransBillGenerate::find($request->trans_bill_generate_id);
+             if ($bill_status->service_charge_balance <= $amount_paid) {
+//                 dd('here.if');
+
+                 $amount_paid = $amount_paid - ceil($bill_status->service_charge_balance);
+                 $bill_status->service_charge_balance = 0;
+                 if ($amount_paid > 0) {
+                     if ($amount_paid >= ceil($bill_status->arrear_balance)) {
+
+                         $amount_paid = $amount_paid - ceil($bill_status->arrear_balance);
+                         $bill_status->arrear_balance = 0;
+                         if ($amount_paid > $bill_status->arrear_interest_balance) {
+                             $amount_paid = $amount_paid - ceil($bill_status->arrear_interest_balance);
+                             $bill_status->arrear_interest_balance = 0;
+                         } else {
+                             $bill_status->arrear_interest_balance = ceil($bill_status->arrear_interest_balance) - $amount_paid;
+                             $amount_paid = 0;
+                         }
+                     } else {
+                         $bill_status->arrear_balance = $amount_paid - ceil($bill_status->arrear_balance);
+                         $amount_paid = 0;
+                     }
+                 } else {
+                     $bill_status->arrear_balance = ceil($bill_status->arrear_balance) - $amount_paid;
+                     $amount_paid = 0;
+                 }
+             } else {
+
+//                 dd('here.else');
+                 $bill_status->service_charge_balance = ceil($bill_status->service_charge_balance) - $amount_paid;
+                 $amount_paid = 0;
+             }
+             $bill_status->status = 'paid';
+             $bill_status->balance_amount = $request->balance_amount;
+             $bill_status->credit_amount = $request->credit_amount;
+             $bill_status->save();
+
+
+             $dispute_data = DisputeBillDetail::where('trans_bill_generate_id', $request->trans_bill_generate_id)->get();
+
+             return redirect()->back()->with(['bill' => $bill, 'dispute_data' => $dispute_data]);
+
+         } else {
+             return redirect()->back()->with('warning', 'Invalid Bill Data.');
+         }
+     }
+
+
 }
