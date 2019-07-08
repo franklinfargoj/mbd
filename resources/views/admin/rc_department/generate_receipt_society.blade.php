@@ -159,39 +159,39 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
-                    <!-- <div class="col-sm-6 form-group">
-                        <label class="col-form-label" for="">Receipt generation except following tenaments :</label>
-                        <div class="dropdown-sin-2">
-                            <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
-                        </div>
-                        <span class="help-block"></span>
-                    </div> -->
+                {{--<div class="form-group m-form__group row">--}}
+                    {{--<!-- <div class="col-sm-6 form-group">--}}
+                        {{--<label class="col-form-label" for="">Receipt generation except following tenaments :</label>--}}
+                        {{--<div class="dropdown-sin-2">--}}
+                            {{--<select style="display:none" placeholder="Select" name="except_tenaments[]"></select>--}}
+                        {{--</div>--}}
+                        {{--<span class="help-block"></span>--}}
+                    {{--</div> -->--}}
 
-                    <div class="col-sm-12 form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-form-label" for="">Tenaments Having Balance / Credit Amount :</label>
-                            </div>
-                        </div>  
+                    {{--<div class="col-sm-12 form-group">--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-12">--}}
+                                {{--<label class="col-form-label" for="">Tenaments Having Balance / Credit Amount :</label>--}}
+                            {{--</div>--}}
+                        {{--</div>  --}}
 
-                        <div class="row after-add-more">
-                            <div class="col-md-5">
-                               <div class="dropdown-sin-2">
-                                <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
-                               </div>
-                            </div>
-                            <div class="col-md-4">
-                               <input type="text" name="tenant_credit_amt[]" class="form-control form-control--custom m-input" placeholder="Credit Amount" > 
-                            </div>
-                             <div class="col-md-3">
-                                <div class="form-group change">
-                                   <a class="btn btn-success add-more">+ Add More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        {{--<div class="row after-add-more">--}}
+                            {{--<div class="col-md-5">--}}
+                               {{--<div class="dropdown-sin-2">--}}
+                                {{--<select style="display:none" placeholder="Select" name="except_tenaments[]"></select>--}}
+                               {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-4">--}}
+                               {{--<input type="text" name="tenant_credit_amt[]" class="form-control form-control--custom m-input" placeholder="Credit Amount" > --}}
+                            {{--</div>--}}
+                             {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group change">--}}
+                                   {{--<a class="btn btn-success add-more">+ Add More</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>

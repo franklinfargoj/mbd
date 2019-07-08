@@ -805,9 +805,9 @@ class RCController extends Controller
 
                 $data['building'] = MasterBuilding::find($request->building_id);
                 $data['society']  = SocietyDetail::find($data['building']->society_id);
-
-                $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereIn('id', $request->except_tenaments)->get();
-
+//                if(isset($request->except_tenaments)){
+//                    $data['tenants'] = MasterTenant::where('building_id',$request->building_id)->whereIn('id', $request->except_tenaments)->get();
+//                }
                 $data['bill'] = $receipt;
                 $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
                 $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
