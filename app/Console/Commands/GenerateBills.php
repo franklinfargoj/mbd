@@ -163,14 +163,14 @@ class GenerateBills extends Command
                         $dateObj1   = \DateTime::createFromFormat('!m', $month);
                         $month_name1 = $dateObj1->format('F');
                         $timestamp1    = strtotime($month_name1.' '.$bill_year );
-                        $bill_date = date('04-m-Y', $timestamp1);
-                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 5 days'));
+                        $bill_date = date('01-m-Y', $timestamp1);
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
 
                     }else{
                         $bill_from  = date('01-m-Y', strtotime('-1 month'));
                         $bill_to    = date('t-m-Y', strtotime('-1 month'));
-                        $bill_date = date('04-m-Y');
-                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 5 days'));
+                        $bill_date = date('01-m-Y');
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
 
                     }
 
@@ -556,14 +556,14 @@ class GenerateBills extends Command
                         $dateObj1   = \DateTime::createFromFormat('!m', $month);
                         $month_name1 = $dateObj1->format('F');
                         $timestamp1    = strtotime($month_name1.' '.$bill_year );
-                        $bill_date = date('04-m-Y', $timestamp1);
-                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 5 days'));
+                        $bill_date = date('01-m-Y', $timestamp1);
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
 
                     }else{
                         $bill_from  = date('1-m-Y', strtotime('-1 month'));
                         $bill_to    = date('t-m-Y', strtotime('-1 month'));
-                        $bill_date = date('04-m-Y');
-                        $due_date  = date('d-m-Y', strtotime($bill_date. ' + 5 days'));
+                        $bill_date = date('01-m-Y');
+                        $due_date  = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
 
                     }
 

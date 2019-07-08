@@ -73,20 +73,32 @@
                     </div>
 
                     @php
-                        if(isset($receipt_data) && !empty($receipt_data)){
-                                $amount = $bill->balance_amount;
-                        }else{
-                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
-                                $amount = $bill->total_bill;
+                        if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
+                                    $total_amount = $bill->total_bill;
+                                }
+                                else{
+                                    $total_amount = $bill->total_bill_after_due_date;
+                                }
+
+                            if(isset($receipt_data) && !empty($receipt_data)){
+                                    $amount = $bill->balance_amount;
                             }
                             else{
-                                $amount = $bill->total_bill_after_due_date;
+                                if(count($dispute_amount) > 0){
+                                    $amount = $bill->balance_amount;
+                                }else{
+                                    if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill->due_date)))){
+                                        $amount = $bill->total_bill;
+                                    }
+                                    else{
+                                        $amount = $bill->total_bill_after_due_date;
+                                    }
+                                }
                             }
-                        }
                     @endphp
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$total_amount}}" readonly>
                         <span class="help-block"></span>
                     </div>
                 </div>

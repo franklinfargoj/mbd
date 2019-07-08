@@ -119,7 +119,7 @@
             </form>
         </div>
 
-        @if(isset($dispute_data) && !empty($dispute_data))
+        @if(/*isset($dispute_data) && !empty($dispute_data)*/ count($dispute_data) > 0)
             <div class="m-portlet m-portlet--compact m-portlet--mobile">
                 <div class="m-portlet__body">
                     <!--begin: Search Form -->
