@@ -36,7 +36,7 @@
                         <span class="help-block"></span>
                     </div>
 
-                    <div class="col-sm-4 form-group">
+                    <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="">Bill No:</label>
                         <input type="text" name="bill_no" class="form-control form-control--custom m-input" value="{{$bill->id}}" readonly>
                         <span class="help-block"></span>
