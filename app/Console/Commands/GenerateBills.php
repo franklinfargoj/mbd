@@ -97,6 +97,7 @@ class GenerateBills extends Command
         }
 
 
+//        dd($month_for_bill);
         $societies = SocietyDetail::where('society_bill_level', '=', '1')->pluck('id')->toArray();
         $buildings = MasterBuilding::whereIn('society_id',$societies)->get();
         $strTxnData = '';
@@ -159,15 +160,25 @@ class GenerateBills extends Command
                         $bill_from = date('01-m-Y', $timestamp);
                         $bill_to  = date('t-m-Y', $timestamp);
 
+                        $dateObj1   = \DateTime::createFromFormat('!m', $month);
+                        $month_name1 = $dateObj1->format('F');
+                        $timestamp1    = strtotime($month_name1.' '.$bill_year );
+                        $bill_date = date('01-m-Y', $timestamp1);
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
+
                     }else{
                         $bill_from  = date('01-m-Y', strtotime('-1 month'));
                         $bill_to    = date('t-m-Y', strtotime('-1 month'));
+                        $bill_date = date('01-m-Y');
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
+
                     }
+
 
                     $bill_month = $data['month'];
 //                    $no_of_tenant = $number_of_tenants->tenant_count()->first()->count;
-                    $bill_date = date('04-m-Y');
-                    $due_date = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
+
+
 
                     $check = TransBillGenerate::where('building_id', '=', $building->id)
                         ->where('society_id', '=', $building->society_id)
@@ -433,7 +444,7 @@ class GenerateBills extends Command
                             // dd($building->id);
                             // dd($data);
                         }
-                        $strTxnData .= 'Bill generated for building => '.$building->name.' For society => '.$society->society_name."\n";                            
+                        $strTxnData .= 'Bill generated for building => '.$building->name.' For society => '.$society->society_name."\n";
                         if(isset($bill)){
                             $ids = implode(",",$bill);
                             $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
@@ -542,17 +553,27 @@ class GenerateBills extends Command
                         $bill_from = date('01-m-Y', $timestamp);
                         $bill_to  = date('t-m-Y', $timestamp);
 
+                        $dateObj1   = \DateTime::createFromFormat('!m', $month);
+                        $month_name1 = $dateObj1->format('F');
+                        $timestamp1    = strtotime($month_name1.' '.$bill_year );
+                        $bill_date = date('01-m-Y', $timestamp1);
+                        $due_date = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
+
                     }else{
                         $bill_from  = date('1-m-Y', strtotime('-1 month'));
                         $bill_to    = date('t-m-Y', strtotime('-1 month'));
+                        $bill_date = date('01-m-Y');
+                        $due_date  = date('d-m-Y', strtotime($bill_date. ' + 10 days'));
+
                     }
 
 //                    $bill_from = date('1-m-Y', strtotime('-1 month'));
 //                    $bill_to   = date('1-m-Y');
 //                    $bill_month= $data['month'];
                     $bill_month = $data['month'];
-                    $bill_date = date('04-m-Y');
-                    $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
+
+//                    $bill_date = date('04-m-Y');
+//                    $due_date  = date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'));
 
                     $lastBillMonth = $bill_month;
                     $lastBillYear = $bill_year;

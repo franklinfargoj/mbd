@@ -601,11 +601,11 @@ class BillingDetailController extends Controller
                             $button = "<div class='d-flex btn-icon-list'>
                                 <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
 
-//                            if(count($arreas_calculations->trans_payment)) {
-//
-//                                $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($arreas_calculations->trans_payment->first()->id),'tenant_id'=> encrypt($request->tenant_id)]);
-//                                $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
-//                            }
+                            if(count($arreas_calculations->trans_payment)) {
+
+                                $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'bill_no'=>encrypt($arreas_calculations->trans_payment->first()->id),'tenant_id'=> encrypt($request->tenant_id)]);
+                                $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
+                            }
                         } else {
                             //if(!empty($arreas_calculations->water_charges)) {
                                 
@@ -613,12 +613,12 @@ class BillingDetailController extends Controller
                                             'society_id'=>encrypt($society->id),'month'=> $arreas_calculations->bill_month,'year'=> $arreas_calculations->bill_year,'id'=>$arreas_calculations->id]);
                                 $button = "<div class='d-flex btn-icon-list'>
                                     <a href='".$url."' class='d-flex flex-column align-items-center ' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/view-arrears-calculation-icon.svg')."'></span>Donwload Bill</a>";
-//                                if(count($arreas_calculations->trans_payment)) {
-//                              // if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {
-//                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($arreas_calculations->id)]);
-//
-//                                    $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
-//                                }
+                                if(count($arreas_calculations->trans_payment)) {
+                              // if($arreas_calculations->total_bill != $arreas_calculations->balance_amount) {
+                                    $url = route('downloadReceipt', ['building_id'=>encrypt($building->id),'society_id'=>encrypt($building->society_id),'bill_no'=>encrypt($arreas_calculations->id)]);
+
+                                    $button.= "<a href='".$url."' class='d-flex flex-column align-items-center' style='padding-left: 5px; padding-right: 5px; text-decoration: none; color: #212529; font-size:12px;'><span class='btn-icon btn-icon--edit'><img src='".asset('/img/generate-bill-icon.svg')."'></span>Download Receipt</a></div>";
+                                }
                            // }
                         }
 

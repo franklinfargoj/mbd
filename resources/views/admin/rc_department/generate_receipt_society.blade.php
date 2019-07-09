@@ -66,21 +66,33 @@
                     </div>
 
                     @php
-                        if(isset($receipt_data) && (count($receipt_data) > 0)){
-                                $amount = $bill[0]->balance_amount;
-                        }else{
-                            if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill[0]->due_date)))){
-                                $amount = $bill[0]->total_bill;
+                        if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill[0]->due_date)))){
+                                    $total_amount = $bill[0]->total_bill;
+                                }
+                                else{
+                                    $total_amount = $bill[0]->total_bill_after_due_date;
+                                }
+
+                            if(isset($receipt_data) && !empty($receipt_data)){
+                                    $amount = $bill[0]->balance_amount;
                             }
                             else{
-                                $amount = $bill[0]->total_bill_after_due_date;
+                                if(count($dispute_data) > 0){
+                                    $amount = $bill[0]->balance_amount;
+                                }else{
+                                    if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($bill[0]->due_date)))){
+                                        $amount = $bill[0]->total_bill;
+                                    }
+                                    else{
+                                        $amount = $bill[0]->total_bill_after_due_date;
+                                    }
+                                }
                             }
-                        }
                     @endphp
                     {{--@php dd($bill); @endphp--}}
-                    <div class="col-sm-4 offset-sm-1 form-group">
+                    <div class="col-sm-4 form-group">
                         <label class="col-form-label" for="">Bill Amount of month:</label>
-                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$amount}}" readonly>
+                        <input type="text" name="bill_amount" class="form-control form-control--custom m-input" value="{{$total_amount}}" readonly>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -147,39 +159,39 @@
                     </div>
                 </div>
 
-                <div class="form-group m-form__group row">
-                    <!-- <div class="col-sm-6 form-group">
-                        <label class="col-form-label" for="">Receipt generation except following tenaments :</label>
-                        <div class="dropdown-sin-2">
-                            <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
-                        </div>
-                        <span class="help-block"></span>
-                    </div> -->
+                {{--<div class="form-group m-form__group row">--}}
+                    {{--<!-- <div class="col-sm-6 form-group">--}}
+                        {{--<label class="col-form-label" for="">Receipt generation except following tenaments :</label>--}}
+                        {{--<div class="dropdown-sin-2">--}}
+                            {{--<select style="display:none" placeholder="Select" name="except_tenaments[]"></select>--}}
+                        {{--</div>--}}
+                        {{--<span class="help-block"></span>--}}
+                    {{--</div> -->--}}
 
-                    <div class="col-sm-12 form-group">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <label class="col-form-label" for="">Tenaments Having Balance / Credit Amount :</label>
-                            </div>
-                        </div>  
+                    {{--<div class="col-sm-12 form-group">--}}
+                        {{--<div class="row">--}}
+                            {{--<div class="col-md-12">--}}
+                                {{--<label class="col-form-label" for="">Tenaments Having Balance / Credit Amount :</label>--}}
+                            {{--</div>--}}
+                        {{--</div>  --}}
 
-                        <div class="row after-add-more">
-                            <div class="col-md-5">
-                               <div class="dropdown-sin-2">
-                                <select style="display:none" placeholder="Select" name="except_tenaments[]"></select>
-                               </div>
-                            </div>
-                            <div class="col-md-4">
-                               <input type="text" name="tenant_credit_amt[]" class="form-control form-control--custom m-input" placeholder="Credit Amount" > 
-                            </div>
-                             <div class="col-md-3">
-                                <div class="form-group change">
-                                   <a class="btn btn-success add-more">+ Add More</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        {{--<div class="row after-add-more">--}}
+                            {{--<div class="col-md-5">--}}
+                               {{--<div class="dropdown-sin-2">--}}
+                                {{--<select style="display:none" placeholder="Select" name="except_tenaments[]"></select>--}}
+                               {{--</div>--}}
+                            {{--</div>--}}
+                            {{--<div class="col-md-4">--}}
+                               {{--<input type="text" name="tenant_credit_amt[]" class="form-control form-control--custom m-input" placeholder="Credit Amount" > --}}
+                            {{--</div>--}}
+                             {{--<div class="col-md-3">--}}
+                                {{--<div class="form-group change">--}}
+                                   {{--<a class="btn btn-success add-more">+ Add More</a>--}}
+                                {{--</div>--}}
+                            {{--</div>--}}
+                        {{--</div>--}}
+                    {{--</div>--}}
+                {{--</div>--}}
 
                 <div class="form-group m-form__group row">
                     <label class="col-form-label col-sm-12" for="">Payment Made for months:</label>
