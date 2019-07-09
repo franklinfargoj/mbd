@@ -150,6 +150,11 @@ class RCUserSeeder extends Seeder
                 'description' => 'Download Receipt',
             ],
             [
+                'name' => 'downloadGeneratedReceipt',
+                'display_name' => 'Download Generated Receipt',
+                'description' => 'Download Generated Receipt',
+            ],
+            [
                 'name' => 'bill_payment_report',
                 'display_name' => 'Bill Payment Report',
                 'description' => 'Bill Payment Report',

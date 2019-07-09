@@ -258,7 +258,7 @@
                             <td>{{$data['bill_no']}}</td>
                             <td>{{date('d-m-Y', strtotime($data['created_at']))}}</td>
                             @php
-                                $url = route('downloadReceipt',
+                                $url = route('downloadGeneratedReceipt',
                                 ['building_id'=>encrypt($data['building_id']),
                                 'society_id'=>encrypt($data['society_id']),
                                 'bill_no'=>encrypt($data['id'])]);

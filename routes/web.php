@@ -373,7 +373,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
     Route::get('view_bill_building', 'RCDepartment\RCController@view_bill_building')->name('view_bill_building');
     Route::get('downloadBill','RCDepartment\RCController@downloadBill')->name('downloadBill');
     Route::get('downloadReceipt','RCDepartment\RCController@downloadReceipt')->name('downloadReceipt');
-    
+    Route::get('downloadGeneratedReceipt','RCDepartment\RCController@downloadGeneratedReceipt')->name('downloadGeneratedReceipt');
+
     //Account Department routes 
     Route::get('search_accounts','AccountDepartment\AccountController@index')->name('search_accounts');
     Route::get('get_building_select_society','AccountDepartment\AccountController@getBuildingSelectSociety')->name('get_building_select_society');
