@@ -110,6 +110,8 @@ class SocietyNocforCCController extends Controller
 
         $application_master_id_spec = $request->input('application_master_id');
 
+        $applicationNo = $this->generateApplicationNumber($request->applicationId);
+
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -117,7 +119,7 @@ class SocietyNocforCCController extends Controller
             'layout_id' => $request->input('layout_id'),
             'request_form_id' => $last_inserted_id->id,
             'application_master_id' => $application_master_id_spec,
-            'application_no' => mt_rand(10,100).time(),
+            'application_no' => $applicationNo,
             'application_path' => 'test',
             'submitted_at' => date('Y-m-d'),
             'current_status_id' => '1',
@@ -261,6 +263,8 @@ class SocietyNocforCCController extends Controller
             'tripartite_agreement_date' => date('Y-m-d', strtotime($request->tripartite_agreement_date)),
         );
         NocCCRequestForm::where('society_id', $society->id)->where('id', $request->request_form_id)->update($update_input);
+        NocCCApplication::where('id',$request->applicationId)->update(['layout_id' => $request->layout_id]);
+
         return redirect()->route('society_noc_cc_preview');
     }
 
@@ -303,7 +307,7 @@ class SocietyNocforCCController extends Controller
         {
             $check_upload_avail = 1;
         }
-        //dd($docs_uploaded_count);
+//        dd($documents_comment);
         return view('frontend.society.society_upload_documents_noc_cc', compact('documents','noc_applications',  'optional_docs', 'docs_count', 'docs_uploaded_count', 'documents_uploaded', 'society', 'application', 'documents_comment' , 'check_upload_avail'));
     }
 
@@ -1033,5 +1037,18 @@ class SocietyNocforCCController extends Controller
         return $ree;
     }
 
+    //generate application Number
+    public function generateApplicationNumber($applicationId){
+
+        if (isset($applicationId)){
+            $applicationId = NocCCApplication::where('id',$applicationId)->value('application_no');
+        }else{
+            $id1 = NocCCApplication::orderBy('id','desc')->value('id');
+            $id1++;
+            $id = str_pad($id1,6, '0', STR_PAD_LEFT);
+            $applicationId = 'Noc-CC-'.$id;
+        }
+        return $applicationId;
+    }
 
 }

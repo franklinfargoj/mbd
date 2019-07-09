@@ -1156,7 +1156,7 @@ class SocietyNocController extends Controller
             $id1 = NocApplication::orderBy('id','desc')->value('id');
             $id1++;
             $id = str_pad($id1,6, '0', STR_PAD_LEFT);
-            $applicationId = 'Offer-'.$id;
+            $applicationId = 'NOC-'.$id;
         }
         return $applicationId;
     }
