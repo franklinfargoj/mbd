@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\mailMsgSentDetails;
 use App\Events\SmsHitEvent;
 use App\NocApplication;
+use App\OcApplication;
 use App\OlApplication;
 use Config;
 use App\User;
@@ -208,13 +209,23 @@ class EmailMsgConfigration extends Controller
         return $data;
     }
 
-        // get society and NOC application data
+    // get society and NOC application data
     public function nocSocietyDetails($applicationId) {
         $applicationData = NocApplication::where('id',$applicationId)->with('noc_application_master','eeApplicationSociety')->first();
 
         $data = $applicationData->eeApplicationSociety;
         $data['application_no'] = $applicationData->application_no;
         $data['application_type'] = $applicationData->noc_application_master->title."(".$applicationData->noc_application_master->model.")";
+        return $data;
+    }
+
+    // get society and OC application data
+    public function ocSocietyDetails($applicationId) {
+        $applicationData = OcApplication::where('id',$applicationId)->with('oc_application_master','eeApplicationSociety')->first();
+
+        $data = $applicationData->eeApplicationSociety;
+        $data['application_no'] = $applicationData->application_no;
+        $data['application_type'] = $applicationData->oc_application_master->title."(".$applicationData->oc_application_master->model.")";
         return $data;
     }
 
@@ -347,4 +358,61 @@ class EmailMsgConfigration extends Controller
     	$emailContent = str_replace("<username>",$to_email,$emailContent);
             // dd($emailContent);
     }
-}
+
+    // send revert notification by sms nd mail to society
+    public function RevetApplicationToSociety($applicationId,$type){
+        try{
+            if ($this->isEmailActive == 0) {
+                if ($type == 'oc_module'){
+                    $data = $this->ocSocietyDetails($applicationId);
+                }
+
+                $emailSubject = config('commanConfig.email_subject.revert_society_application');
+                $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
+
+                $emailContent = config('commanConfig.email_content.revert_society_application');
+                $emailContent=str_replace("<application type>",$data->application_type,$emailContent);
+                $emailContent = str_replace("<Society name>",$data->name,$emailContent);
+                $emailContent=str_replace("<application Number>",$data->application_no,$emailContent);
+
+                $msgContent = config('commanConfig.msg_content.revert_society_application');
+                $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+                $msgContent = str_replace("<Society name>",$data->name,$msgContent);
+                $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
+
+                $this->sendEmail($data->email,$emailContent,$emailSubject);
+                $this->sendMsg($data->contact_no,$msgContent);
+                $data['mobile_no'] = $data->contact_no;
+                $data['msg_content'] = $msgContent;
+                $data['mail_content'] = $emailContent;
+                $this->saveMailMsgSentDetails($data);
+
+                // revert email and sms to head
+                $revertEmailSubject = config('commanConfig.email_subject.reject_user_application');
+                $revertEmailSubject = str_replace("<application type>",$data->application_type,$revertEmailSubject);
+
+                $revertEmail = config('commanConfig.email_content.reject_user_application');
+                $revertEmail = str_replace("<application type>",$data->application_type,$revertEmail);
+                $revertEmail = str_replace("<Society name>",$data->name,$revertEmail);
+                $revertEmail = str_replace("<application Number>",$data->application_no,$revertEmail);
+
+                $revertMsg = config('commanConfig.msg_content.reject_user_application');
+                $revertMsg = str_replace("<application type>",$data->application_type,$revertMsg);
+                $revertMsg = str_replace("<Society name>",$data->name,$revertMsg);
+                $revertMsg = str_replace("<application Number>",$data->application_no,$revertMsg);
+
+                $this->sendEmail(Auth::user()->email,$revertEmail,$revertEmailSubject);
+                $this->sendMsg(Auth::user()->mobile_no,$revertMsg);
+                $data['mobile_no'] = Auth::user()->mobile_no;
+                $data['email'] = Auth::user()->email;
+                $data['msg_content'] = $revertMsg;
+                $data['mail_content'] = $revertEmail;
+                $this->saveMailMsgSentDetails($data);
+
+                $response['status'] = 'success';
+            }
+        }catch(Exception $e){
+
+        }
+    }
+}    

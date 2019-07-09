@@ -189,14 +189,16 @@
                          @endif
                       </button>
                   </div>
-                  <div class="col-sm-6 d-flex flex-column h-100 border-left">
-                    <p class="font-weight-semi-bold">Download Draft Consent for OC</p>
-                    <p>Click to download generated OC in PDF format</p>
-                    <div class="">
-                      <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}"
-                         class="btn btn-primary">Download</a>
-                    </div>
-                  </div> 
+                  @if(isset($oc_application->drafted_oc))
+                    <div class="col-sm-6 d-flex flex-column h-100 border-left">
+                      <p class="font-weight-semi-bold">Download Draft Consent for OC</p>
+                      <p>Click to download generated OC in PDF format</p>
+                      <div class="">
+                        <a style="margin-top: 3%" target="_blank" href="{{config('commanConfig.storage_server').'/'.$oc_application->drafted_oc}}"
+                           class="btn btn-primary">Download</a>
+                      </div>
+                    </div> 
+                  @endif  
                 </div>  
                 @endif
               </form>

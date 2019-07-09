@@ -151,9 +151,6 @@
                           </tr>
                       </tbody>
                   </table>
-                  <div class="col-md-12 mt-2" style="text-align: center;">
-                  <button type="submit" class="btn btn-primary btn-custom" id="sbtBtn">Submit</button>
-                  </div>
             </div>
         </div>
     </div> 

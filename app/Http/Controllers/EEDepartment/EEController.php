@@ -358,14 +358,11 @@ class EEController extends Controller
                                 ->where('role_id', $ree_jr_id->id)->groupBy('users.id')->get();
         $arrData['ree_junior_name'] = strtoupper(str_replace('_', ' ', $ree_jr_id->name));
 
-        //remark and history
-        $eelogs   = $this->comman->getLogsOfEEDepartmentforOc($applicationId);
-        $emlogs   = $this->comman->getLogsOfEMforOc($applicationId);
-        $reeLogs  = $this->comman->getLogsOfREEDepartmentForOc($applicationId); 
-        $coLogs   = $this->comman->getLogsOfCODepartmentForOc($applicationId); 
+        //remark and history 
+        $remarkHistory = $this->comman->getOCRemarkHistory($applicationId); 
 
           // dd($ol_application->offer_letter_document_path);
-        return view('admin.ee_department.forward_application_oc',compact('applicationData','arrData','oc_application','reeLogs','coLogs','eelogs','emlogs'));  
+        return view('admin.ee_department.forward_application_oc',compact('applicationData','arrData','oc_application','remarkHistory'));  
     }
 
     function sendForwardOcApplication(Request $request)

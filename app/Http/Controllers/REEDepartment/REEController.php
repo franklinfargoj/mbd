@@ -3076,13 +3076,10 @@ class REEController extends Controller
         //dd($arrData['get_forward_co']);
 
         //remark and history
-        $eelogs   = $this->CommonController->getLogsOfEEDepartmentforOc($applicationId);
-        $emlogs   = $this->CommonController->getLogsOfEMforOc($applicationId);
-        $reeLogs  = $this->CommonController->getLogsOfREEDepartmentForOc($applicationId); 
-        $coLogs   = $this->CommonController->getLogsOfCODepartmentForOc($applicationId);  
+        $remarkHistory = $this->CommonController->getOCRemarkHistory($applicationId);  
 
           // dd($ol_application->offer_letter_document_path);
-        return view('admin.REE_department.forward_application_oc',compact('applicationData','arrData','oc_application','reeLogs','coLogs','eelogs','emlogs'));  
+        return view('admin.REE_department.forward_application_oc',compact('applicationData','arrData','oc_application','remarkHistory'));  
     }
 
     public function sendForwardConsentOcApplication(Request $request){
@@ -3120,6 +3117,7 @@ class REEController extends Controller
     }
 
     public function approvedConsentOcletter(Request $request,$applicationId){
+        
         $applicationId = decrypt($applicationId);
         $ree_head = session()->get('role_name') == config('commanConfig.ree_branch_head'); 
         $oc_application = $this->CommonController->getOcApplication($applicationId);

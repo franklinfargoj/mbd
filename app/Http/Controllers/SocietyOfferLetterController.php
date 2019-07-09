@@ -950,8 +950,11 @@ class SocietyOfferLetterController extends Controller
             'architect_name' => $request->input('architect_name'),
             'developer_name' => $request->input('developer_name'),
             'is_full_oc' => $request->input('is_full_oc'),
-            'construction_details' => $request->input('construction_details'),
             'noc_number' => $request->input('noc_number'),
+            'cts_no' => $request->input('cts_no'),
+            'lease_deed_area' => $request->input('lease_deed_area'),
+            'floor' => $request->input('floor'),
+            'floor_no' => $request->input('floor_no'),
             'noc_date' => $request->input('noc_date'),
             'updated_at' => null
         );

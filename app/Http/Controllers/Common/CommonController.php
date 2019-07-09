@@ -4108,7 +4108,7 @@ class CommonController extends Controller
                 'application_id' => $request->applicationId,
                 'user_id' => $society_details->user_id,
                 'role_id' => $society_details->role_id,
-                'status_id' => config('commanConfig.applicationStatus.reverted'),
+                'status_id' => config('commanConfig.applicationStatus.pending'),
                 'to_user_id' => null,
                 'society_flag' => 1,
                 'to_role_id' => null,
@@ -4121,15 +4121,20 @@ class CommonController extends Controller
 
         DB::beginTransaction();
         try {
+           // send email nd sms to society
+           $type = 'oc_module';
+           $EmailMsgConfigration = new EmailMsgConfigration();
+           $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
             OcApplicationStatusLog::where('application_id',$request->applicationId)->update(array('is_active' => 0));
 
            OcApplicationStatusLog::insert($revert_application);
            OcApplication::where('id', $request->applicationId)->update(['OC_Generation_status' => config('commanConfig.applicationStatus.reverted')]);
 
+
             DB::commit();
-        } catch (\Exception $ex) {
+        } catch (\Exception $e) {
+            dd($e);
             DB::rollback();
-//                return response()->json(['error' => $ex->getMessage()], 500);
         }
 
         return true;
@@ -4827,4 +4832,14 @@ class CommonController extends Controller
         
         return view('admin.common.view_other_documents',compact('documents','ol_application','folder','module'));
     } 
+
+    // get all remark and history for OC module
+    public function getOCRemarkHistory($applicationId)
+    {
+        $status = array(config('commanConfig.applicationStatus.forwarded'), config('commanConfig.applicationStatus.reverted'));
+
+        $logs = OcApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('status_id', $status)->orderBy('id','DESC')->get();
+
+        return $logs;
+    }  
 }

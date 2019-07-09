@@ -551,6 +551,7 @@ return [
         'user_approval_application' => 'You have Approved new application for <application type>, of society <Society name> with application ID <application Number>',
         'revert_application' => 'You have reverted new application for <application type>, of society <Society name> with application ID <application Number>',
         'reject_user_application' => 'You have rejected new application for <application type>, of society <Society name> with application ID <application Number>',
+        'revert_society_application' => 'Your Application is reverted for <application type>, of society <Society name> with application ID <application Number>.',
     ],
     'msg_content'=>[
         'society_registration'=>'Congratulations! You have registered successfully on MHADA Mumbai portal. Now you can login to apply for various MHADA Mumbai board services, using valid login credentials.',
@@ -562,6 +563,7 @@ return [
         'revert_application' => 'You have reverted new application for <application type>, of society <Society name> with application ID <application Number>',
         'reject_user_application' => 'You have rejected new application for <application type>, of society <Society name> with application ID <application Number>',
         'user_approval_application' => 'You have Approved new application for <application type>, of society <Society name> with application ID <application Number>',
+        'revert_society_application' => 'Your Application is reverted for <application type>, of society <Society name> with application ID <application Number>.',
     ],
     'email_subject' => [
         'society_registration'=> 'Registration on Mumbai board portal',
@@ -572,7 +574,8 @@ return [
         'society_approval_application' => 'Your application is approved for <application type>',
         'user_approval_application' => 'Application is approved for <application type>',
         'revert_application' => 'Your application is reverted for <application type>',
-        'reject_user_application' => 'Application is rejected for <application type>'
+        'reject_user_application' => 'Application is rejected for <application type>',
+        'revert_society_application' => 'Your application is reverted for <application type>',
     ],
     'conveyanced_type'=>[
         'half'=>'half',
