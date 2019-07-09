@@ -148,7 +148,7 @@
                                         @else
                                             <span class="error"
                                                   style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                        * Note : Offer Letter not available. </span>
+                                        * Note : Tripartite Agreement not available. </span>
                                         @endif
                                     </div>
                                 </div>
@@ -446,36 +446,266 @@
                             @else
                                 <div style="text-align: justify" id="">
                                     <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>Agreement</b></h3>
-                                    <p> This Agreement dated this  __________  day of ________________________________ 2012 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the <b>First Part </b> (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
-                                    <p> And ____________________________ having its office at __________________________ the Party of the Second Part (Society) (hereinafter referred to as the Party of the Second Part and Third part Developer which expression shall unless to the context requires otherwise include its successors and                         of the Second Part.  as well as third party.
+                                    <p> This Agreement dated this __________  day of ________________________________ 2019 between the MAHARASHTRA HOUSING AND AREA DEVELOPMENT AUTHORITY a Statutory Corporation duly constituted under the Maharashtra Housing and Area Development Act 1976 (Mah XXVIII of  1977) having its office at Griha Nirman Bhavan, Kala Nagar, Bandra(E), Mumbai 400 051 the Party of the First Part (hereinafter referred to as 'the Authority' which expression shall unless to context requires otherwise include its successors and assigns) through the Mumbai Board a regional unit of the Authority of the <b>First Part</b>.</p>
+                                    <p> And ____________________________ having its office at __________________________  the Party of the <b>Second Part  </b> (hereinafter referred to as the Party of the Second Part which expression shall unless to the context requires otherwise include its successors and assigns of the Second Part.
                                     </p>
-                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of Bldg.No.<b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b> Society Name  <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> bearing CTS  No. ______________  situated at <b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }} 
-                                    </b>Mumbai. </p>
-                                    <p> (hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5) of the Development Control Regulations for Greater Mumbai,1991 (hereinafter referred to as "the DCR"); </p>
+                                    <p><b>{{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }} </b> having its address at Building No <b> {{ isset($ol_application->eeApplicationSociety->building_no) ? $ol_application->eeApplicationSociety->building_no : '' }}</b><b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }} </b>a society registered no MUM/MHADB/HSG(TC)/12209 year 2003-2004 dated 13.02.2004 the Party of the Third Part (hereinafter referred to as “the said society” which expression shall unless to the context requires otherwise include its successors and assigns of the Third Part. </p>
+
+                                    <p>WHEREAS the Party of the Second Part & Third Part has applied for grant of No Objection Certificate (hereinafter referred to as the NOC) to the Mumbai Board a regional unit of the Authority for the purpose of redevelopment of <b> {{ isset($ol_application->eeApplicationSociety->name) ? $ol_application->eeApplicationSociety->name : '' }}</b> situated at Plot bearing CTS No.______________ 
+                                    at <b> {{ isset($ol_application->eeApplicationSociety) ? $ol_application->eeApplicationSociety->address : '' }} 
+                                    </b> hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5);. </p>
+                                    <p> WHEREAS the party of the Third Part appointed the Party of the Second Part for the purpose of taking and completing the redevelopment of its property; </p>
+                                    <p>WHEREAS the proposal of the Party of the Second and party of the Third Part for the purpose of redevelopment of the said property has been duly scrutinized by the Mumbai Board and placed before Vice President and CEO/A for approval;-</p>
+
+                                    <p>WHEREAS the Vice President and CEO/A has approved the proposal of the Party of the Second Part and party of the Third Part for grant of NOC for redevelopment of the said property and accordingly Offer Letter No.<b>{{ isset($ol_application->request_form) ? $ol_application->request_form->offer_letter_number : '' }}</b>, dated.<b>{{ isset($ol_application->request_form) ? $ol_application->request_form->offer_letter_date : '' }}</b>, has been issued thereby proposing to grant NOC for redevelopment to the Party of the Second Part and Party of the Third Part;</p>
+
+                                    <p>WHEREAS the proposal of the redevelopment has been sanctioned in accordance with the provisions of DCR No.33(5), thereby the Party of the Second and the Party of the Third Part are under obligation to surrender built up area share which comes to ______ sq. mtrs built up area to MHADA( ______ sq. mtr built up area and fungible area ______ sq. mtr. built up area = ______ sq. mtr to MHADA) to be handed over on ______ floor – Flat No.______, on ______ floor – Flat No.______ to ______, on ______ floor – ______ to ______, on ______ floor – ______ to ______, on ______ floor – ______ to ______ and on ______ floor – ______ & ______ only, carpet area with fungible totaling ______ tenemants hatched and marked on plan to the Authority free of cost .</p>
+
+                                    <p>WHEREAS by an offer letter dt. <b>{{ isset($ol_application->request_form) ? $ol_application->request_form->offer_letter_date : '' }}</b>, Authority granted NOC for IOD purpose vide letter No. <b>{{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_number : '' }} </b>, dated.<b>{{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_date : '' }} </b> along with the Annexure -A attached thereto for redevelopment of the said property subject to the Society and the Developer executing this Tripartite for Surrendering MHADA's share;</p>
+
+                                    <p>WHEREAS it is necessary to execute the Agreement in order to ensure to get the Authority within prescribed time limit so as to utilize the same in accordance with the provisions of DCR 33(5) MHADA Act,1976 and the Rules, Regulations made under the said Act; </p>
+                                    <p>WHEREAS the party of the Second Part has agreed to abide by and be bound by all the terms and conditions prescribed for the NOC issued for the purpose of redevelopment.</p>
+
+                                    <p>AND WHEREAS it is expedient and necessary to execute this Agreement in pursuance of the NOC sanctioned for the purpose of redevelopment of the said property on the terms and conditions and covenants hereinafter appearing.</p>
+
+                                   <!--  <p> (hereinafter referred to as "the said property") in accordance with the provisions of DCR Nos.33(5) of the Development Control Regulations for Greater Mumbai,1991 (hereinafter referred to as "the DCR"); </p>
                                     <p>  WHEREAS the proposal of the Party of the Second & Third Part for the purpose of redevelopment of the said property has been duly scrutinized by the Mumbai Board and placed before the meeting of the Mumbai Board held on           ;</p>
                                     <p>  WHEREAS the Mumbai Board in its meeting held on          approved the proposal of the Party of the Second Part for grant of NOC for redevelopment of the said property vide Resolution No.<b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_number : '' }} </b> dated <b> {{ isset($ol_application->request_form) ? $ol_application->request_form->noc_for_iod_purpose_date : '' }} </b> and it is proposed to grant NOC for redevelopment to the Party of the Second Part; </p>
                                     <p>  WHEREAS after redevelopment, taking into consideration the provisions of revised DCR No.33(5), sharing area is to be surrendered to the Authority by the Party of the Second Part & Third Part which works out to  built up area ______________ sq.mtr. + fungible area ______________ sq.mtr. total built up area _____ sq.mtr. having tenements _________ of ____ sq.mt. unit carpet area. </p>
                                     <p>WHEREAS it is necessary to execute the Agreement in order to ensure to get the above area to the Authority within prescribed time limit so as to utilize the same in accordance with the provisions of DCR 33(5) 2C (i) MHAD Act,1976 and the Rules, Regulations made under the said Act;</p>
                                     <p>WHEREAS the Party of the Second Part has agreed to abide  by and be bound by all the terms and conditions prescribed for the NOC  issued for the purpose of redevelopment;</p>
-                                    <p> AND WHEREAS it is expedient and necessary to execute this Agreement in pursuance of the NOC sanctioned for the purpose of redevelopment of the said property on the terms and conditions and covenants hereinafter appearing.</p>
+                                    <p> AND WHEREAS it is expedient and necessary to execute this Agreement in pursuance of the NOC sanctioned for the purpose of redevelopment of the said property on the terms and conditions and covenants hereinafter appearing.</p> -->
+
                                     <p><b>NOW THIS AGREEMENT WITNESSETH as follows:-</b></p>
-                                    <p>1. The Authority through its regional Board i.e. Mumbai Board will issue NOC in favor of Party of the Second describing the terms and conditions. It is agreed that all the terms and conditions mentioned in the NOC as well as recitals  shall form part of the Agreement.</p>
-                                    <p> 2. The Party of the Second Part shall prepare plans of the proposed building indicating therein the sharing area to be handed over to the Authority and submits for the approval of the Authority/Mumbai Board within a period of One months from the date of issue of Offer Letter.</p>
-                                    <p> 3. The Party of the Second Part shall after approval granted by the Authority/Mumbai Board  prepare the plans and submit the same for approval of MCGM within a period of Three months from the date offer letter of /Mumbai Board after evaluating agreement.</p>
-                                    <p> 4. If the Party of the Second Part fails to submit the plans to the MCGM within a period of Three months from its approval by the Authority, the NOC is liable to be cancelled and in such a case this Agreement shall stand automatically terminated.</p>
-                                    <p>5. The Party of the Second Part shall as per direction of the Authority make provision for the residential tenements of 27.88 for EWS / 45 m2 for LIG carpet area (each) minimum in the plans of the proposed building for the purpose of handing over MHADA share. the same to the Authority by way of surplus BUA  area.</p>
-                                    <p>6. The Party of the Second Part shall after issuance of IOD and approval to the Plans by MCGM, show on the plans of the proposed/s and the tenements to be handed over to the Authority / Mumbai Board and certified copies of the Plans shall be submitted to the Authority//Mumbai Board.</p>
-                                    <p> 7. The Party of the Second Part shall commence and construct tenements to be handed over by way of sharing BUA built up area to the Authority <b>within 24 months of date of issue of NOC or within extended time period that may be granted in case of genuine hardship faced which are beyond the control of the Party of the Second Part.</b></p>
-                                    <p>8. The Executive Engineer of the /Mumbai Board / Bandra / Ghatkopar Div in charge of this project shall supervise the construction work of tenements to be handed over by way of sharing built up area to the Authority.  from time to time, at least once in a month, he will visit the site and issue appropriate instructions regarding the work to the Party of the Second Part  and Party of the Second Part shall abide  by and be bound by the same and for carrying out the work accordingly as per the instructions of the Ex. Engineer.</p>
-                                    <p>9. The Party of the Second Part shall complete the construction of tenements in all the respets to be surrendered to MHADA by way of 2/3 sharing area on or before <b>(24 months from the date of NOC) </b>"TIME BEING ESSENCE OF CONTRACT". In case of the work is not completed as per the time limit as above, the Party of the Second Part will be entitled for extension of time limit only on the ground of reasons beyond control of the Party of the Second Part.</p>
-                                    <p>10. The Party of the Second Part shall furnish all the necessary documents such as copy of approved plans along with copies of IOD and CC from MCGM, In addition to that the Party of the Second Part along with its Architect shall furnish certificate to the Authority to the effect that newly constructed building has been built in accordance with the plans approved by MCGM and the tenements constructed by way of surplus built up area as well as constructed for own sale component. </p>
-                                    <p>11. The Party of the Second Part shall take necessary trial pits/trial bores in the said property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant/Structural Engineer, registered with MCGM.</p>
-                                    <p>12. The Party of the Second Part shall as far as possible construct separate building for rehabilitation of existing tenants and for the purpose of free sale, taking into account the plot area of the said property. The NOC holder has to form the independent Co. op. Hsg. Society for rehab building of tenants as well as for free sale component after giving possession to the existing tenants and prospective buyers. <b>The developer shall make provision of surplus tenements in rehab building only when separate buildings are constructed and as far as possible in rehab part of composite building in form of tenements having carpet area of 27.88 m2  EWS / 45 m2 For LIG .</b></p>
-                                    <p>13. <b>The NOC holder shall hand over BUA area at the time of demanding occupation permission. The permission to obtain Occupation Certificate for free sale building / Portion of Bldg shall not be given by Mumbai Board unless the BUA share tenements are dully handed Over to Mumbai Board.</b> It is agreed that in case inspite of the notices in writing given from time to time, without any proper reasons, the NOC holder fails to hand over built up area to the Authority, the Ex.Engineer in charge shall enter into the premises & sharing  BUA area and complete the balance work at the risk and costs of the Party of the Second Part and recover the costs thereof from them.</p>
-                                    <p>14. In case of any dispute vis-à-vis surrendering the sharing built up area to the Authority, the same shall be referred to the VP&CEO/A whose decision shall be final and binding on both the parties.</p>
-                                    <p>15. <b>The Authority is exempted from payment of Stamp Duty as per the Government Notification No.STP-1356/N dated 15.02.1957 issued by the Revenue and Forest Department, Government of Maharashtra read with Law and Judiciary Department's Order dated 13.09.1994. A copy of said order is annexed herewith.</b></p>
+                                    <p>1. It is agreed that all the recitals shall form part and parcel of the present agreement.</p>
+                                    <p> 2. The Authority through its regional Board i.e. MB to issued NOC in favour of Party of the Second Part vide letter dt.________. It is agreed that all the terms and conditions mentioned in the NOC shall form part of the Agreement. The said letter is annexed as ANNEXURE B. .</p>
+                                    <p> 3. The party of the second part shall Prepare plans of the proposed building thereby indicating/earmarking the built up area to be handed over to the authority and submit for the approval of the Authority/Mumbai Board within a priod of one monts from the date of issue of Offer letter.</p>
+                                    <p> 4. The Party of the Second Part shall after approval granted by the Authority/Mumbai Board  prepare the plans and submit the same for approval of MHADA within a period of Three months from the date approved by Authority/Mumbai Board.</p>
+                                    <p>5. If the Party of the Second Part fails to submit the plans to the MHADA within a period of Three months from its approval by the Authority, the NOC is liable to be cancelled and in such a case this Agreement shall stand automatically terminated.</p>
+                                    <p>6. The Party of the Second Part shall provide 23 residential tenements in the form of minimum 42.00 to 60.00 sq. mtr. built up area in the plans of the proposed building for the purpose of handing over to the Authority’s by way of sharing built up area total admeasuring 1089.19 sq mtr. free of cost.</p>
+                                    <p> 7. The Party of the second Part shall use the same specification and materials which shall be used for free sale component.</b></p>
+                                    <p>8. The Party of the Second Part shall after issuance of IOD and approval to the Plans by MHADA, show on the plans of the proposed/s tenements to be handed over to the Authority/Mumbai Board and certified copies of the Plans shall be submitted to the Authority//Mumbai Board.</p>
+                                    <p>9. The Party of the Second Part / Third Part shall allot the car parking spaces for the tenements to be handed over to MHADA as per the MHADA norms.</p>
+                                    <p>10. It shall be the responsibility of the Party of the second Part and Third Part to get approval after issuance of IOD to the Plans from MHADA showing therein the proposed tenements to be handed over to the Authority/Mumbai Board as mentioned in Clause 6 above and certified copies of the plans shall be sumiitted to the Authority/Mumbai Board. </p>
+                                    <p>11. The Executive Engineer of the Kurla Division / Mumbai Board in charge of this project shall supervise the construction work of tenements to be handed over by way of sharing built up area to the Authority from time to time, at least once in a month, he will visit the site and issue appropriate instructions regarding the work to the party of the second Part and Party of the Second Part shall abide by and be bound by the same and for carrying out the work accordingly as per the instruction of the Ex. Engineer / Kurla Division.</p>
+                                    <p>12. The Party of the Second Part shall complete the construction of 23 tenements (1089.19 sq. mtr. built up area)  in all the respects to be surrendered to MHADA by way of sharing area on or before (36 months from the Commencement Certificate) " TIME BEING ESSENCE OF CONTRACT". IN case of the work is not completed as the time limit as above, the Party of the Second Part will be entitled for  extension of time limit only on the ground of reasons beyond control of the Party of the Second Part.  </p>
+                                    <p>13. The Party of the Second Part shall commence and construct tenements to be handed over by way of sharing 23 tenements (1089.19 sq. mtr. built up area) to the Authority within 36 months of date of issue of Commencement Certificate  within extended time period that may be granted in case of genuine hardship faced which are beyond the control of the Party of the Second Part.</p>
+                                    <p>14. The Party of the Second Part shall furnish all the necessary documents such as copy of approved plans along with copies of IOD and CC from MHADA,  In addition to that the Party of the Second Part along with its Architect shall furnish certificate to the Authority to the effect that newly constructed building has been built in accordance with the plans approved by MHADA and the tenements constructed by way of sharing built up area as well as constructed for own sale component.  </p>
+                                    <p>15. <b>15. The Authority shall not be bound by any of the terms and conditions as per the Registered Redevelopment Agreement entered between the Party of the second Part and Party of the Third Part.</b></p>
+                                    <p>16. It is agreed by the parties herein that the Party of the Second Part and Party of the Third Part shall admit Prospective purchasers of the Flat premises from the MHADA's Share area, as its member.</p>
+                                    <p>17. The Party of the Second Part shall make Provision for the 23 residential tenements of admeasuring 1089.19 sq. mtr. built up area in minimum in the plans of the proposed building for the purpose of handling over MHADA share of the same to the Authority by way of surplus BUA area free of cost.<b> The details of flat along with T/s no. carpet area & built up area to be handed over to as MHADA’s  share by the Developer is as under:-</b></p>
+
+                                    <p>
+                                        <table class="table" style="width:600px">
+                                            <thead>
+                                                <tr>
+                                                  <th scope="col">Sr.no</th>
+                                                  <th scope="col">Flat No.</th>
+                                                  <th scope="col">Floor</th>
+                                                  <th scope="col">Type</th>
+                                                  <th scope="col">sq.mtr.</th>
+                                                  <th scope="col">BUA in Sq.mtr.</th>
+                                                </tr>
+                                              </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>803</td>
+                                                    <td>Eighth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>50.50</td>
+                                                    <td>59.96</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>1101</td>
+                                                    <td>Eleventh</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.94</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>1102</td>
+                                                    <td>Eleventh</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33/td>
+                                                    <td>48.23</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>1103</td>
+                                                    <td>Eleventh</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>5</td>
+                                                    <td>1104</td>
+                                                    <td>Eleventh</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.93</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>6</td>
+                                                    <td>1105</td>
+                                                    <td>Eleventh</td>
+                                                    <td>1 BHK</td>
+                                                    <td>37.58</td>
+                                                    <td>42.95</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>7</td>
+                                                    <td>1201</td>
+                                                    <td>Twelth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.94</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>8</td>
+                                                    <td>1202</td>
+                                                    <td>Twelth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr><tr>
+                                                    <td>9</td>
+                                                    <td>1203</td>
+                                                    <td>Twelth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>10</td>
+                                                    <td>1204</td>
+                                                    <td>Twelth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.93</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>11</td>
+                                                    <td>1205</td>
+                                                    <td>Twelth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>37.58</td>
+                                                    <td>42.95</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>12</td>
+                                                    <td>1301</td>
+                                                    <td>Thirteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.94</td>
+                                                </tr><tr>
+                                                    <td>13</td>
+                                                    <td>1302</td>
+                                                    <td>Thirteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr><tr>
+                                                    <td>14</td>
+                                                    <td>1303</td>
+                                                    <td>Thirteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>15</td>
+                                                    <td>1304</td>
+                                                    <td>Thirteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.93</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>16</td>
+                                                    <td>1305</td>
+                                                    <td>Thirteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>37.58</td>
+                                                    <td>42.95</td>
+                                                </tr><tr>
+                                                    <td>17</td>
+                                                    <td>1401</td>
+                                                    <td>Fourteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.94</td>
+                                                </tr><tr>
+                                                    <td>18</td>
+                                                    <td>1402</td>
+                                                    <td>Fourteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr><tr>
+                                                    <td>19</td>
+                                                    <td>1403</td>
+                                                    <td>Fourteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>48.23</td>
+                                                </tr><tr>
+                                                    <td>20</td>
+                                                    <td>1404</td>
+                                                    <td>Fourteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>42.33</td>
+                                                    <td>47.93</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>21</td>
+                                                    <td>1405</td>
+                                                    <td>Fourteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>37.58</td>
+                                                    <td>42.95</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>22</td>
+                                                    <td>1501</td>
+                                                    <td>Fifteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>37.28</td>
+                                                    <td>42.58</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>23</td>
+                                                    <td>1502</td>
+                                                    <td>Fifteenth</td>
+                                                    <td>1 BHK</td>
+                                                    <td>39.72</td>
+                                                    <td>45.53</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Total</td>
+                                                    <td>23 Flats</td>
+                                                    <td></td>
+                                                    <td></td>
+                                                    <td>955.10</td>
+                                                    <td>1089.19</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>        
+                                    </p>
+                                    <p>18. The Party of the Second Part shall construct composite building for rehabilitation of existing society members, MHADA's share and for the purpose of free sale taking into account the plot area of the said property. The Party of the second part and Party of the Third Part shall admit membership for Co. op. hsg. society of rehab building of tenants as well as for free sale components and the MHADA allottees after giving possession to the existing tenants and prospective buyers. </p>
+                                    <p>19. The Party of the Second Part shall take necessary trial pits/trial bores in the said property to ascertain the bearing capacity of the soil and foundation shall be designed accordingly. R.C.C. design of the new proposed building shall be prepared taking into account the aspect of Mumbai Seismic Zone and same should be got approved from R.C.C. Consultant/Structural Engineer, registered with MHADA.</p>
+                                    <p>20. The Party of the Second Part shall hand over BUA at the time of demanding occupation permission. The permission to obtain Occupation certificate for frees sale building/portion of the building shall not be given by Mumbai Board unless the BUA share tenements are duly handed over to Mumbai Board. It is agreed that in case inspite of the notices in writing given from time to time , without any proper reasons, the NOC holder fails to hand over built up area to the Authority, the Ex. Engineer in charge shall enter into the premises and sharing BUA area and complete the balance work at the risk and cost of the Party of the Second Part and recover the cost thereof from Party of Second Part and Party of Third Part.</p>
+
+                                    <p>21. In case of any dispute vis-à-vis surrendering the sharing built up area to the Authority, the same shall be referred to the Vice President and Chief Executive Officer/A whose decision shall be final and binding on both the parties.</p>
+                                    <p>22. The Authority is exempted from payment of Stamp Duty as per the Government Notification No.STP-1356/N dated 15.02.1957 issued by the Revenue and Forest Department, Government of Maharashtra read with Law and Judiciary Department's Order dated 13.09.1994. A copy of said order is annexed herewith.</p>
+
+
                                     <h3 style="text-decoration: underline; text-align: center; margin-bottom: 30px;font-size:17px"><b>SCHEDULE</b></h3>
-                                    <p><b>The schedule above referred to</b>__________________________ IN WITNESS WHEREOF the signature of Shri <b> {{(isset($coName) ? $coName : '' )}} </b> Chief Officer for and on behalf of the Maharashtra Housing and Area Development Authority has been set hereunder and the seal of the Authority is also affixed and the signature of __________________________ has been affixed hereunto on the day and the year first hereinabove written.</p>
+                                    <p><b>The First schedule above referred to</b>__________________________ IN WITNESS WHEREOF the signature of Shri <b> {{(isset($coName) ? $coName : '' )}} </b> Chief Officer for and on behalf of the Maharashtra Housing and Area Development Authority has been set hereunder and the seal of the Authority is also affixed and the signature of __________________________ has been affixed hereunto on the day and the year first hereinabove written.</p>
                                     <p style="text-align:right">Signed, Sealed and Delivered by</p>
                                     <p style="text-align:right">Shri <b> {{(isset($coName) ? $coName : '' )}} </b></p>
                                     <p style="text-align:right">Chief Officer </p>
