@@ -18,7 +18,9 @@
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
-       <iframe src="{{ config('commanConfig.storage_server').'/'.$document->document_path}}" width="1000" height="482"></iframe>
+        @if(isset($document->document_path))
+            <iframe src="{{ config('commanConfig.storage_server').'/'.$document->document_path}}" width="1000" height="482"></iframe>
+        @endif    
 </div>
 @endsection
 @section('download_application_form_js')
