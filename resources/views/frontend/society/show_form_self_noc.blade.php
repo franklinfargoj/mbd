@@ -1,4 +1,11 @@
 @extends('admin.layouts.app')
+@section('css')
+<style type="text/css">
+    h5{
+        font-size: 14px;
+    }
+</style>
+@endsection
 @section('content')
     <style>
         .help-block{
