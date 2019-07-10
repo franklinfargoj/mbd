@@ -282,22 +282,25 @@
                                                 </div>
                                             </div>
                                             @endif
-                                            
                                             @if(count($parentData) > 1)
                                                 @foreach($parentData as $parent)
-                                                    <div class="mt-3 table--box-input">
+                                                    <div class="mt-3 table--box-input show_parent">
                                                         <label for="remark" style="font-weight: 500;">Remark for {{ $parent->roles[0]->display_name }}:</label>
                                                         <textarea class="form-control form-control--custom" name="remark[{{$parent->id}}]" id="remark"
                                                             cols="30" rows="5"></textarea>
                                                     </div>
                                                 @endforeach
                                             @else
-                                                <div class="mt-3 table--box-input">
+                                                <div class="mt-3 table--box-input show_parent">
                                                     <label for="remark" style="font-weight: 500;">Remark :</label>
                                                     <textarea class="form-control form-control--custom" name="remark" id="remark"
                                                         cols="30" rows="5"></textarea>
                                                 </div>
                                             @endif
+                                                <div class="mt-3 table--box-input show_child" style="display: none">
+                                                    <label for="remark" style="font-weight: 500;">Remark :</label>
+                                                    <textarea class="form-control form-control--custom" name="remark" id="remark_child" cols="30" rows="5" disabled></textarea>
+                                                </div>
 
                                                 <div class="mt-3 btn-list">
                                                     <button type="submit" class="btn btn-primary">Forward</button>
@@ -329,8 +332,14 @@
             if (data == 1) {
                 $(".parent-data").show();
                 $(".child-data").hide();
-                $(".check_status").val(1)
+                $(".check_status").val(1);
+                $(".show_parent").show('slow');
+                $(".show_child").hide('slow');
+                $("#remark_child").attr('disabled','');
             } else {
+                $(".show_parent").hide('slow');
+                $(".show_child").show('slow');
+                $("#remark_child").removeAttr('disabled');
                 $(".parent-data").hide();
                 $(".child-data").show();
                 $(".check_status").val(0);
