@@ -107,7 +107,13 @@ class GenerateBills extends Command
                 //dump($building);
                 $society = SocietyDetail::find($building->society_id);
                 $number_of_tenants = MasterBuilding::with('tenant_count')->where('id',$building->id)->first();
-                 
+
+                if(($society->is_conveyanced == 1) && ($society->conveyanced_type == 'Full')){
+                    $interest_charge = ((float)$society->lease_and_na_charges_in_per / 12);
+                }else{
+                    $interest_charge = 0.015;
+                }
+
                 if(!$number_of_tenants->tenant_count()->first()) {
                     $this->info('Number of Tenants Is zero.');
                 }
@@ -344,7 +350,7 @@ class GenerateBills extends Command
                                       $data['prev_arrear_interest_balance']=0;
                                       if($lastBill->service_charge_balance>0)
                                       {
-                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*$interest_charge);
                                           $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
                                           
                                       }

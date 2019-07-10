@@ -2157,8 +2157,17 @@ class EMController extends Controller
             ->where('bill_year', '=', $request->bill_year)
             ->first();
         }
+
         //dump($request->bill_month." ".$request->bill_year);
-        
+
+        $society = SocietyDetail::where('id',$request->society_id)->first();
+
+        if(($society->is_conveyanced == 1) && ($society->conveyanced_type == 'Full')){
+            $interest_charge = ((float)$society->lease_and_na_charges_in_per / 12);
+        }else{
+            $interest_charge = 0.015;
+        }
+
         if(is_null($check) || $check == ''){
             
             $tenants = MasterTenant::where('building_id',$request->building_id)->get();
@@ -2337,7 +2346,7 @@ class EMController extends Controller
                                       $data['prev_arrear_interest_balance']=0;
                                       if($lastBill->service_charge_balance>0)
                                       {
-                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*0.015);
+                                          $lastBill->service_charge_balance=$lastBill->service_charge_balance+($lastBill->service_charge_balance*$interest_charge);
                                           $data['prev_service_charge_balance']=$lastBill->service_charge_balance;
                                           
                                       }
