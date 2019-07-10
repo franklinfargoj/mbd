@@ -2777,7 +2777,7 @@ class SocietyOfferLetterController extends Controller
         $docs_uploaded_count = 0;
 
         foreach($documents as $documents_key => $documents_val){
-                if($documents_val->is_optional == 0 && count($documents_val->ocDocumentsUploaded) > 0){
+                if($documents_val->is_optional == 0 && isset($documents_val->ocDocumentsUploaded) > 0){
                     $docs_uploaded_count++;
                 }
         }

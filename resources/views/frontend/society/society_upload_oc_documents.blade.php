@@ -96,8 +96,8 @@
                                     </h2>
                                 </td> 
                                 <td>
-                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
-                                                @csrf
+                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form">
+                                        @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($oc_applications->id) ? $oc_applications->id : '' }}">
                                         <div class="custom-file">
                                             <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
@@ -106,7 +106,7 @@
                                             <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
                                                 file ...</label>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
+                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
                                     </form>
                                 </td>    
                                 @endif

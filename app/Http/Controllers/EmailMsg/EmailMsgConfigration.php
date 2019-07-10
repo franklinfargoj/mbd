@@ -388,15 +388,15 @@ class EmailMsgConfigration extends Controller
                 $this->saveMailMsgSentDetails($data);
 
                 // revert email and sms to head
-                $revertEmailSubject = config('commanConfig.email_subject.reject_user_application');
+                $revertEmailSubject = config('commanConfig.email_subject.revert_application');
                 $revertEmailSubject = str_replace("<application type>",$data->application_type,$revertEmailSubject);
 
-                $revertEmail = config('commanConfig.email_content.reject_user_application');
+                $revertEmail = config('commanConfig.email_content.revert_application');
                 $revertEmail = str_replace("<application type>",$data->application_type,$revertEmail);
                 $revertEmail = str_replace("<Society name>",$data->name,$revertEmail);
                 $revertEmail = str_replace("<application Number>",$data->application_no,$revertEmail);
 
-                $revertMsg = config('commanConfig.msg_content.reject_user_application');
+                $revertMsg = config('commanConfig.msg_content.revert_application');
                 $revertMsg = str_replace("<application type>",$data->application_type,$revertMsg);
                 $revertMsg = str_replace("<Society name>",$data->name,$revertMsg);
                 $revertMsg = str_replace("<application Number>",$data->application_no,$revertMsg);

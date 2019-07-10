@@ -22,11 +22,9 @@ $status = $oc_applications->ocApplicationStatus[0]->status_id;
         </span>
 	</a>
 </li>
-
 <li id="ree-actions" class="collapse show">
 	<ul class="list-unstyled">
 		@if($status == config('commanConfig.applicationStatus.pending') || $status == config('commanConfig.applicationStatus.reverted'))
-		@if(isset($applicationCount) && $applicationCount <= 0)
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_oc_edit')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Edit Application" href="{{ route('society_oc_edit',encrypt($oc_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -36,7 +34,6 @@ $status = $oc_applications->ocApplicationStatus[0]->status_id;
 				<span class="m-menu__link-text">Edit Application</span>
 			</a>
 		</li>
-		@endif
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='society_oc_preview')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="View Application" href="{{ route('society_oc_preview',encrypt($oc_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
@@ -46,7 +43,7 @@ $status = $oc_applications->ocApplicationStatus[0]->status_id;
 				<span class="m-menu__link-text">View Application</span>
 			</a>
 		</li>
-		@if(isset($applicationCount) && $applicationCount <= 0)
+		@if((isset($applicationCount) && $applicationCount <= 0) || $status == config('commanConfig.applicationStatus.pending'))
 		<li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='oc_documents_upload')?'m-menu__item--active':''}}">
 			<a class="m-menu__link m-menu__toggle" title="Upload Documents" href="{{ route('oc_documents_upload',encrypt($oc_applications->id)) }}">
 				<svg class="radio-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 510 510">
