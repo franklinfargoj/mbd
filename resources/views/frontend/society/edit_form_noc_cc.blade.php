@@ -18,10 +18,14 @@
                 @csrf
                 <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="application_type_id">Application Type:</label>
+                            <label class="col-form-label" for="application_type_id">Select Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layouts" name="layout_id" required>
                                 @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @if(isset($noc_application) && $noc_application->layout_id == $layout['id'])
+                                        <option value="{{ $layout['id'] }}" selected>{{ $layout['layout_name'] }}</option>
+                                    @else
+                                        <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
@@ -32,6 +36,7 @@
                             <label class="col-form-label" for="preceding_officer_name">Department:</label>
                             <input type="text" id="department_name" name="department_name" class="form-control form-control--custom m-input" value="Resident Executive Engineer" readonly>
                             <input type="hidden" name="application_master_id" value="{{ $id }}" required>
+                            <input type="hidden" name="applicationId" value="{{ $noc_application->id }}" >
                             <input type="hidden" name="request_form_id" value="{{ $noc_application->request_form->id }}">
                             <span class="help-block">{{$errors->first('department_name')}}</span>
                         </div>
