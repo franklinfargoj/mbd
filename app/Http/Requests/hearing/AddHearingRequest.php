@@ -41,6 +41,7 @@ class AddHearingRequest extends FormRequest
             'office_tehsil' => 'required',
             'office_village' => 'required',
             'office_remark' => 'required',
+            'hearing_user_id' => 'required',
             /*'department' => 'required',
             'hearing_status_id' => 'required',*/
         ];

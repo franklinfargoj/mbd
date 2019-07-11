@@ -57,6 +57,16 @@
                             </select>
                             <span class="help-block">{{$errors->first('application_type_id')}}</span>
                     </div>
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="hearing_user_id">Hearing User:<span class="star">*</span>:</label>
+                        <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="hearing_user_id" name="hearing_user_id">
+                            @foreach($users as $user)
+                                <option value="{{$user->id}}">{{ $user->name." (".$user->roleDetails->name.")" }}</option>
+                            @endforeach
+                        </select>
+                        <span class="help-block">{{$errors->first('case_year')}}</span>
+                    </div>
+
                 </div>
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">

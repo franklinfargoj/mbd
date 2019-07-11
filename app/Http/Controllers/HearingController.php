@@ -13,6 +13,7 @@ use App\HearingStatus;
 use App\HearingStatusLog;
 use App\Http\Requests\hearing\EditHearingRequest;
 use App\PrePostSchedule;
+use App\Role;
 use App\User;
 use Carbon\Carbon;
 use DB;
@@ -405,7 +406,11 @@ class HearingController extends Controller
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
 
-        return view('admin.hearing.add', compact('header_data', 'arrData'));
+        $society_role_id = Role::where('name','society')->value('id');
+        $users =  User::with('roleDetails')->where('role_id','!=',$society_role_id)->get();
+
+//        dd($users);
+        return view('admin.hearing.add', compact('header_data', 'arrData','users'));
     }
 
     /**
@@ -417,6 +422,8 @@ class HearingController extends Controller
     public function store(AddHearingRequest $request)
     {
 //        dd(session()->all());
+
+//        dd($request->all());
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
 
         $data = [
@@ -441,7 +448,8 @@ class HearingController extends Controller
             // 'board_id' => $request->board_id,
             'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'hearing_user_id' => $request->hearing_user_id,
         ];
 
         // if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
@@ -457,6 +465,9 @@ class HearingController extends Controller
         $hearing = Hearing::create($data);
         $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
+
+        $hearing_role_id = User::where('id',$request->hearing_user_id)->value('role_id');
+        $hearing->update(['hearing_role_id' => $hearing_role_id]);
 
         $hearing_status_log = [
             [
@@ -695,8 +706,12 @@ class HearingController extends Controller
 
 //        dd(in_array($user_id,$isHearingUsers));
 
-            $todaysHearing = Hearing::with(['hearingSchedule'=> function($q) use ($today ){
+            $todaysHearing = Hearing::with(['hearingSchedule1'=> function($query){
+                $query->orderBy('id','desc')->limit(1);
+            } ,'hearingSchedule'=> function($q) use ($today ){
                 $q->where('preceding_date',$today)->orderBy('id','desc')->limit(1);
+            },'hearingSchedule1.prePostSchedule'=> function($q) use ($today){
+                $q->orderBy('id','desc')->limit(1);
             },'hearingSchedule.prePostSchedule'=> function($q) use ($today){
                 $q->orderBy('id','desc')->limit(1);
             }])->where('department_id',$department_id)->get()->toArray();
@@ -725,9 +740,31 @@ class HearingController extends Controller
                         }
                     }
                 }
+                elseif($todayHearing['hearing_schedule1']){
+                    if(in_array($todayHearing['hearing_schedule1'][0]['user_id'],$isHearingUsers)){
+                        if($todayHearing['hearing_schedule1'][0]['pre_post_schedule']){
+                            if(in_array($todayHearing['hearing_schedule1'][0]['pre_post_schedule']['0']['user_id'],$isHearingUsers)){
+                                if($todayHearing['hearing_schedule1'][0]['pre_post_schedule']['0']['date'] == $today){
+                                    $todays_hearing_count += 1;
+                                    $hearing[] = $todayHearing;
+                                }
+                            }
+                        }
+                        else{
+                            if($todayHearing['hearing_schedule1'][0]['preceding_date'] == $today)
+                            {
+                                $todays_hearing_count += 1;
+                                $hearing[] = $todayHearing;
+                            }
+                        }
+                    }
+                }
+                else{
+                }
             }
             $todaysHearing = $hearing;
 
+//        dd($todaysHearing);
         return view('admin.hearing.dashboard',compact('todaysHearing','hearing_count','todays_hearing_count','conveyanceRoles','renewalRoles','conveyance_pending_count','conveyance_count','renewal_pending_count','renewal_count'));
     }
 
