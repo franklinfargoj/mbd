@@ -707,13 +707,13 @@ class HearingController extends Controller
 //        dd(in_array($user_id,$isHearingUsers));
 
             $todaysHearing = Hearing::with(['hearingSchedule1'=> function($query){
-                $query->orderBy('id','desc')->limit(1);
+                $query->orderBy('id','desc');
             } ,'hearingSchedule'=> function($q) use ($today ){
-                $q->where('preceding_date',$today)->orderBy('id','desc')->limit(1);
+                $q->where('preceding_date',$today)->orderBy('id','desc');
             },'hearingSchedule1.prePostSchedule'=> function($q) use ($today){
-                $q->orderBy('id','desc')->limit(1);
+                $q->orderBy('id','desc');
             },'hearingSchedule.prePostSchedule'=> function($q) use ($today){
-                $q->orderBy('id','desc')->limit(1);
+                $q->orderBy('id','desc');
             }])->where('department_id',$department_id)->get()->toArray();
 
 //dd($todaysHearing);
