@@ -4841,5 +4841,15 @@ class CommonController extends Controller
         $logs = OcApplicationStatusLog::with(['getRoleName', 'getRole'])->where('application_id', $applicationId)->whereIn('status_id', $status)->orderBy('id','DESC')->get();
 
         return $logs;
-    }  
+    }
+
+    public function getHearingList(){
+
+
+        return view('admin.common.hearing_list');
+
+        dd('hearing list');
+    }
+
+
 }

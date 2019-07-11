@@ -138,6 +138,12 @@ Breadcrumbs::for('lease_view', function ($trail,$id,$society_id) {
 });
 
 // Hearing
+
+
+Breadcrumbs::for('Hearing_list', function ($trail) {
+    $trail->push('Hearing', route('hearing_list'));
+});
+
 Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });

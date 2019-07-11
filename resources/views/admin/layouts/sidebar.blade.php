@@ -724,14 +724,13 @@
                     </li>
                 @endif
 
-
-            <!-- Tabs for Estate and Conveyance -->
-                @if(session()->get('permission') && (( in_array('conveyance.index', session()->get('permission')) ||
-                in_array('renewal.index', session()->get('permission')) || in_array('get_sf_applications.index',
-                session()->get('permission')) ) ))
-                    <li class="m-menu__item {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')?'':'collapsed'}}"
-                        data-toggle="collapse" data-target="#estate-actions">
-                        <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
+                    <!-- Tabs for Estate and Conveyance -->
+                    @if(session()->get('permission') && (( in_array('conveyance.index', session()->get('permission')) ||
+                    in_array('renewal.index', session()->get('permission')) || in_array('get_sf_applications.index',
+                    session()->get('permission')) ) ))
+                        <li class="m-menu__item {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')?'':'collapsed'}}"
+                            data-toggle="collapse" data-target="#estate-actions">
+                            <a href="javascript:void(0);" class="m-menu__link m-menu__toggle">
                     <span class="sidebar-icon sidebar-menu-icon--level-1">
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                             <g fill="#fff">
@@ -740,7 +739,7 @@
                             </g>
                         </svg>
                     </span>
-                            <span class="m-menu__link-title">
+                                <span class="m-menu__link-title">
                             <span class="m-menu__link-wrap">
                                 <span class="m-menu__link-text">
                                     Estate & Conveyance
@@ -748,16 +747,16 @@
                                 <i class="m-menu__ver-arrow la la-angle-right"></i>
                             </span>
                         </span>
-                        </a>
-                    </li>
+                            </a>
+                        </li>
 
-                    <li id="estate-actions"
-                        class="collapse {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')? 'show' : ''}}">
-                        <ul class="list-unstyled">
-                            @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission'))
-                            ))
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
-                                    <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
+                        <li id="estate-actions"
+                            class="collapse {{($route=='conveyance.index' || $route=='renewal.index' || $route=='get_sf_applications.index')? 'show' : ''}}">
+                            <ul class="list-unstyled">
+                                @if(session()->get('permission') && (in_array('conveyance.index', session()->get('permission'))
+                                ))
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='conveyance.index') ? 'm-menu__item--active' : '' }}">
+                                        <a href="{{ route('conveyance.index') }}" class="m-menu__link m-menu__toggle">
                             <span class="sidebar-icon sidebar-menu-icon--level-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
                                   <g fill="#fff">
@@ -766,34 +765,34 @@
                                   </g>
                                 </svg>
                             </span>
-                                        <span class="m-menu__link-text">
+                                            <span class="m-menu__link-text">
                                     Society Conveyance Applications
                                 </span>
-                                    </a>
-                                </li>
-                            @endif
+                                        </a>
+                                    </li>
+                                @endif
 
-                            @if(session()->get('permission') && (in_array('renewal.index', session()->get('permission')) ))
+                                @if(session()->get('permission') && (in_array('renewal.index', session()->get('permission')) ))
 
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='renewal.index') ? 'm-menu__item--active' : '' }}">
-                                    <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='renewal.index') ? 'm-menu__item--active' : '' }}">
+                                        <a href="{{ route('renewal.index') }}" class="m-menu__link m-menu__toggle">
                                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff">
                                       <path d="M360.605 252.558a14.982 14.982 0 0 0-9.858-10.781l-73.594-24.536 52.266-104.531c3.281-6.577 1.318-14.575-4.644-18.882-5.991-4.292-14.194-3.647-19.38 1.567l-150 150a15.015 15.015 0 0 0-3.999 14.048 14.982 14.982 0 0 0 9.858 10.781l73.594 24.536-52.266 104.531c-3.281 6.577-1.318 14.575 4.644 18.882 5.971 4.279 14.158 3.653 19.38-1.567l150-150a15.015 15.015 0 0 0 3.999-14.048z"/>
                                       <path d="M256 0C179.87 0 107.961 35.406 60 92.529V76c0-8.291-6.709-15-15-15s-15 6.709-15 15v63.721c0 14.315 18.49 16.364 15 15 .308 0 .615-.015.923-.029l60-3.721c8.276-.513 14.561-7.632 14.048-15.894-.513-8.262-7.734-14.487-15.894-14.048l-30.394 1.89C115.783 65.651 183.9 30 256 30c124.072 0 226 101.928 226 226 0 8.291 6.709 15 15 15s15-6.709 15-15C512 115.39 396.61 0 256 0zM466.077 357.308l-60 3.721c-8.276.513-14.561 7.632-14.048 15.894s7.896 14.561 15.894 14.048l30.394-1.89C396.217 446.349 328.1 482 256 482 131.928 482 30 380.072 30 256c0-8.291-6.709-15-15-15s-15 6.709-15 15c0 140.61 115.39 256 256 256 76.13 0 148.039-35.406 196-92.529V436c0 8.291 6.709 15 15 15s15-6.709 15-15v-63.721c0-8.24-7.901-15.423-15.923-14.971z"/>
                                     </svg>
                                 </span>
-                                        <span class="m-menu__link-text">
+                                            <span class="m-menu__link-text">
                                     Society Renewal Applications
                                 </span>
-                                    </a>
-                                </li>
-                            @endif
+                                        </a>
+                                    </li>
+                                @endif
 
-                            @if(in_array('get_sf_applications.index',session()->get('permission')))
-                                <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
-                                    <a href="{{ route('get_sf_applications.index') }}"
-                                       class="m-menu__link m-menu__toggle">
+                                @if(in_array('get_sf_applications.index',session()->get('permission')))
+                                    <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{ ($route=='get_sf_applications.index') ? 'm-menu__item--active' : '' }}">
+                                        <a href="{{ route('get_sf_applications.index') }}"
+                                           class="m-menu__link m-menu__toggle">
                                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="#fff">
                                   <path d="M324.267 332.8c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V332.8zM315.733 426.667a8.536 8.536 0 0 0-8.533 8.533v34.133c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V435.2c.001-4.71-3.822-8.533-8.533-8.533zM358.4 230.4c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V230.4zM324.267 281.6c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V281.6zM324.267 384c0-4.71-3.823-8.533-8.533-8.533S307.2 379.29 307.2 384v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V384zM358.4 281.6c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V281.6zM290.133 230.4c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V230.4zM324.267 230.4c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V230.4zM358.4 145.067V128c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533zM290.133 281.6c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V281.6zM392.533 128c0-4.71-3.823-8.533-8.533-8.533s-8.533 3.823-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V128zM281.6 324.267a8.536 8.536 0 0 0-8.533 8.533v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V332.8a8.536 8.536 0 0 0-8.533-8.533zM426.667 384c0-4.71-3.823-8.533-8.533-8.533S409.6 379.29 409.6 384v17.067c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V384zM418.133 426.667a8.536 8.536 0 0 0-8.533 8.533v34.133c0 4.71 3.823 8.533 8.533 8.533s8.533-3.823 8.533-8.533V435.2c.001-4.71-3.822-8.533-8.533-8.533zM452.267 324.267a8.536 8.536 0 0 0-8.533 8.533v17.067a8.536 8.536 0 0 0 8.533 8.533 8.536 8.536 0 0 0 8.533-8.533V332.8a8.536 8.536 0 0 0-8.533-8.533z"/>
@@ -809,16 +808,17 @@
                                 </svg>
 
                                 </span>
-                                        <span class="m-menu__link-text">
+                                            <span class="m-menu__link-text">
                                     Society Formation Applications
                                 </span>
-                                    </a>
-                                </li>
-                            @endif
-                        </ul>
-                    </li>
-                @endif
-            <!-- end of Estate of Conveyance -->
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+                <!-- end of Estate of Conveyance -->
+
 
 
                 @if(isset($route) && (in_array('ree_applications.index', session()->get('permission')) ||
@@ -1491,6 +1491,23 @@
             @endif
             {{--end report--}}
 
+        <!-- Tabs for Hearing -->
+
+            <li class="m-menu__item @if($route == 'hearing_list') m-menu__item--active @endif"
+                aria-haspopup="true">
+                <a href="{{ route('hearing_list') }}" class="m-menu__link">
+                    <i class="m-menu__link-icon flaticon-user"></i>
+                    <span class="m-menu__link-title">
+                                <span class="m-menu__link-wrap">
+                                    <span class="m-menu__link-text">
+                                        Hearing List
+                                    </span>
+                                </span>
+                            </span>
+                </a>
+            </li>
+
+            <!-- end of Hearing -->
 
             @if(auth()->user())
                 <li class="m-menu__item @if($route == 'admin.profile') m-menu__item--active @endif"

@@ -1513,3 +1513,6 @@ Route::get('import',function() {
 });
 
 Route::post('importSociety','ImportController@import');
+
+//Hearing Users
+Route::get('/hearing_users', 'Common\CommonController@getHearingList')->name('hearing_list');
