@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Common;
 
+use App\ApplicationStatusMaster;
 use App\ArchitectApplication;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
+use App\Hearing;
+use App\HearingLetter;
 use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
@@ -59,6 +62,7 @@ use Auth;
 use Carbon\Carbon;
 use Config;
 use DB;
+use Mpdf\Mpdf;
 use Storage;
 use App\EmploymentOfArchitect\EoaApplication;
 use App\conveyance\SfApplicationStatusLog;
@@ -73,9 +77,16 @@ use App\OlNoDueCertificateQuestionMaster;
 use App\OlNoDueCertificateDetails;
 use App\OlTitBitSimulationValuesMaster;
 use App\RevalOlSocietyDocumentStatus;
+use Yajra\DataTables\DataTables;
 
 class CommonController extends Controller
 {
+    protected $list_num_of_records_per_page;
+
+    public function __construct()
+    {
+        $this->list_num_of_records_per_page = Config::get('commanConfig.list_num_of_records_per_page');
+    }
 
     // society and EE documents
     public function getSocietyEEDocuments($applicationId)
@@ -4843,13 +4854,239 @@ class CommonController extends Controller
         return $logs;
     }
 
-    public function getHearingList(){
+    /**
+     * Display a listing of the Hearing.
+     *
+     * Author: Prajakta Sisale
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function getHearingList(DataTables $datatables){
+
+        $user_id = Auth::id();
+
+        $hearing_data = Hearing::where('hearing_user_id',$user_id)->get();
+
+        $columns = [
+            ['data' => 'rownum','name' => 'rownum','title' => 'Sr No.','searchable' => false],
+            ['data' => 'case_number','name' => 'case_number','title' => 'Case Number'],
+            ['data' => 'case_year','name' => 'case_year','title' => 'Case Year'],
+            ['data' => 'office_date','name' => 'office_date','title' => 'Case Reg Date'],
+            ['data' => 'applicant_name', 'name' => 'applicant_name', 'title' => 'Apellent Name'],
+            ['data' => 'radio','name' => 'radio','title' => 'Action','searchable' => false],
+        ];
 
 
-        return view('admin.common.hearing_list');
+        if ($datatables->getRequest()->ajax()) {
 
-        dd('hearing list');
+            return $datatables->of($hearing_data)
+                ->editColumn('radio', function ($hearing_data) {
+                    $url = route('view_hearing_letter', encrypt($hearing_data->id));
+                    return '<div class="d-flex btn-icon-list"><a href="'.$url.'" onclick="geturl(this.value);" name="hearing_data_id" class="d-flex flex-column align-items-left"><span class="btn-icon btn-icon--view">
+                        <img src="'. asset("img/view-icon.svg").'">
+                    </span>View</span></a></div>';
+                })
+                ->editColumn('rownum', function ($hearing_data) {
+                    static $i = 0;
+                    $i++;
+                    return $i;
+                })
+                ->editColumn('case_number', function ($hearing_data) {
+                    return $hearing_data->id;
+                })
+                ->editColumn('office_date', function ($hearing_data) {
+                    return date(config('commanConfig.dateFormat'), strtotime($hearing_data->office_date));
+                })
+                ->rawColumns(['radio', 'case_number', 'office_date', 'Status'])
+                ->make(true);
+        }
+
+
+        $html = $datatables->getHtmlBuilder()->columns($columns)->postAjax()->parameters($this->getParameters());
+
+
+        return view('admin.common.hearing.hearing_list',compact('html'));
     }
 
+    /**
+     * Returns the parameters.
+     *
+     * Author: Prajakta Sisale
+     *
+     * @return array The parameters
+     */
+    protected function getParameters() {
+        return [
+            'serverSide' => true,
+            'processing' => true,
+            'ordering'   =>'isSorted',
+            "order"=> [0, "asc" ],
+            "pageLength" => $this->list_num_of_records_per_page
+        ];
+    }
 
+    /*
+     * Function for getting Hearing Letter.
+
+     * Author :Prajakta Sisale.
+     *
+     * @param $id
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_hearing_letter($id){
+
+        $id = decrypt($id);
+
+        $hearing_data = Hearing::with ('hearingApplicationType','hearingBoard','hearing_letter')->where('id',$id)->first();
+
+        $text_hearing_letter = $this->get_hearing_letter($hearing_data->id, config('commanConfig.hearing_letter.text'));
+
+        if ($text_hearing_letter != null) {
+            $content_hearing_letter = Storage::disk('ftp')->get($text_hearing_letter);
+        } else {
+            $content_hearing_letter = "";
+        }
+
+        return view('admin.common.hearing.view_hearing_letter', compact('hearing_data','content_hearing_letter'));
+    }
+
+    /*
+     * Function for Generate Hearing Letter.
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function saveHearingLetter(Request $request){
+
+        $id = $request->hearing_id;
+
+        $hearing_data = Hearing::where('id',$id)->first();
+        $content = str_replace('_', "", $_POST['ckeditorTextHearingletter']);
+        $pdf_folder_name = 'Draft_hearing_letter';
+
+        $header_file = '';
+        $footer_file = '';
+//        $header_file = view('admin.REE_department.offer_letter_header');
+//        $footer_file = view('admin.REE_department.offer_letter_footer');
+
+        $pdf = new Mpdf([
+            'default_font_size' => 9,
+            'default_font' => 'Times New Roman',
+        ]);
+        $pdf->autoScriptToLang = true;
+        $pdf->autoLangToFont = true;
+        $pdf->setAutoBottomMargin = 'stretch';
+        $pdf->setAutoTopMargin = 'stretch';
+        $pdf->SetHTMLHeader($header_file);
+        $pdf->SetHTMLFooter($footer_file);
+        $pdf->WriteHTML($content);
+        $fileName = 'hearing_letter_' . $id . '_'.time().'.pdf';
+
+
+        $filePath = $pdf_folder_name . "/" . $fileName;
+        if (!(Storage::disk('ftp')->has($pdf_folder_name))) {
+            Storage::disk('ftp')->makeDirectory($pdf_folder_name, $mode = 0777, true, true);
+        }
+        Storage::disk('ftp')->put($filePath, $pdf->output($fileName, 'S'));
+
+        $text_folder_name = 'text_hearing_letter';
+
+        if (!(Storage::disk('ftp')->has($text_folder_name))) {
+            Storage::disk('ftp')->makeDirectory($text_folder_name, $mode = 0777, true, true);
+        }
+        $file_nm = "text_hearing_letter_" . $id .'_'.time().'.txt';
+        $filePath1 = $text_folder_name . "/" . $file_nm;
+
+        Storage::disk('ftp')->put($filePath1, $content);
+
+        $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.text'), $filePath1);
+        $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.drafted'), $filePath, $this->get_document_status_by_name('Draft'));
+
+        if ($this->get_hearing_letter($hearing_data->id, config('commanConfig.hearing_letter.drafted')) != null) {
+            return back()->with('success', 'Hearing Letter Saved Successfully.');
+        }
+
+    }
+
+    /*
+    * Function for Set Hearing Letter in Database.
+    *
+    * Author :Prajakta Sisale.
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function set_hearing_letter($hearing_data, $letter_type, $path, $status_id = 0)
+    {
+
+        $hearing_letter_data = HearingLetter::where('hearing_id',$hearing_data->id)->where('letter_type',$letter_type)->get();
+
+        $data =[
+            'hearing_id' => $hearing_data->id,
+            'document_path'=> $path,
+            'letter_type' => $letter_type,
+            'status_id' => $status_id,
+            'user_id' => $hearing_data->hearing_user_id
+        ];
+
+        if(count($hearing_letter_data) == 0){
+            HearingLetter::create($data);
+            return true;
+        }else{
+            HearingLetter::where('id',$hearing_letter_data[0]->id)->update($data);
+            return true;
+        }
+    }
+
+    /*
+    * Function for Get Hearing Letter from Database.
+    *
+    * Author :Prajakta Sisale.
+    *
+    *  @param $id, $letter_type
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function get_hearing_letter($id, $letter_type)
+    {
+        $hearing_letter_data = HearingLetter::where('hearing_id',$id)->where('letter_type',$letter_type)->value('document_path');
+
+        if($hearing_letter_data){
+            return $hearing_letter_data;
+        }else{
+            return null;
+        }
+    }
+
+    /*
+    * Function for Get status id by name.
+    *
+    * Author :Prajakta Sisale.
+    *
+    *  @param $name
+    *
+    * @return $status_id
+    */
+    public function get_document_status_by_name($name)
+    {
+        $status = ApplicationStatusMaster::where(['status_name' => $name])->first();
+        if ($status) {
+            return $status->id;
+        }
+        return 0;
+    }
+
+    /*
+    * Function for Upload Hearing Letter.
+    *
+    * Author :Prajakta Sisale.
+    *
+    *  @param $id, $letter_type
+    *
+    * @return \Illuminate\Http\Response
+    */
+    public function upload_hearing_letter(){
+        dd('upload_hearing_letter');
+    }
 }

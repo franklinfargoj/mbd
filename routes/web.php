@@ -1516,3 +1516,6 @@ Route::post('importSociety','ImportController@import');
 
 //Hearing Users
 Route::get('/hearing_users', 'Common\CommonController@getHearingList')->name('hearing_list');
+Route::get('/view_hearing_letter/{id}', 'Common\CommonController@view_hearing_letter')->name('view_hearing_letter');
+Route::post('/saveHearingLetter','Common\CommonController@saveHearingLetter')->name('saveHearingLetter');
+Route::post('/upload_hearing_letter','Common\CommonController@upload_hearing_letter')->name('upload_hearing_letter');

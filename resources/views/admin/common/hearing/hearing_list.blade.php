@@ -18,15 +18,15 @@
             </div>
         </div>
         <!-- END: Subheader -->
-        <div class="m-portlet m-portlet--compact filter-wrap">
+        {{--<div class="m-portlet m-portlet--compact filter-wrap">--}}
 
-            @if(Session::has('success'))
-                <div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true" style="font-size:20px">×</span>
-                    </button> {{ Session::get('success') }}
-                </div>
-            @endif
+            {{--@if(Session::has('success'))--}}
+                {{--<div class="alert alert-success fade in alert-dismissible show" style="margin-top:18px;">--}}
+                    {{--<button type="button" class="close" data-dismiss="alert" aria-label="Close">--}}
+                        {{--<span aria-hidden="true" style="font-size:20px">×</span>--}}
+                    {{--</button> {{ Session::get('success') }}--}}
+                {{--</div>--}}
+            {{--@endif--}}
 
             {{--<div class="row align-items-center">--}}
                 {{--<div class="col-lg-12">--}}
@@ -67,7 +67,7 @@
                                         {{--<option value="">All</option>--}}
                                         {{--@foreach(config('commanConfig.hearingStatus') as $key => $hearing_status)--}}
                                             {{--<option value="{{ $hearing_status }}"--}}
-                                                    {{--{{ ($status == $hearing_status) ? 'selected' : '' }}>{{--}}
+                                                    {{--{{ ($status == $hearing_status) ? 'selected' : '' }}>--}}{{--}}--}}
                                         {{--ucwords(str_replace('_', ' ', $key)) }}</option>--}}
                                         {{--@endforeach--}}
                                     {{--</select>--}}
@@ -93,11 +93,12 @@
                 {{--</div>--}}
             {{--</div>--}}
 
-        </div>
+        {{--</div>--}}
+
         <div class="m-portlet m-portlet--compact m-portlet--mobile">
             <div class="m-portlet__body">
                 <!--begin: Datatable -->
-{{--            {!! $html->table() !!}--}}
+            {!! $html->table() !!}
             <!--end: Datatable -->
             </div>
         </div>
@@ -107,5 +108,5 @@
     </div>
 @endsection
 @section('datatablejs')
-{{--    {!! $html->scripts() !!}--}}
+    {!! $html->scripts() !!}
 @endsection

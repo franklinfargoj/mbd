@@ -820,9 +820,9 @@
 
 
                         <textarea id="ckeditorTextletter2" name="ckeditorTextletter2" style="display: none;">
-                        @if($content_letter_2)
+                        {{--@if($content_letter_2)
                                 {{ $content_letter_2}}
-                            @else
+                            @else--}}
                                 <div style="text-align:justify;" id="">
                                     <p style="font-size: 16px; line-height: 1.5;margin-left: 65%; margin-bottom: 0;"><span>NO.CO/MB/REE/F-682/&nbsp;&nbsp;&nbsp;/2018</span><br/>
                                         <span>Date:</span>
@@ -874,7 +874,7 @@
                                         </p>
                                     </div>
                                 </div>
-                            @endif
+                            {{--@endif--}}
 
                                 </textarea>
                         <input type="submit" value="save"

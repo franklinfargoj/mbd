@@ -141,7 +141,12 @@ Breadcrumbs::for('lease_view', function ($trail,$id,$society_id) {
 
 
 Breadcrumbs::for('Hearing_list', function ($trail) {
-    $trail->push('Hearing', route('hearing_list'));
+    $trail->push('Hearing_list', route('hearing_list'));
+});
+
+Breadcrumbs::for('view_hearing_letter', function ($trail, $hearing_id) {
+    $trail->parent('Hearing_list');
+    $trail->push('Letter of Hearing', route('view_hearing_letter', $hearing_id));
 });
 
 Breadcrumbs::for('Hearing', function ($trail) {

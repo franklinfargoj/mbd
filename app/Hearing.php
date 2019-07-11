@@ -105,4 +105,9 @@ class Hearing extends Model
     public function userDetails(){
         return $this->hasOne('App\User', 'id', 'user_id');
     }
+
+    public function hearing_letter(){
+        return $this->hasMany('App\HearingLetter', 'id', 'hearing_id');
+    }
+
 }
