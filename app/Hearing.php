@@ -41,7 +41,9 @@ class Hearing extends Model
         'board_id',
         'hearing_status_id',
         'role_id',
-        'user_id'
+        'user_id',
+        'hearing_user_id',
+        'hearing_role_id'
     ];
 
     public function hearingDepartment()

@@ -51,6 +51,23 @@
                         <span class="help-block">{{$errors->first('application_type_id')}}</span>
                     </div>
                 </div>
+                <div class="form-group m-form__group row">
+
+                    <div class="col-sm-4 offset-sm-0 form-group">
+                        <label class="col-form-label" for="hearing_user_id">Hearing User:</label>
+                            @foreach($users as $user)
+                                @if($user->id == $arrData['hearing']->hearing_user_id)
+                                    @php
+                                        $user_name = $user->name;
+                                        $role_name = $user->roleDetails->name;
+                                    @endphp
+                                @endif
+                            @endforeach
+                        <input type="text" id="hearing_user_id" name="hearing_user_id" class="form-control form-control--custom m-input"
+                               value="{{ $user_name." (".$role_name.")" }}" disabled>
+                        <span class="help-block">{{$errors->first('case_year')}}</span>
+                    </div>
+                </div>
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
                     <div class="m-portlet__head-caption">

@@ -462,6 +462,7 @@ class HearingController extends Controller
 
         // }
 
+//        dd($data);
         $hearing = Hearing::create($data);
         $hearing->update(['case_number' => $hearing->id]);
         $parent_role_id = User::where('role_id', session()->get('parent'))->first();
@@ -529,10 +530,14 @@ class HearingController extends Controller
         $arrData['department'] = Department::all();
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
+
+        $society_role_id = Role::where('name','society')->value('id');
+        $users =  User::with('roleDetails')->where('role_id','!=',$society_role_id)->get();
+
 //        $hearing_data = $arrData['hearing'];
 //        dd($hearing_data['hearingStatusLog']['0']['hearing_status_id']);
 
-        return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value'));
+        return view('admin.hearing.show', compact('header_data', 'arrData', 'hearing_data', 'status_value','users'));
     }
 
     /**
@@ -551,9 +556,13 @@ class HearingController extends Controller
         $arrData['board'] = Board::where('status', 1)->get();
         $arrData['status'] = HearingStatus::all();
         $hearing_data = $arrData['hearing'];
+
+        $society_role_id = Role::where('name','society')->value('id');
+        $users =  User::with('roleDetails')->where('role_id','!=',$society_role_id)->get();
+
 //         dd($hearing_data);
 
-        return view('admin.hearing.edit', compact('header_data', 'arrData', 'hearing_data'));
+        return view('admin.hearing.edit', compact('header_data', 'arrData', 'hearing_data','users'));
     }
 
     /**
@@ -588,7 +597,8 @@ class HearingController extends Controller
             'board_id' => $request->board_id,
             'hearing_status_id' => config('commanConfig.hearingStatus.pending'),
             'role_id' => session()->get('role_id'),
-            'user_id' => Auth::user()->id
+            'user_id' => Auth::user()->id,
+            'hearing_user_id' => $request->hearing_user_id
         ];
 
         if(session()->get('role_name') == config('commanConfig.co_engineer') || session()->get('role_name') == config('commanConfig.co_pa')){
@@ -602,6 +612,9 @@ class HearingController extends Controller
         }
 
         $hearing->update($data);
+
+        $hearing_role_id = User::where('id',$request->hearing_user_id)->value('role_id');
+        $hearing->update(['hearing_role_id' => $hearing_role_id]);
 
         /*$hearing_status_log = [
             'hearing_id' => $id,
