@@ -2,7 +2,14 @@
 @section('actions')
     @include('frontend.society.actions_noc',compact('noc_applications'))
 @endsection
-@section('content')
+@section('css')
+<style type="text/css">
+    h5{
+        font-size: 14px;
+    }
+</style>
+@endsection
+@section('content') 
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
@@ -75,162 +82,171 @@
 
                     <!-- show feilds at premium application -->
                     @if(isset($model) && $model == 'Premium')
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Premium pay order amount (Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                    <div class="fieldset">
+                        <h5>Premium</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_amount">Amount (Rs.) : <span class="star">*</span></label>
+                                <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_number">Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_date">Receipt Date : <span class="star">*</span></label>
+                                <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
+                            </div>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_number">Premium receipt number : <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_date">Premium receipt date : <span class="star">*</span></label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">5/7 Offsite Infrastructure charges amount(Rs.) :<span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
-                            <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
-                        </div>
-                    </div>
+                    </div>    
                     
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="offsite_infra_receipt">5/7 Offsite Infrastructure receipt number : <span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_receipt }}" required>
-                            <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
+                    <div class="fieldset">
+                        <h5>5/7 Offsite Infrastructure</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="demand_draft_bank">Amount(Rs.) :<span class="star">*</span></label>
+                                <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
+                                <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="offsite_infra_receipt">Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_receipt }}" required>
+                                <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="offsite_infra_charges_receipt_date">Receipt Date : <span class="star">*</span></label>
+                                 <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
+                                readonly="readonly">
+                                <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
+                            </div>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="offsite_infra_charges_receipt_date">5/7 Offsite Infrastructure charges receipt date : <span class="star">*</span></label>
-                             <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
-                            readonly="readonly">
-                            <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
+                    </div>    
+                    <div class="fieldset">
+                        <h5>Water Charges</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="water_charges_amount">Amount(Rs.) : <span class="star">*</span></label>
+                                <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->water_charges_amount }}" required>
+                                <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="water_charges_receipt_number">Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
+                                <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> <!-- offset-sm-1 -->
+                                <label class="col-form-label" for="water_charges_date">
+                                Charges Date : <span class="star">*</span></label>
+                                 <input type="text" id="water_charges_date" name="water_charges_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->water_charges_date)) }}" required readonly="readonly">
+                                <span class="help-block">{{$errors->first('water_charges_date')}}</span>
+                            </div>
                         </div>
-                    </div>
+                    </div>    
 
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->water_charges_amount }}" required>
-                            <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
+                    <div class="fieldset">
+                        <h5>BUA</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group">
+                                <label class="col-form-label" for="full_bua">Full BUA : <span class="star">*</span></label>
+                                <input type="text" id="full_bua" name="full_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->full_bua }}" required>
+                                <span class="help-block">{{$errors->first('full_bua')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group">
+                                <label class="col-form-label mhada-multiple-label" for="selected_bua">
+                                Select BUA: <span class="star">*</span></label>
+                                <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="selected_bua" name="selected_bua" required>
+                                    <option value="">Select</option>
+                                    @php $i = 1; @endphp
+                                    @for($i=1;$i<= 100; $i++)
+                                        @if(isset($noc_application->request_form) && $noc_application->request_form->selected_bua == $i)
+                                            <option value="{{ $i }}" selected>{{ $i }}</option>
+                                        @else
+                                            <option value="{{ $i }}">{{ $i }}</option>
+                                        @endif
+                                    @endfor
+                                </select>
+                                <span class="help-block">{{$errors->first('selected_bua')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="full_bua"> % BUA : <span class="star">*</span></label>
+                                <input type="text" id="percent_bua" name="percent_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->percent_bua }}" required>
+                                <span class="help-block">{{$errors->first('percent_bua')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="existing_bua">Exisitng BUA : <span class="star">*</span></label>
+                                <input type="text" id="existing_bua" name="existing_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->existing_bua }}" required>
+                                <span class="help-block">{{$errors->first('existing_bua')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group t_bua"> 
+                                <label class="col-form-label" for="existing_bua">Total BUA : <span class="star">*</span></label>
+                                <input type="text" id="total_bua" name="total_bua" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->total_bua }}" required>
+                                <span class="help-block">{{$errors->first('total_bua')}}</span>
+                            </div>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_receipt_number">Water charges receipt number : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
-                            <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
-                        </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_date">
-                            Water charges date : <span class="star">*</span></label>
-                             <input type="text" id="water_charges_date" name="water_charges_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->water_charges_date)) }}" required readonly="readonly">
-                            <span class="help-block">{{$errors->first('water_charges_date')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group">
-                            <label class="col-form-label" for="full_bua">Full BUA : <span class="star">*</span></label>
-                            <input type="text" id="full_bua" name="full_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->full_bua }}" required>
-                            <span class="help-block">{{$errors->first('full_bua')}}</span>
-                        </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group">
-                            <label class="col-form-label mhada-multiple-label" for="selected_bua">
-                            Select BUA: <span class="star">*</span></label>
-                            <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" data-live-search="true" id="selected_bua" name="selected_bua" required>
-                                <option value="">Select</option>
-                                @php $i = 1; @endphp
-                                @for($i=1;$i<= 100; $i++)
-                                    @if(isset($noc_application->request_form) && $noc_application->request_form->selected_bua == $i)
-                                        <option value="{{ $i }}" selected>{{ $i }}</option>
-                                    @else
-                                        <option value="{{ $i }}">{{ $i }}</option>
-                                    @endif
-                                @endfor
-                            </select>
-                            <span class="help-block">{{$errors->first('selected_bua')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> 
-                            <label class="col-form-label" for="full_bua"> % BUA : <span class="star">*</span></label>
-                            <input type="text" id="percent_bua" name="percent_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->percent_bua }}" required>
-                            <span class="help-block">{{$errors->first('percent_bua')}}</span>
-                        </div>
-                    </div>
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> 
-                            <label class="col-form-label" for="existing_bua">Exisitng BUA : <span class="star">*</span></label>
-                            <input type="text" id="existing_bua" name="existing_bua" class="form-control form-control--custom form-control--fixed-height m-input number total_bua" value="{{ $noc_application->request_form->existing_bua }}" required>
-                            <span class="help-block">{{$errors->first('existing_bua')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group t_bua"> 
-                            <label class="col-form-label" for="existing_bua">Total BUA : <span class="star">*</span></label>
-                            <input type="text" id="total_bua" name="total_bua" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->total_bua }}" required>
-                            <span class="help-block">{{$errors->first('total_bua')}}</span>
-                        </div>
-                    </div>
+                     </div>   
 
                     <!-- show feilds at sharing application -->
                     @elseif(isset($model) && $model == 'Sharing')
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_amount">Offsite infrastructure charges paid to MHADA (Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                    <div class="fieldset">
+                        <h5>Offsite Infrastructure</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_amount">Charges paid to MHADA (Rs.) : <span class="star">*</span></label>
+                                <input type="text" id="demand_draft_amount" name="demand_draft_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->demand_draft_amount }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_amount')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_number"> Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_date">Receipt date : <span class="star">*</span></label>
+                                <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
+                                <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
+                            </div>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_number">Offsite infrastructure charges receipt number : <span class="star">*</span></label>
-                            <input type="text" id="demand_draft_number" name="demand_draft_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->demand_draft_number }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_number')}}</span>
-                        </div>
-                    </div>
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_date">Offsite infrastructure charges receipt date : <span class="star">*</span></label>
-                            <input type="text" id="m_datepicker" name="demand_draft_date" class="form-control form-control--custom m-input m_datepicker" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->demand_draft_date)) }}" required>
-                            <span class="help-block">{{$errors->first('demand_draft_date')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="demand_draft_bank">Offsite Infrastructure charges paid to planning authority(Rs.) :<span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
-                            <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
-                        </div>
-                    </div>
+                    </div>    
                     
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="offsite_infra_receipt">Offsite Infrastructure planning authority receipt number : <span class="star">*</span></label>
-                            <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_receipt }}" required>
-                            <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
+                    <div class="fieldset">
+                        <h5>Offsite Infrastructure Planning Authority</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="demand_draft_bank">Amount(Rs.) :<span class="star">*</span></label>
+                                <input type="text" id="offsite_infra_charges" name="offsite_infra_charges" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->offsite_infra_charges }}" required>
+                                <span class="help-block">{{$errors->first('offsite_infra_charges')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="offsite_infra_receipt">Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="offsite_infra_receipt" name="offsite_infra_receipt" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->offsite_infra_receipt }}" required>
+                                <span class="help-block">{{$errors->first('offsite_infra_receipt')}}</span>
+                            </div>
+                            <div class="col-xl-4 col-lg-4 form-group"> 
+                                <label class="col-form-label" for="offsite_infra_charges_receipt_date">Receipt Date : <span class="star">*</span></label>
+                                 <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
+                                readonly="readonly">
+                                <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
+                            </div>
                         </div>
-                        <div class="col-xl-5 offset-xl-1 col-lg-6 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="offsite_infra_charges_receipt_date">Offsite Infrastructure planning authority receipt date : <span class="star">*</span></label>
-                             <input type="text" id="m_datepicker" name="offsite_infra_charges_receipt_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ date(config('commanConfig.dateFormat'), strtotime($noc_application->request_form->offsite_infra_charges_receipt_date)) }}" required
-                            readonly="readonly">
-                            <span class="help-block">{{$errors->first('offsite_infra_charges_receipt_date')}}</span>
+                    </div>    
+                    <div class="fieldset">
+                        <h5>Water Charges</h5>
+                        <div class="m-form__group row mhada-lease-margin">
+                            <div class="col-xl-5 form-group"> 
+                                <label class="col-form-label" for="water_charges_amount">Amount(Rs.) : <span class="star">*</span></label>
+                                <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->water_charges_amount }}" required>
+                                <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
+                            </div>
+                            <div class="col-xl-5 offset-xl-1 form-group"> 
+                                <label class="col-form-label" for="water_charges_receipt_number">Receipt Number : <span class="star">*</span></label>
+                                <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
+                                <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="m-form__group row mhada-lease-margin">
-                        <div class="col-xl-5 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_amount">Water charges amount(Rs.) : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_amount" name="water_charges_amount" class="form-control form-control--custom form-control--fixed-height m-input number" value="{{ $noc_application->request_form->water_charges_amount }}" required>
-                            <span class="help-block">{{$errors->first('water_charges_amount')}}</span>
-                        </div>
-                        <div class="col-xl-5 offset-xl-1 form-group"> <!-- offset-sm-1 -->
-                            <label class="col-form-label" for="water_charges_receipt_number">Water charges receipt number : <span class="star">*</span></label>
-                            <input type="text" id="water_charges_receipt_number" name="water_charges_receipt_number" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $noc_application->request_form->water_charges_receipt_number }}" required>
-                            <span class="help-block">{{$errors->first('water_charges_receipt_number')}}</span>
-                        </div>
-                        
-                    </div>
+                    </div>    
                     @endif
 
                     <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
