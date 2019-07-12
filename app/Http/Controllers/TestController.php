@@ -22,7 +22,18 @@ class TestController extends Controller
 
     public function test(){
     	$pdf = App::make('dompdf.wrapper');
-$pdf->loadHTML('<h1>मुंबई -४०००५१.</h1>');
-return $pdf->stream();
-    }
+		$pdf->loadHTML('<h1>मुंबई -४०००५१.</h1>');
+		return $pdf->stream();
+	}
+	
+	public function form()
+	{
+		return view('test.form');
+	}
+
+	public function postform(Request $request)
+	{
+		//dd($request->all());
+		return redirect()->route('getform')->with([ 'success' => 'data uploaded successfully!!!!' ] );
+	}
 }

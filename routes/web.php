@@ -10,6 +10,8 @@ use App\Events\SmsHitEvent;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('getform','TestController@form')->name('getform');
+Route::post('postform','TestController@postform')->name('postform');
 Route::get('welcome',function(){
     return view('welcome');
 });
