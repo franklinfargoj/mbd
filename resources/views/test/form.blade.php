@@ -4,6 +4,11 @@
     <title></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <style>
+        label{
+            text-transform: capitalize;
+        }
+    </style>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
@@ -98,7 +103,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Residing in Staff quarter</label>
+                                    <label class="col-md-4 control-label">Residing in Staff quarter?</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <div class="col-lg-3">
                                         <label>
@@ -239,7 +244,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Whether received any house from MHADA</label>
+                                    <label class="col-md-4 control-label">Whether received any house from MHADA?</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <div class="col-lg-3">
                                         <label> <input type="radio" name="received_house_from_mhada" value="1"
@@ -270,7 +275,7 @@
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                    <label class="col-md-4 control-label">Do you / your spouse own house Y/N</label>
+                                    <label class="col-md-4 control-label">Do you / your spouse own house?</label>
                                     <div class="col-md-5 inputGroupContainer">
                                             <div class="col-lg-3">
                                         <label> <input type="radio" name="you_or_your_spouse_own_house" value="1"
@@ -300,7 +305,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Do you have requirenment of house by
-                                        MHADA</label>
+                                        MHADA?</label>
                                     <div class="col-md-5 inputGroupContainer">
                                             <div class="col-lg-3">
                                         <label> <input type="radio" name="requirement_of_house_by_mhada" value="1"
