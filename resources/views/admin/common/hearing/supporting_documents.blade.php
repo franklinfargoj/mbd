@@ -21,7 +21,7 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Hearing</h3>
-                {{ Breadcrumbs::render('view_hearing_letter', $hearing_data->id) }}
+                {{ Breadcrumbs::render('supporting_documents', $hearing_data->id) }}
                 <div class="ml-auto btn-list">
                     <a href="{{ url()->previous() }}" class="btn btn-link"><i class="fa fa-long-arrow-left"
                                                                               style="padding-right: 8px;"></i>Back</a>
@@ -164,6 +164,14 @@
                                   disabled>{{ $hearing_data->respondent_address }}</textarea>
                         <span class="help-block">{{$errors->first('respondent_address')}}</span>
                     </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="office_remark">Remarks:</label>
+                        <textarea id="office_remark" name="office_remark"
+                                  class="form-control form-control--custom form-control--fixed-height m-input"
+                                  disabled>{{ $hearing_data->office_remark }}</textarea>
+                        <span class="help-block">{{$errors->first('office_remark')}}</span>
+                    </div>
                 </div>
 
                 {{--<div class="m-portlet__head px-0 m-portlet__head--top">--}}
@@ -238,172 +246,119 @@
                 {{--</div>--}}
                 {{--</div>--}}
 
-                <div class="form-group m-form__group row">
-                    <div class="col-sm-4 form-group">
-                        <label class="col-form-label" for="office_remark">Remarks:</label>
-                        <textarea id="office_remark" name="office_remark"
-                                  class="form-control form-control--custom form-control--fixed-height m-input"
-                                  disabled>{{ $hearing_data->office_remark }}</textarea>
-                        <span class="help-block">{{$errors->first('office_remark')}}</span>
-                    </div>
-
-                </div>
-
-            </div>
-        </div>
-
-
-        {{--hearing letter--}}
-        <div class="m-portlet m-portlet--mobile m_panel">
-            <div class="m-portlet__body">
-
-                @if($hearing_data->uploaded_hearing_letter == 0)
-                <h3 class="section-title section-title--small mb-0">Letter of Hearing:</h3>
-                <div class=" row-list">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a href="" class="btn btn-primary" data-toggle="modal"
-                               data-target="#hearingLetterModal">
-                                Generate/ Edit Letter of Hearing</a>
-                            <!-- <button type="submit">Edit offer Letter </button> -->
+                <div class="m-portlet__head px-0 m-portlet__head--top">
+                    <div class="m-portlet__head-caption">
+                        <div class="m-portlet__head-title">
+                            <span class="m-portlet__head-icon m--hide">
+                                <i class="la la-gear"></i>
+                            </span>
+                            <h3 class="m-portlet__head-text">
+                                Supporting Documents :-
+                            </h3>
                         </div>
                     </div>
                 </div>
-                @else
-                    <h3 class="section-title section-title--small mb-0">Draft of  Generated Hearing Letter:</h3>
-                    <div class=" row-list">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <a target="_blank"
-                                   href="{{config('commanConfig.storage_server').'/'.$draft_hearing_letter}}"
-                                   class="btn btn-primary">Download</a>
-                                <!-- <button type="submit">Edit offer Letter </button> -->
-                            </div>
+                <form action="{{route('upload_support_documents')}}"
+                      method="post"
+                      enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group m-form__group row">
+
+                        <div class="col-sm-4 form-group">
+                            {{--<label class="col-form-label" for="document_name">Document Name:</label>--}}
+                            <input type="text" id="document_name" placeholder="Document Name" name="document_name" class="form-control form-control--custom m-input"
+                                   value="" required>
+                            <span class="help-block">{{$errors->first('office_tehsil')}}</span>
                         </div>
-                    </div>
-                @endif
-
-                <div class="w-100 row-list">
-                    <div class="">
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="d-flex flex-column h-100">
-                                    <h5>Download Hearing Letter</h5>
-                                    <br/>
-                                    <div class="mt-auto">
-
-                                        @if(count($hearing_data->hearing_letter) > 0)
-                                            <a target="_blank"
-                                               href="{{config('commanConfig.storage_server').'/'.$hearing_data->hearing_letter[0]->document_path}}"
-                                               class="btn btn-primary">Download</a>
-                                        @else
-                                            <span class="error"
-                                                  style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                        * Note : Hearing Letter not available. </span>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-
-                            @if(count($hearing_data->hearing_letter) > 0)
-                            <div class="col-sm-6 border-left">
-                                <div class="d-flex flex-column h-100">
-                                    <h5>Upload Hearing Letter</h5>
-                                    <form action="{{route('upload_hearing_letter')}}"
-                                          method="post"
-                                          enctype="multipart/form-data">
-                                        @csrf
-                                        <input type="hidden" id="hearing_id" name="hearing_id"
-                                               value="{{ $hearing_data->id }}">
-                                        <div class="custom-file">
-                                            <input class="custom-file-input pdfcheck"
-                                                   name="hearing_letter"
-                                                   type="file"
-                                                   id="hearing-letter-upload" required="required">
-                                            <label class="custom-file-label" for="hearing-letter-upload">Choose
-                                                file...</label>
-                                            <span class="text-danger" id="file_error">{{session()->get('error') ?? ''}}</span>
-                                        </div>
-                                        <div class="mt-auto" style="float:right">
-                                            <button type="submit" onclick="return confirm('Are you sure you want to upload this document?');" class="btn btn-primary btn-custom"
-                                                    id="uploadBtn">
-                                                Upload
-                                            </button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                            @endif
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{--hearing letter end--}}
-
-        {{--hearing letter modal--}}
-        <div class="modal modal-large fade" id="hearingLetterModal" role="dialog">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Hearing Letter</h4>
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    </div>
-                    <div class="modal-body">
-
-                        <form id="hearing_letter" action="{{route('saveHearingLetter')}}" method="POST">
-                            @csrf
+                        <div class="col-sm-4 offset-sm-1  form-group">
                             <input type="hidden" id="hearing_id" name="hearing_id"
                                    value="{{ $hearing_data->id }}">
-
-                            <textarea id="ckeditorTextHearingletter" name="ckeditorTextHearingletter"
-                                      style="display: none;">
-                                @if($content_hearing_letter != null)
-                                    {{ $content_hearing_letter}}
-                                @else
-                                    <div style="text-align:justify;" id="">
-                                        <span>Hearing Letter</span>
-                                    </div>
-                                @endif
-
-                                </textarea>
-                            <input type="submit" value="save"
-                                   style="background-color: #f0791b;border-color: #f0791b;color: #fff !important;font-family: Poppins;cursor: pointer;display: inline-block;font-weight: 400;text-align: center;white-space: nowrap;vertical-align: middle;border: 1px solid transparent;transition: all .15s ease-in-out;border-radius: .25rem;line-height: 1.25;padding: .65rem 1.25rem;font-size: 1rem;">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        {{--hearing letter modal end--}}
-
-
-        <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
-            <div class="m-form__actions px-0">
-                <div class="row">
-                    <div class="col-sm-4">
-                        <div class="btn-list">
-                            <a href="{{url('/hearing_users')}}" class="btn btn-primary">Back</a>
+                            <div class="custom-file">
+                                <input class="custom-file-input pdfcheck"
+                                       name="supporting_documents"
+                                       type="file"
+                                       id="supporting_documents" required="required">
+                                <label class="custom-file-label" for="supporting_documents">Choose
+                                    file...</label>
+                                <span class="text-danger" id="file_error">{{session()->get('error') ?? ''}}</span>
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <div class="m-portlet__foot m-portlet__no-border m-portlet__foot--fit">
+                        <div class="m-form__actions px-0">
+                            <div class="row">
+                                <div class="col-sm-4">
+                                    <div class="btn-list">
+                                        <button type="submit" style="font-size: 14px;" class="btn btn-primary btn-custom"
+                                                id="uploadBtn">
+                                            Upload
+                                        </button>
+                                        <a href="{{url('/hearing_users')}}" class="btn btn-primary">Back</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </form>
+
             </div>
         </div>
+
+
     </div>
+
+    @if(isset($documents_data) && (count($documents_data) > 0))
+        <div class="m-portlet m-portlet--compact m-portlet--mobile">
+            <div class="m-portlet__body">
+                <!--begin: Search Form -->
+                <div class="m-form m-form--label-align-right">
+                    <!-- <div class="form-group m-form__group row align-items-center"> -->
+
+                    <!-- </div> -->
+                </div>
+                <!--end: Search Form -->
+                <!--begin: Datatable -->
+                <table class="table">
+                    <tr>
+                        <th>Sr No</th>
+                        <th>Upload Date</th>
+                        <th>Document Name</th>
+                        <th>Action</th>
+                    </tr>
+                    @foreach ($documents_data as $key => $data)
+                        <tr>
+                            <td>{{$key + 1}}</td>
+                            <td>{{date('d-m-Y',
+                                    strtotime($data->created_at))}}</td>
+                            <td>{{$data->document_name}}</td>
+                            @php $url= config('commanConfig.storage_server').'/'.$data->document_path ; @endphp
+                            <td>
+                                <span>
+                                    <a href="{{ $url }}"
+                                       class="upload_documents" target="_blank"
+                                       rel="noopener" download><button type="submit"
+                                                                       class="btn btn-primary btn-custom">
+                                                                        Download</button></a>
+                                    <a href="{{ route('delete_supporting_documents',encrypt($data->id)) }}"
+                                       onclick="alert('Are you sure want to delete ths document ?')" class="upload_documents"><button type="submit"
+                                                                        class="btn btn-primary btn-custom">
+                                                                        <i class="fa fa-trash"></i></button></a>
+                                                            </span>
+                            </td>
+
+                        </tr>
+
+                    @endforeach
+                </table>
+                <!--end: Datatable -->
+            </div>
+        </div>
+    @endif
+
     {{--</div>--}}
     {{--</div>--}}
 @endsection
-@section('js')
-    <script src="{{ asset('vendor/unisharp/laravel-ckeditor/ckeditor.js') }}"></script>
-    <script>
-        CKEDITOR.disableAutoInline = true;
-        CKEDITOR.replace('ckeditorTextHearingletter', {
-            height: 700,
-            allowedContent: true
-        });
 
-    </script>
-
-@endsection

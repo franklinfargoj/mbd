@@ -149,6 +149,11 @@ Breadcrumbs::for('view_hearing_letter', function ($trail, $hearing_id) {
     $trail->push('Letter of Hearing', route('view_hearing_letter', $hearing_id));
 });
 
+Breadcrumbs::for('supporting_documents', function ($trail, $hearing_id) {
+    $trail->parent('Hearing_list');
+    $trail->push('Supporting Documents', route('supporting_documents', $hearing_id));
+});
+
 Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });

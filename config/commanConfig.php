@@ -269,6 +269,7 @@ return [
     'hearing_letter'=>[
         'text'=>'text_hearing_letter',
         'drafted'=>'drafted_hearing_letter',
+        'uploaded'=>'uploaded_hearing_letter',
 
     ],
 

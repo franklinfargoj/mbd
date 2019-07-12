@@ -107,7 +107,7 @@ class Hearing extends Model
     }
 
     public function hearing_letter(){
-        return $this->hasMany('App\HearingLetter', 'id', 'hearing_id');
+        return $this->hasMany('App\HearingLetter', 'hearing_id', 'id');
     }
 
 }
