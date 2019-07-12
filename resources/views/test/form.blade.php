@@ -148,7 +148,7 @@
                                             <span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-inr"></i></span><input id="dob"
                                                 name="dob" placeholder="Date Of Birth" class="form-control datepicker"
-                                                required="true" value="{{old('dob')}}" type="text">
+                                                required="true" value="{{old('dob')}}" type="text" autocomplete="off">
                                         </div>
                                         @if ($errors->has('dob'))
                                         <span class="text-danger">{{ $errors->first('dob') }}</span>
@@ -162,7 +162,7 @@
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="date_of_appoinment_in_mhada" name="date_of_appoinment_in_mhada"
                                                 placeholder="Income Category Group" class="form-control datepicker" required="true"
-                                                value="{{old('date_of_appoinment_in_mhada')}}" type="text"></div>
+                                                value="{{old('date_of_appoinment_in_mhada')}}" type="text" autocomplete="off"></div>
                                         @if ($errors->has('date_of_appoinment_in_mhada'))
                                         <span
                                             class="text-danger">{{ $errors->first('date_of_appoinment_in_mhada') }}</span>
