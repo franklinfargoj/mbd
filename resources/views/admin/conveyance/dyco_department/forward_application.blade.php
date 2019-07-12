@@ -268,7 +268,7 @@
                                                         @if(count($childData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
 
                                                         @foreach($childData as $child)
-                                                            <option value="{{ $child->id}}" data-role="{{ $child->role_id }}">{{ $child->name }} ({{ $child->roles[0]->display_name }})</option>
+                                                            <option value="{{ $child->id}}" data-role="{{ $child->role_id }}" data-society="{{ ($child->role_id == $data->society_role_id) ? 1 : 0 }}">{{ $child->name }} ({{ $child->roles[0]->display_name }})</option>
                                                         @endforeach
                                                         
                                                         @elseif(isset($data->child))

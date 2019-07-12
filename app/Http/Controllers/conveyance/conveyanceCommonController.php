@@ -305,7 +305,6 @@ class conveyanceCommonController extends Controller
              $Tostatus = config('commanConfig.conveyance_status.pending'); 
 
             }
-            
         foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
             $application = [[
@@ -1088,7 +1087,6 @@ class conveyanceCommonController extends Controller
             if($request->module_name == 'Society Conveyance'){
                 $conveyanceCommonController = new conveyanceCommonController();
                 $conveyanceDashboard = $conveyanceCommonController->ConveyanceDashboard();
-
                 return $conveyanceDashboard;
             }
 
@@ -1180,23 +1178,22 @@ class conveyanceCommonController extends Controller
     } 
 
     public function getApplicationData($role_id,$user_id){
-        
+        $flag = [0,NULL];
         $applicationData = scApplication::with([
-            'scApplicationLog' => function ($q) use ($role_id,$user_id) {
+            'scApplicationLog' => function ($q) use ($role_id,$user_id,$flag) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
-                    ->where('society_flag', 0)
+                    ->whereIn('society_flag', $flag)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
             }])
-            ->whereHas('scApplicationLog', function ($q) use ($role_id,$user_id) {
+            ->whereHas('scApplicationLog', function ($q) use ($role_id,$user_id,$flag) {
                 $q->where('user_id', $user_id)
                     ->where('role_id', $role_id)
-                    ->where('society_flag', 0)
+                    ->whereIn('society_flag', $flag)
                     ->where('is_active',1)
                     ->orderBy('id', 'desc');
             })->get()->toArray();
-
         return $applicationData;
     }
 
@@ -1231,15 +1228,14 @@ class conveyanceCommonController extends Controller
         $can_revert  = $this->displayRevertVisibleRole($role_name);
         $can_forward = $this->displayForwardVisibleRole($role_name);
         $statusArr   = $this->getAllStatus(); 
-        
+
         foreach ($applicationData as $application){
             
             $status = $application['sc_application_log']['status_id'];            
             $sendForApprovalCondition = ($application['application_status'] != $statusArr['inprocess'] && $status == 
                 $statusArr['forwarded'] && $application['sent_to_society'] == 0);
 
-            $applicationForwarded = ($application['application_status'] == $statusArr['inprocess'] && $status == 
-                $statusArr['forwarded'] && $application['sent_to_society'] == 0 && $can_forward);
+            $applicationForwarded = ($application['application_status'] == $statusArr['inprocess'] && $status == $statusArr['forwarded'] && $application['sent_to_society'] == 0 && $can_forward);
 
             $applicationReverted    = ($status == $statusArr['reverted'] && $can_revert);
             $sendToSocietyCondition = $status == $statusArr['forwarded'] && ($application['sent_to_society'] == 1);
@@ -1282,31 +1278,30 @@ class conveyanceCommonController extends Controller
                 ; break;
             }
         }
-
         $totalPending = $inprocess + $draft + $approve + $stamp + $stampSign + $registered; 
 
 
         //Application pending Bifergation    
 
-        $separation['In Process']  = $inprocess;
-        $separation['Draft']      = $draft;
-        $separation['Approve']    = $approve;
-        $separation['Stamp']      = $stamp;
-        $separation['Stamp & Sign']  = $stampSign;
-        $separation['Registered'] = $registered;
+        $separation['In Process Application']  = $inprocess;
+        $separation['Draft Agreement Genereted Application'] = $draft;
+        $separation['Approve Agreement Application']    = $approve;
+        $separation['Stamp Application']      = $stamp;
+        $separation['Stamp & Sign Application']  = $stampSign;
+        $separation['Registered Agreement Application'] = $registered;
 
         if ($role_name == config('commanConfig.dyco_engineer')){
-            $separation['send For Stamp Duty']     = $StampDuty;
-            $separation['send For Registration']  = $Registration;
-            $separation['NOC Issued']            = $noc; 
+            $separation['Send For Stamp Duty']   = $StampDuty;
+            $separation['Send For Registration']  = $Registration;
+            $separation['Conveyance Issued'] = $noc; 
 
             $totalPending =  $totalPending + $Registration + $StampDuty +  $noc;  
         }
 
         //send to society Bifergation
-        $sendToSociety['Send For Stamp Duty']    = $sendForStampDuty;
-        $sendToSociety['Send For Registration'] = $sendForRegistration;
-        $sendToSociety['NOC Issued']            = $nocIssued;
+        $sendToSociety['Send to society For Stamp Duty']   = $sendForStampDuty;
+        $sendToSociety['Send to society For Registration'] = $sendForRegistration;
+        $sendToSociety['Conveyance Issued to society']     = $nocIssued;
 
         $sendToSocietycount = $sendForRegistration + $sendForStampDuty + $nocIssued;
         
@@ -1388,14 +1383,14 @@ class conveyanceCommonController extends Controller
 
     public function displayForwardVisibleRole($role_name){
 
-        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.cdo_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.ee_junior_engineer') || $role_name == config('commanConfig.junior_architect') || $role_name == config('commanConfig.dycdo_engineer') || $role_name == config('commanConfig.estate_manager'));
 
         return  $roles; 
     }
 
     public function displayRevertVisibleRole($role_name){
 
-        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.co_engineer') || $role_name == config('commanConfig.joint_co'));
+        $roles = ($role_name == config('commanConfig.dyco_engineer') || $role_name == config('commanConfig.cdo_engineer') || $role_name == config('commanConfig.ee_deputy_engineer') || $role_name == config('commanConfig.ee_branch_head') || $role_name == config('commanConfig.senior_architect') || $role_name == config('commanConfig.architect') || $role_name == config('commanConfig.co_engineer') || $role_name == config('commanConfig.joint_co'));
         return  $roles;
     }
 
