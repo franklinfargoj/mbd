@@ -21,12 +21,22 @@
             {{ session()->get( 'failed' ) }}
         </div>
         @endif
+        <div class="col-sm-3 overlay overlay--login h-100vh">
+            <div class="d-flex justify-content-center align-items-center login-page-header">
+                <img class="login-logo" src="{{asset('/img/logo-short.png')}}">
+            </div>
+        </div>
+        <div class="col-sm-6 overlay overlay--login h-100vh">
+            <div class="text-center w-100 m-login--left-box">
+                <h4 class="text-uppercase">Mumbai Housing and Area Development Board</h4>
+            </div>
+        </div>
         <table class="table table-striped">
             <tbody>
                 <tr>
                     <td colspan="1">
                         <form class="well form-horizontal" method="post" action="{{route('postform')}}">
-                                @csrf
+                            @csrf
                             <fieldset>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Full Name</label>
@@ -60,10 +70,10 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Residing in Staff quarter</label>
                                     <div class="col-md-5 inputGroupContainer">
-                                        <label> <input type="radio" name="residing_in_staff_quarter"
-                                                value="1" required>Yes</label>
-                                        <label> <input type="radio" name="residing_in_staff_quarter"
-                                                value="2" required>No</label>
+                                        <label> <input type="radio" name="residing_in_staff_quarter" value="1"
+                                                required>Yes</label>
+                                        <label> <input type="radio" name="residing_in_staff_quarter" value="2"
+                                                required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -123,10 +133,10 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Whether received any house from MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
-                                        <label> <input type="radio" name="received_house_from_mhada"
-                                                value="1" required>Yes</label>
-                                        <label> <input type="radio" name="received_house_from_mhada"
-                                                value="2" required>No</label>
+                                        <label> <input type="radio" name="received_house_from_mhada" value="1"
+                                                required>Yes</label>
+                                        <label> <input type="radio" name="received_house_from_mhada" value="2"
+                                                required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -142,10 +152,10 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Do you / your spouse own house Y/N</label>
                                     <div class="col-md-5 inputGroupContainer">
-                                        <label> <input type="radio" name="you_or_your_spouse_own_house"
-                                                value="1" required>Yes</label>
-                                        <label> <input type="radio" name="you_or_your_spouse_own_house"
-                                                value="2" required>No</label>
+                                        <label> <input type="radio" name="you_or_your_spouse_own_house" value="1"
+                                                required>Yes</label>
+                                        <label> <input type="radio" name="you_or_your_spouse_own_house" value="2"
+                                                required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -162,10 +172,10 @@
                                     <label class="col-md-4 control-label">Do you have requirenment of house by
                                         MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
-                                        <label> <input type="radio" name="requirement_of_house_by_mhada"
-                                                value="1" required>Yes</label>
-                                        <label> <input type="radio" name="requirement_of_house_by_mhada"
-                                                value="2" required>No</label>
+                                        <label> <input type="radio" name="requirement_of_house_by_mhada" value="1"
+                                                required>Yes</label>
+                                        <label> <input type="radio" name="requirement_of_house_by_mhada" value="2"
+                                                required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -174,26 +184,31 @@
                                         <ol>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_1"
-                                                        name="preferable_city_1" placeholder="City1" class="form-control"
-                                                        required="true" value="" type="text"></div>
+                                                            class="glyphicon glyphicon-inr"></i></span><input
+                                                        id="preferable_city_1" name="preferable_city_1"
+                                                        placeholder="City1" class="form-control" required="true"
+                                                        value="" type="text"></div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_2"
-                                                        name="preferable_city_2" placeholder="City2" class="form-control"
-                                                        required="true" value="" type="text"></div>
+                                                            class="glyphicon glyphicon-inr"></i></span><input
+                                                        id="preferable_city_2" name="preferable_city_2"
+                                                        placeholder="City2" class="form-control" required="true"
+                                                        value="" type="text"></div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_3"
-                                                        name="preferable_city_3" placeholder="City3" class="form-control"
-                                                        required="true" value="" type="text"></div>
+                                                            class="glyphicon glyphicon-inr"></i></span><input
+                                                        id="preferable_city_3" name="preferable_city_3"
+                                                        placeholder="City3" class="form-control" required="true"
+                                                        value="" type="text"></div>
                                             </li>
                                         </ol>
                                     </div>
                                 </div>
-                                <input type="submit" class="btn-btn-primary" name="submit" value="Submit">
+                                <div class="col-md-offset-6 col-md-6">
+                                <input type="submit" class="btn btn-primary " name="submit" value="Submit">
+                                </div>
                             </fieldset>
                         </form>
                     </td>
