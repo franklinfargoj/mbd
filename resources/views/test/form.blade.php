@@ -16,6 +16,11 @@
             {{ session()->get( 'success' ) }}
         </div>
         @endif
+        @if(session()->has( 'failed' ) )
+        <div class="alert alert-danger">
+            {{ session()->get( 'failed' ) }}
+        </div>
+        @endif
         <table class="table table-striped">
             <tbody>
                 <tr>
@@ -56,9 +61,9 @@
                                     <label class="col-md-4 control-label">Residing in Staff quarter</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="residing_in_staff_quarter"
-                                                value="1">Yes</label>
+                                                value="1" required>Yes</label>
                                         <label> <input type="radio" name="residing_in_staff_quarter"
-                                                value="2">No</label>
+                                                value="2" required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -119,9 +124,9 @@
                                     <label class="col-md-4 control-label">Whether received any house from MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="received_house_from_mhada"
-                                                value="1">Yes</label>
+                                                value="1" required>Yes</label>
                                         <label> <input type="radio" name="received_house_from_mhada"
-                                                value="2">No</label>
+                                                value="2" required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -138,9 +143,9 @@
                                     <label class="col-md-4 control-label">Do you / your spouse own house Y/N</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="you_or_your_spouse_own_house"
-                                                value="1">Yes</label>
+                                                value="1" required>Yes</label>
                                         <label> <input type="radio" name="you_or_your_spouse_own_house"
-                                                value="2">No</label>
+                                                value="2" required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -158,9 +163,9 @@
                                         MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="requirement_of_house_by_mhada"
-                                                value="1">Yes</label>
+                                                value="1" required>Yes</label>
                                         <label> <input type="radio" name="requirement_of_house_by_mhada"
-                                                value="2">No</label>
+                                                value="2" required>No</label>
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -169,20 +174,20 @@
                                         <ol>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="city1"
-                                                        name="city1" placeholder="City1" class="form-control"
+                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_1"
+                                                        name="preferable_city_1" placeholder="City1" class="form-control"
                                                         required="true" value="" type="text"></div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="city2"
-                                                        name="city2" placeholder="City2" class="form-control"
+                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_2"
+                                                        name="preferable_city_2" placeholder="City2" class="form-control"
                                                         required="true" value="" type="text"></div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
-                                                            class="glyphicon glyphicon-inr"></i></span><input id="city3"
-                                                        name="city3" placeholder="City3" class="form-control"
+                                                            class="glyphicon glyphicon-inr"></i></span><input id="preferable_city_3"
+                                                        name="preferable_city_3" placeholder="City3" class="form-control"
                                                         required="true" value="" type="text"></div>
                                             </li>
                                         </ol>

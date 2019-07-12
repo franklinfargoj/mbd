@@ -10,6 +10,7 @@ use App\Http\Requests\board\UpdateBoardRequest;
 use Yajra\DataTables\DataTables;
 use Config;
 use DomPDF;
+use App\DataSheet;
 
 class TestController extends Controller
 {
@@ -33,7 +34,14 @@ class TestController extends Controller
 
 	public function postform(Request $request)
 	{
-		//dd($request->all());
-		return redirect()->route('getform')->with([ 'success' => 'data uploaded successfully!!!!' ] );
+		try
+		{
+			DataSheet::create($request->all());
+			return redirect()->route('getform')->with([ 'success' => 'data uploaded successfully!!!!' ] );
+		}catch(\Exception $e)
+		{
+			return redirect()->route('getform')->with([ 'failed' => 'Something Went Wrong' ] );
+		}
+		
 	}
 }
