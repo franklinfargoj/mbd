@@ -5094,7 +5094,7 @@ class CommonController extends Controller
     * Function for Upload Hearing Letter.
     *
     * Author :Prajakta Sisale.
-    *    
+    *
     * @return \Illuminate\Http\Response
     */
     public function upload_hearing_letter(Request $request){

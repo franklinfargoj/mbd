@@ -511,7 +511,9 @@ class HearingController extends Controller
         $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
         $id = decrypt($id);
 //        $header_data = $this->header_data;
-        $arrData['hearing'] = Hearing::with(['hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+        $arrData['hearing'] = Hearing::with(['hearing_letter' =>function($query){
+            $query->orderBy('id','desc');
+        },'hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
             $q->where('department_id', $department_id);
         }])
                         ->where('id', $id)
