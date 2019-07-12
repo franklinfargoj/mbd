@@ -4938,7 +4938,9 @@ class CommonController extends Controller
 
         $id = decrypt($id);
 
-        $hearing_data = Hearing::with ('hearingApplicationType','hearingBoard','hearing_letter')->where('id',$id)->first();
+        $hearing_data = Hearing::with (['hearingApplicationType','hearingBoard','hearing_letter' => function($q){
+            $q->orderBy('id','desc');
+        }])->where('id',$id)->first();
 
         $text_hearing_letter = $this->get_hearing_letter($hearing_data->id, config('commanConfig.hearing_letter.text'));
 
@@ -4948,7 +4950,10 @@ class CommonController extends Controller
             $content_hearing_letter = "";
         }
 
-        return view('admin.common.hearing.view_hearing_letter', compact('hearing_data','content_hearing_letter'));
+        $draft_hearing_letter = HearingLetter::where('hearing_id',$hearing_data->id)->where('letter_type',config('commanConfig.hearing_letter.drafted'))->value('document_path');
+
+//        dd($hearing_data);
+        return view('admin.common.hearing.view_hearing_letter', compact('hearing_data','content_hearing_letter','draft_hearing_letter'));
     }
 
     /*
@@ -5001,8 +5006,15 @@ class CommonController extends Controller
 
         Storage::disk('ftp')->put($filePath1, $content);
 
-        $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.text'), $filePath1);
-        $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.drafted'), $filePath, $this->get_document_status_by_name('Draft'));
+        DB::beginTransaction();
+        try {
+            $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.text'), $filePath1);
+            $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.drafted'), $filePath, $this->get_document_status_by_name('Draft'));
+
+            DB::commit();
+        } catch (\Exception $ex) {
+            DB::rollback();
+        }
 
         if ($this->get_hearing_letter($hearing_data->id, config('commanConfig.hearing_letter.drafted')) != null) {
             return back()->with('success', 'Hearing Letter Saved Successfully.');
@@ -5020,6 +5032,7 @@ class CommonController extends Controller
     public function set_hearing_letter($hearing_data, $letter_type, $path, $status_id = 0)
     {
 
+//        dd($hearing_data);
         $hearing_letter_data = HearingLetter::where('hearing_id',$hearing_data->id)->where('letter_type',$letter_type)->get();
 
         $data =[
@@ -5081,12 +5094,41 @@ class CommonController extends Controller
     * Function for Upload Hearing Letter.
     *
     * Author :Prajakta Sisale.
-    *
-    *  @param $id, $letter_type
-    *
+    *    
     * @return \Illuminate\Http\Response
     */
-    public function upload_hearing_letter(){
-        dd('upload_hearing_letter');
+    public function upload_hearing_letter(Request $request){
+
+        $hearing_id = $request->hearing_id;
+
+        $hearing_data = Hearing::where('id',$hearing_id)->first();
+
+        if ($request->file('hearing_letter')) {
+            $file = $request->file('hearing_letter');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = $file->getClientOriginalName();
+            $folder_name = "Draft_hearing_letter";
+
+            $drafted_hearing_letter = $this->get_hearing_letter($hearing_data->id, config('commanConfig.hearing_letter.drafted'));
+
+            if ($extension == "pdf") {
+                if ($drafted_hearing_letter != null) {
+                    $fileUpload = $this->ftpFileUpload($folder_name, $request->file('hearing_letter'), $file_name);
+
+                    Hearing::where('id',$hearing_id)->update(['uploaded_hearing_letter' => 1]);
+
+                    $this->set_hearing_letter($hearing_data, config('commanConfig.hearing_letter.uploaded'), $fileUpload, $this->get_document_status_by_name('Draft'));
+
+                    return redirect()->back()->with('success', 'Hearing Letter has been uploaded successfully.');
+
+                } else {
+                    return redirect()->back()->with('error', 'Draft copy of hearing letter has not been generated');
+                }
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+
+        }
+
     }
 }

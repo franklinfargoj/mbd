@@ -252,6 +252,7 @@
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">
 
+                @if($hearing_data->uploaded_hearing_letter == 0)
                 <h3 class="section-title section-title--small mb-0">Letter of Hearing:</h3>
                 <div class=" row-list">
                     <div class="row">
@@ -263,7 +264,19 @@
                         </div>
                     </div>
                 </div>
-
+                @else
+                    <h3 class="section-title section-title--small mb-0">Draft of  Generated Hearing Letter:</h3>
+                    <div class=" row-list">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <a target="_blank"
+                                   href="{{config('commanConfig.storage_server').'/'.$draft_hearing_letter}}"
+                                   class="btn btn-primary">Download</a>
+                                <!-- <button type="submit">Edit offer Letter </button> -->
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 <div class="w-100 row-list">
                     <div class="">
@@ -274,46 +287,48 @@
                                     <br/>
                                     <div class="mt-auto">
 
-                                        {{--@if($tripartite_agrement['drafted_tripartite_letter1'] || $generated_letter1 != null || $stamped_signed_letter1 != null)--}}
-                                        {{--<a target="_blank"--}}
-                                        {{--href="{{config('commanConfig.storage_server').'/'.$tripartite_agrement['drafted_tripartite_letter1']->society_document_path}}"--}}
-                                        {{--class="btn btn-primary">Download</a>--}}
-                                        {{--@else--}}
-                                        {{--<span class="error"--}}
-                                        {{--style="display: block;color: #ce2323;margin-bottom: 17px;">--}}
-                                        {{--* Note : Letter For Stamp Duty not available. </span>--}}
-                                        {{--@endif--}}
+                                        @if(count($hearing_data->hearing_letter) > 0)
+                                            <a target="_blank"
+                                               href="{{config('commanConfig.storage_server').'/'.$hearing_data->hearing_letter[0]->document_path}}"
+                                               class="btn btn-primary">Download</a>
+                                        @else
+                                            <span class="error"
+                                                  style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                        * Note : Hearing Letter not available. </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
 
-                            {{--<div class="col-sm-6 border-left">--}}
-                            {{--<div class="d-flex flex-column h-100">--}}
-                            {{--<h5>Upload Signed & Scanned Letter For Stamp Duty</h5>--}}
-                            {{--<form action="{{route('upload_hearing_letter')}}"--}}
-                            {{--method="post"--}}
-                            {{--enctype="multipart/form-data">--}}
-                            {{--@csrf--}}
-                            {{--<input type="hidden" id="applicationId" name="applicationId"--}}
-                            {{--value="{{ $hearing->id }}">--}}
-                            {{--<div class="custom-file">--}}
-                            {{--<input class="custom-file-input pdfcheck"--}}
-                            {{--name="signed_tripartite_letter_1"--}}
-                            {{--type="file"--}}
-                            {{--id="test1-upload" required="required">--}}
-                            {{--<label class="custom-file-label" for="test1-upload">Choose--}}
-                            {{--file...</label>--}}
-                            {{--<span class="text-danger" id="file_error"></span>--}}
-                            {{--</div>--}}
-                            {{--<div class="mt-auto" style="float:right">--}}
-                            {{--<button type="submit" class="btn btn-primary btn-custom"--}}
-                            {{--id="uploadBtn">--}}
-                            {{--Upload--}}
-                            {{--</button>--}}
-                            {{--</div>--}}
-                            {{--</form>--}}
-                            {{--</div>--}}
-                            {{--</div>--}}
+                            @if(count($hearing_data->hearing_letter) > 0)
+                            <div class="col-sm-6 border-left">
+                                <div class="d-flex flex-column h-100">
+                                    <h5>Upload Hearing Letter</h5>
+                                    <form action="{{route('upload_hearing_letter')}}"
+                                          method="post"
+                                          enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="hidden" id="hearing_id" name="hearing_id"
+                                               value="{{ $hearing_data->id }}">
+                                        <div class="custom-file">
+                                            <input class="custom-file-input pdfcheck"
+                                                   name="hearing_letter"
+                                                   type="file"
+                                                   id="hearing-letter-upload" required="required">
+                                            <label class="custom-file-label" for="hearing-letter-upload">Choose
+                                                file...</label>
+                                            <span class="text-danger" id="file_error"></span>
+                                        </div>
+                                        <div class="mt-auto" style="float:right">
+                                            <button type="submit" onclick="return confirm('Are you sure you want to upload this document?');" class="btn btn-primary btn-custom"
+                                                    id="uploadBtn">
+                                                Upload
+                                            </button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                            @endif
 
                         </div>
                     </div>
@@ -356,7 +371,6 @@
                 </div>
             </div>
         </div>
-
 
         {{--hearing letter modal end--}}
 
