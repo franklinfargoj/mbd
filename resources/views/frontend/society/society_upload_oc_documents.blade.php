@@ -96,17 +96,16 @@
                                     </h2>
                                 </td> 
                                 <td>
-                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form">
+                                    <form action="{{ route('uploaded_oc_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($oc_applications->id) ? $oc_applications->id : '' }}">
                                         <div class="custom-file">
-                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                                                required>
+                                            <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}" required>
                                             <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                                                file ...</label>
+                                            <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose file ...</label>
+                                            <span id="error_{{ $document->id }}" class="compulsory-text"></span>
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                        <button type="submit" class="btn btn-primary btn-custom uploadBtn" id="{{ $document->id }}" data-validation="{{ $document->validation }}">Upload</button>
                                     </form>
                                 </td>    
                                 @endif
@@ -277,4 +276,31 @@
         </div>
     @endif
 </div>
+@endsection
+@section('actions_js')
+    <script>
+        $(".uploadBtn").click(function(e){
+            var documentId = this.id;
+            var validation = $(this).attr('data-validation');
+            var file = $("#test-upload_"+documentId).val();
+            var ext = file.split('.').pop();
+            var imgValidation = ["jpg", "jpeg", "bmp", "gif", "png","pdf"];
+            var pdfValidation = ["pdf"];
+            if (validation == 'image'){
+                if (jQuery.inArray(ext, imgValidation) !== -1) { 
+                    $("#error_"+documentId).html("");
+                }else{
+                    $("#error_"+documentId).html("Invalid file type. image or pdf required.");
+                    e.preventDefault();
+                }
+            }else if(validation == 'pdf') {
+                if (jQuery.inArray(ext, pdfValidation) !== -1){
+                    $("#error_"+documentId).html("");
+                } else{
+                    $("#error_"+documentId).html("Invalid file type. pdf required.");
+                    e.preventDefault();
+                }
+            }    
+        });
+    </script>
 @endsection

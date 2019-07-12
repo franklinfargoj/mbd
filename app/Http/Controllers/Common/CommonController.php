@@ -4431,11 +4431,11 @@ class CommonController extends Controller
     }
 
     public function getDYCDORoles(){
-        $roles = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'));
+        $roles = array(config('commanConfig.dycdo_engineer'),config('commanConfig.dyco_engineer'),config('commanConfig.cdo_engineer'));
         $count =  Role::whereIn('name', $roles)->pluck('id');  
         return  $count;   
             
-    }         
+    }        
 
     public function getEERoles1(){
         

@@ -715,6 +715,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 1,
                     'full_oc_document' => 0,
                     'name' => "संस्थेचा अर्ज परिशिष्ट अ प्रमाणे "
@@ -723,6 +724,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Latest Approved Drawings"
@@ -731,6 +733,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Matching statement"
@@ -739,6 +742,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Stability certificate from structure consultant"
@@ -747,6 +751,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Completion certificate from society architect"
@@ -755,6 +760,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 1,
                     'name' => "Registered Supplymentry lease deed"
@@ -763,6 +769,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'image',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Building photo's - Front side"
@@ -771,6 +778,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'image',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Building photo's - Back side"
@@ -779,6 +787,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'image',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Building photo's - Left side"
@@ -787,6 +796,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'image',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Building photo's - Right side"
@@ -795,6 +805,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'image',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Google Image"
@@ -803,6 +814,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "No dues certificate from EM."
@@ -811,6 +823,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Noc from chief fire officer, MCGM."
@@ -819,6 +832,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>0,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "List Installation Certificate."
@@ -827,6 +841,7 @@ class OlSocietyDocumentsMasterTableSeeder extends Seeder
                     'application_id'   => $app,
                     'language_id'   => $Englang,
                     'is_optional'=>1,
+                    'validation' => 'pdf',
                     'is_deleted' => 0,
                     'full_oc_document' => 0,
                     'name' => "Other"

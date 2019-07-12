@@ -1709,7 +1709,7 @@ class SocietyOfferLetterController extends Controller
         $applicationId = $request->applicationId;
         $uploadPath = '/uploads/society_oc_documents';
         $destinationPath = public_path($uploadPath);
-
+        $fileValidation = ["jpg", "jpeg", "bmp", "gif", "png","pdf"];
         $society = SocietyOfferLetter::where('user_id', Auth::user()->id)->first();
         $application = OcApplication::where('id',$request->applicationId)->where('society_id', $society->id)->orderBy('id','desc')->first();
 
@@ -1722,7 +1722,7 @@ class SocietyOfferLetterController extends Controller
             $file = $request->file('document_name');
             $file_name = time().$file->getFileName().'.'.$file->getClientOriginalExtension();
             $extension = $request->file('document_name')->getClientOriginalExtension();
-            if ($extension == "pdf") {
+            if (in_array($extension, $fileValidation)) {
                 $time = time();
                 $name = File::name($request->file('document_name')->getClientOriginalName()) . '_' . $time . '.' . $extension;
                 $folder_name = "society_oc_documents";

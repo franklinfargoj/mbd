@@ -10,9 +10,6 @@
     <link href="{{asset('/css/dashboard/custom.css')}}" rel="stylesheet" type="text/css"/>
 @endsection
 @section('content')
-
-
-
     <div class="container-fluid mhada-dash-new">
         @if(session()->get('role_name') == config('commanConfig.estate_manager') || session()->get('role_name') == config('commanConfig.la_engineer'))
         <div class="d-flex flex-wrap db-wrapper">
