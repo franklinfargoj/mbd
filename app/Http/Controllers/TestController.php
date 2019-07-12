@@ -39,6 +39,11 @@ class TestController extends Controller
 			'permanant_address' => 'required',
 			'address_present'=>'required',
 			'residing_in_staff_quarter'=>'required',
+			'staff_quarter_area'=>'required_if:residing_in_staff_quarter,==,1',
+			'staff_quarter_address'=>'required_if:residing_in_staff_quarter,==,1',
+			'date_of_allotment_of_staff_quarter'=>'required_if:residing_in_staff_quarter,==,1',
+			'phonenumber'=>'required',
+			'email'=>'required',
 			'post'=>'required',
 			'class'=>'required',
 			'pay_scale'=>'required',
@@ -50,9 +55,9 @@ class TestController extends Controller
 			'you_or_your_spouse_own_house'=>'required',
 			'if_yes_name_of_the_city'=>'required_if:you_or_your_spouse_own_house,==,1',
 			'requirement_of_house_by_mhada'=>'required',
-			'preferable_city_1'=>'required',
-			'preferable_city_2'=>'required',
-			'preferable_city_3'=>'required'
+			'preferable_city_1'=>'required_if:requirement_of_house_by_mhada,==,1',
+			'preferable_city_2'=>'required_if:requirement_of_house_by_mhada,==,1',
+			'preferable_city_3'=>'required_if:requirement_of_house_by_mhada,==,1'
 		]);
 		try
 		{
