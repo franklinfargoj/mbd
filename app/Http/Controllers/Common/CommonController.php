@@ -8,6 +8,7 @@ use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
 use App\Hearing;
 use App\HearingLetter;
+use App\HearingSupportDocuments;
 use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
@@ -5131,4 +5132,72 @@ class CommonController extends Controller
         }
 
     }
+
+    /*
+     * Function for Upload Hearing Letter.
+     *
+     * Author :Prajakta Sisale.
+     *
+     * @return \Illuminate\Http\Response
+     */
+
+    public function supporting_documents($id){
+
+        $id = decrypt($id);
+        $user_id = Auth::user()->id;
+        $hearing_data = Hearing::where('id',$id)->first();
+        $documents_data = HearingSupportDocuments::where('hearing_id',$id)->where('hearing_user_id',$user_id)->get();
+        return view('admin.common.hearing.supporting_documents',compact('hearing_data','documents_data'));
+    }
+
+    public function upload_support_documents(Request $request){
+
+        $hearing_id = $request->hearing_id;
+
+        if ($request->file('supporting_documents')) {
+            $file = $request->file('supporting_documents');
+            $extension = $file->getClientOriginalExtension();
+            $file_name = $file->getClientOriginalName();
+            $folder_name = "Hearing_supporting_documents";
+
+            if ($extension == "pdf") {
+
+                $fileUpload = $this->ftpFileUpload($folder_name,$request->file('supporting_documents'),$file_name);
+
+                $data = [
+                    'hearing_user_id' => Auth::user()->id,
+                    'document_path' => $fileUpload,
+                    'hearing_id' => $hearing_id,
+                    'document_name' => $request->document_name
+                ];
+                $documents_data = HearingSupportDocuments::create($data);
+
+                return redirect()->back()->with(['success'=>'Document uploaded successfully.','documents_data' => $documents_data]);
+
+            } else {
+                return redirect()->back()->with('error', 'Invalid format. pdf file only.');
+            }
+
+        }
+    }
+
+    /**
+     * Deletes uploaded society documents.
+     * Author: Amar Prajapati
+     * @param  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function delete_supporting_documents($document_id){
+
+        $documentId = decrypt($document_id);
+
+        $delete_document_details = HearingSupportDocuments::where('id',$documentId)->first();
+
+        $delete = Storage::disk('ftp')->delete($delete_document_details->document_path);
+
+        HearingSupportDocuments::where('id',$documentId)->delete();
+        
+        return redirect()->back()->with('success','Document Deleted Successfully.');
+    }
+
 }
