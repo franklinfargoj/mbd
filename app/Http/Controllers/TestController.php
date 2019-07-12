@@ -34,6 +34,26 @@ class TestController extends Controller
 
 	public function postform(Request $request)
 	{
+		$this->validate($request, [
+			'full_name' => 'required',
+			'permanant_address' => 'required',
+			'address_present'=>'required',
+			'residing_in_staff_quarter'=>'required',
+			'post'=>'required',
+			'class'=>'required',
+			'pay_scale'=>'required',
+			'income_category_group'=>'required',
+			'dob'=>'required',
+			'date_of_appoinment_in_mhada'=>'required',
+			'received_house_from_mhada'=>'required',
+			'under_which_provosion'=>'required_if:received_house_from_mhada,==,1',
+			'you_or_your_spouse_own_house'=>'required',
+			'if_yes_name_of_the_city'=>'required_if:you_or_your_spouse_own_house,==,1',
+			'requirement_of_house_by_mhada'=>'required',
+			'preferable_city_1'=>'required',
+			'preferable_city_2'=>'required',
+			'preferable_city_3'=>'required'
+		]);
 		try
 		{
 			DataSheet::create($request->all());

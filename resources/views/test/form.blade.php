@@ -28,7 +28,7 @@
         </div>
         <div class="col-sm-6 overlay overlay--login h-100vh">
             <div class="text-center w-100 m-login--left-box">
-                <h4 class="text-uppercase">Mumbai Housing and Area Development Board</h4>
+                <h4 class="text-uppercase">Maharashtra Housing and Area Development Board</h4>
             </div>
         </div>
         <table class="table table-striped">
@@ -44,8 +44,12 @@
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-user"></i></span><input id="full_name"
                                                 name="full_name" placeholder="Full Name" class="form-control"
-                                                required="true" value="" type="text"></div>
+                                                value="{{old('full_name')}}" type="text" required="true"></div>
+                                        @if ($errors->has('full_name'))
+                                        <span class="text-danger">{{ $errors->first('full_name') }}</span>
+                                        @endif
                                     </div>
+
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Address Permanant</label>
@@ -53,9 +57,13 @@
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-home"></i></span><input
                                                 id="permanant_address" name="permanant_address"
-                                                placeholder="Address Permanant" class="form-control" required="true"
-                                                value="" type="text"></div>
+                                                placeholder="Address Permanant" class="form-control"
+                                                value="{{old('permanant_address')}}" type="text" required="true"></div>
+                                        @if ($errors->has('permanant_address'))
+                                        <span class="text-danger">{{ $errors->first('permanant_address') }}</span>
+                                        @endif
                                     </div>
+
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Address Present</label>
@@ -64,16 +72,23 @@
                                                     class="glyphicon glyphicon-home"></i></span><input
                                                 id="address_present" name="address_present"
                                                 placeholder="Address Present" class="form-control" required="true"
-                                                value="" type="text"></div>
+                                                value="{{old('address_present')}}" type="text"></div>
+                                        @if ($errors->has('address_present'))
+                                        <span class="text-danger">{{ $errors->first('address_present') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Residing in Staff quarter</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="residing_in_staff_quarter" value="1"
-                                                required>Yes</label>
+                                                required {{old('residing_in_staff_quarter')=='1'?'checked':''}}>Yes</label>
                                         <label> <input type="radio" name="residing_in_staff_quarter" value="2"
-                                                required>No</label>
+                                                required {{old('residing_in_staff_quarter')=='2'?'checked':''}}>No</label>
+                                        @if ($errors->has('residing_in_staff_quarter'))
+                                        <span
+                                            class="text-danger">{{ $errors->first('residing_in_staff_quarter') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -81,15 +96,21 @@
                                     <div class="col-md-3 inputGroupContainer">
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="fa fa-id-card"></i></span><input id="post" name="post"
-                                                placeholder="Post" class="form-control" required="true" value=""
-                                                type="text"></div>
+                                                placeholder="Post" class="form-control" required="true"
+                                                value="{{old('post')}}" type="text"></div>
+                                        @if ($errors->has('post'))
+                                        <span class="text-danger">{{ $errors->first('post') }}</span>
+                                        @endif
                                     </div>
                                     <label class="col-md-1 control-label">Class</label>
                                     <div class="col-md-3 inputGroupContainer">
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="fa fa-id-card"></i></span><input id="class" name="class"
-                                                placeholder="Class" class="form-control" required="true" value=""
-                                                type="text"></div>
+                                                placeholder="Class" class="form-control" required="true"
+                                                value="{{old('class')}}" type="text"></div>
+                                        @if ($errors->has('class'))
+                                        <span class="text-danger">{{ $errors->first('class') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -98,7 +119,10 @@
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-inr"></i></span><input id="pay_scale"
                                                 name="pay_scale" placeholder="Pay Scale" class="form-control"
-                                                required="true" value="" type="text"></div>
+                                                required="true" value="{{old('pay_scale')}}" type="text"></div>
+                                        @if ($errors->has('pay_scale'))
+                                        <span class="text-danger">{{ $errors->first('pay_scale') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -108,7 +132,10 @@
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="income_category_group" name="income_category_group"
                                                 placeholder="Income Category Group" class="form-control" required="true"
-                                                value="" type="text"></div>
+                                                value="{{old('income_category_group')}}" type="text"></div>
+                                        @if ($errors->has('income_category_group'))
+                                        <span class="text-danger">{{ $errors->first('income_category_group') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -117,7 +144,11 @@
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-inr"></i></span><input id="dob"
                                                 name="dob" placeholder="Date Of Birth" class="form-control"
-                                                required="true" value="" type="date"></div>
+                                                required="true" value="{{old('dob')}}" type="date">
+                                        </div>
+                                        @if ($errors->has('dob'))
+                                        <span class="text-danger">{{ $errors->first('dob') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -127,16 +158,24 @@
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="date_of_appoinment_in_mhada" name="date_of_appoinment_in_mhada"
                                                 placeholder="Income Category Group" class="form-control" required="true"
-                                                value="" type="date"></div>
+                                                value="{{old('date_of_appoinment_in_mhada')}}" type="date"></div>
+                                        @if ($errors->has('date_of_appoinment_in_mhada'))
+                                        <span
+                                            class="text-danger">{{ $errors->first('date_of_appoinment_in_mhada') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Whether received any house from MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="received_house_from_mhada" value="1"
-                                                required>Yes</label>
+                                                required {{old('received_house_from_mhada')=='1'?'checked':''}}>Yes</label>
                                         <label> <input type="radio" name="received_house_from_mhada" value="2"
-                                                required>No</label>
+                                                required {{old('received_house_from_mhada')=='2'?'checked':''}}>No</label>
+                                        @if ($errors->has('received_house_from_mhada'))
+                                        <span
+                                            class="text-danger">{{ $errors->first('received_house_from_mhada') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -146,16 +185,24 @@
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="under_which_provosion" name="under_which_provosion"
                                                 placeholder="If Yes Under Which Provision" class="form-control"
-                                                required="true" value="" type="text"></div>
+                                                 value="{{old('under_which_provosion')}}" type="text">
+                                        </div>
+                                        @if ($errors->has('under_which_provosion'))
+                                        <span class="text-danger">{{ $errors->first('under_which_provosion') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Do you / your spouse own house Y/N</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="you_or_your_spouse_own_house" value="1"
-                                                required>Yes</label>
+                                                required {{old('you_or_your_spouse_own_house')=='1'?'checked':''}}>Yes</label>
                                         <label> <input type="radio" name="you_or_your_spouse_own_house" value="2"
-                                                required>No</label>
+                                                required {{old('you_or_your_spouse_own_house')=='2'?'checked':''}}>No</label>
+                                        @if ($errors->has('you_or_your_spouse_own_house'))
+                                        <span
+                                            class="text-danger">{{ $errors->first('you_or_your_spouse_own_house') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -165,7 +212,11 @@
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="if_yes_name_of_the_city" name="if_yes_name_of_the_city"
                                                 placeholder="If Yes Name Of The City" class="form-control"
-                                                required="true" value="" type="text"></div>
+                                                 value="{{old('if_yes_name_of_the_city')}}" type="text">
+                                        </div>
+                                        @if ($errors->has('if_yes_name_of_the_city'))
+                                        <span class="text-danger">{{ $errors->first('if_yes_name_of_the_city') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -173,9 +224,13 @@
                                         MHADA</label>
                                     <div class="col-md-5 inputGroupContainer">
                                         <label> <input type="radio" name="requirement_of_house_by_mhada" value="1"
-                                                required>Yes</label>
+                                                required {{old('requirement_of_house_by_mhada')=='1'?'checked':''}}>Yes</label>
                                         <label> <input type="radio" name="requirement_of_house_by_mhada" value="2"
-                                                required>No</label>
+                                                required {{old('requirement_of_house_by_mhada')=='2'?'checked':''}}>No</label>
+                                        @if ($errors->has('requirement_of_house_by_mhada'))
+                                        <span
+                                            class="text-danger">{{ $errors->first('requirement_of_house_by_mhada') }}</span>
+                                        @endif
                                     </div>
                                 </div>
                                 <div class="form-group">
@@ -187,27 +242,42 @@
                                                             class="glyphicon glyphicon-inr"></i></span><input
                                                         id="preferable_city_1" name="preferable_city_1"
                                                         placeholder="City1" class="form-control" required="true"
-                                                        value="" type="text"></div>
+                                                        value="{{old('preferable_city_1')}}" type="text">
+                                                    @if ($errors->has('preferable_city_1'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('preferable_city_1') }}</span>
+                                                    @endif
+                                                </div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                             class="glyphicon glyphicon-inr"></i></span><input
                                                         id="preferable_city_2" name="preferable_city_2"
                                                         placeholder="City2" class="form-control" required="true"
-                                                        value="" type="text"></div>
+                                                        value="{{old('preferable_city_2')}}" type="text">
+                                                    @if ($errors->has('preferable_city_2'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('preferable_city_2') }}</span>
+                                                    @endif
+                                                </div>
                                             </li>
                                             <li>
                                                 <div class="input-group"><span class="input-group-addon"><i
                                                             class="glyphicon glyphicon-inr"></i></span><input
                                                         id="preferable_city_3" name="preferable_city_3"
                                                         placeholder="City3" class="form-control" required="true"
-                                                        value="" type="text"></div>
+                                                        value="{{old('preferable_city_3')}}" type="text">
+                                                    @if ($errors->has('preferable_city_3'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('preferable_city_3') }}</span>
+                                                    @endif
+                                                </div>
                                             </li>
                                         </ol>
                                     </div>
                                 </div>
                                 <div class="col-md-offset-6 col-md-6">
-                                <input type="submit" class="btn btn-primary " name="submit" value="Submit">
+                                    <input type="submit" class="btn btn-primary " name="submit" value="Submit">
                                 </div>
                             </fieldset>
                         </form>
