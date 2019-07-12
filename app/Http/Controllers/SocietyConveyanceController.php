@@ -239,10 +239,10 @@ class SocietyConveyanceController extends Controller
                         $sc_form_last_id = '';
                         $sc_appn = new scApplication;
                         $sc_application = array_slice($sc_appn->getFillable(), 0, 5);
-
+                        $applicationNo = $this->generateApplicationNumber($request->applicationId);
                         $input_sc_application = array(
                             "sc_application_master_id" => $request->sc_application_master_id,
-                            "application_no" => str_pad($sc_form_last_id, 5, '0', STR_PAD_LEFT),
+                            "application_no" => $applicationNo,
                             "society_id" => $request->society_id,
                             "form_request_id" => $sc_form_last_id,
                             "layout_id" => $request->layout_id
@@ -262,7 +262,7 @@ class SocietyConveyanceController extends Controller
                                 'users' => $users
                             );
                             $input_id = SocietyConveyance::create($input);
-                            $input_sc_application['application_no'] = config('commanConfig.mhada_code').str_pad($input_id->id, 5, '0', STR_PAD_LEFT);
+                            
                             $input_sc_application['form_request_id'] = $input_id->id;
                             $sc_application = scApplication::create($input_sc_application);
 
@@ -518,8 +518,9 @@ class SocietyConveyanceController extends Controller
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         } ])->orderBy('id', 'desc')->first();
         $society_bank_details = SocietyBankDetails::where('society_id', $society->id)->first();
-        //dd($society_bank_details);
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id); 
+        }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
+
         $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->where('society_flag', '1')->get();
         $documents_count = 0;
         $documents_uploaded_count = 0;
@@ -531,13 +532,14 @@ class SocietyConveyanceController extends Controller
                 }
             }
         }
+        // dd($documents);
         $sc_bank_details = new SocietyBankDetails;
         $sc_bank_details_fields_name = $sc_bank_details->getFillable();
         $sc_bank_details_fields_name = array_flip($sc_bank_details_fields_name);
         unset($sc_bank_details_fields_name['society_id']);
         $sc_bank_details_fields = array_values(array_flip($sc_bank_details_fields_name));
         $comm_func = $this->CommonController;
-    //    dd($documents_uploaded_count);
+
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
@@ -545,6 +547,7 @@ class SocietyConveyanceController extends Controller
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
         $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
         $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
+        
         $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'uploaded_stamped_application', 'sc_application', 'society', 'documents_uploaded', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'issued_noc', 'documents_count', 'documents_uploaded_count'));
@@ -1076,5 +1079,19 @@ class SocietyConveyanceController extends Controller
             DB::rollback();
             return back()->with('error','Agreement Details Added successfully');
         } 
+    }
+
+    //generate application Number
+    public function generateApplicationNumber($applicationId){
+
+        if (isset($applicationId)){
+            $applicationId = scApplication::where('id',$applicationId)->value('application_no');
+        }else{
+            $id1 = scApplication::orderBy('id','desc')->value('id');
+            $id1++;
+            $id = str_pad($id1,6, '0', STR_PAD_LEFT);
+            $applicationId = 'CON-'.$id;
+        }
+        return $applicationId;
     }
 }
