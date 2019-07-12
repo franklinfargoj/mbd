@@ -3,8 +3,11 @@
 <head>
     <title></title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script>
+   
 </head>
 
 <!------ Include the above in your HEAD tag ---------->
@@ -141,10 +144,11 @@
                                 <div class="form-group">
                                     <label class="col-md-4 control-label">Date Of Birth</label>
                                     <div class="col-md-5 inputGroupContainer">
-                                        <div class="input-group"><span class="input-group-addon"><i
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-inr"></i></span><input id="dob"
-                                                name="dob" placeholder="Date Of Birth" class="form-control"
-                                                required="true" value="{{old('dob')}}" type="date">
+                                                name="dob" placeholder="Date Of Birth" class="form-control datepicker"
+                                                required="true" value="{{old('dob')}}" type="text">
                                         </div>
                                         @if ($errors->has('dob'))
                                         <span class="text-danger">{{ $errors->first('dob') }}</span>
@@ -157,8 +161,8 @@
                                         <div class="input-group"><span class="input-group-addon"><i
                                                     class="glyphicon glyphicon-inr"></i></span><input
                                                 id="date_of_appoinment_in_mhada" name="date_of_appoinment_in_mhada"
-                                                placeholder="Income Category Group" class="form-control" required="true"
-                                                value="{{old('date_of_appoinment_in_mhada')}}" type="date"></div>
+                                                placeholder="Income Category Group" class="form-control datepicker" required="true"
+                                                value="{{old('date_of_appoinment_in_mhada')}}" type="text"></div>
                                         @if ($errors->has('date_of_appoinment_in_mhada'))
                                         <span
                                             class="text-danger">{{ $errors->first('date_of_appoinment_in_mhada') }}</span>
@@ -288,5 +292,12 @@
     </div>
     <!------ Include the above in your HEAD tag ---------->
 </body>
-
+<script>
+    $(function(){
+    $(".datepicker").datepicker({
+        changeMonth: true,
+        changeYear: true
+    });
+});
+</script>
 </html>
