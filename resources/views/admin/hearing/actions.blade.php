@@ -657,6 +657,7 @@
                     {{--</a>--}}
                     {{--</li>--}}
                 @endif
+
                 @if((($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa'))) && ($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.pending') || ($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))))
 
                     @if($hearing_data->hearingStatusLog[0]->hearing_status_id != config('commanConfig.hearingStatus.forwarded'))
