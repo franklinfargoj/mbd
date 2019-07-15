@@ -79,7 +79,7 @@
                         @if($arrData['hearing']->uploaded_hearing_letter)
                             <div class="d-flex" style="padding-top: 10px;">
                                 <div class="text-truncate text-primary">hearing-letter</div>
-                                <a href="{{ config('commanConfig.storage_server').'/'.$hearing_data->hearing_letter[0]->document_path }}"><img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}"></a>
+                                <a target="_blank" href="{{ config('commanConfig.storage_server').'/'.$hearing_data->hearing_letter[0]->document_path }}"><img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}"></a>
                             </div>
                                 @else
                                 <span class="star">No Hearing Letter Uploaded by {{$user_name}}. </span>
