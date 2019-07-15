@@ -94,7 +94,7 @@
                 @endif
             @endif
 
-            @if((($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa'))) && ($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.pending') || ($hearing_data['hearingStatusLog']['0']['hearing_status_id'] == config('commanConfig.hearingStatus.case_under_judgement'))))
+            @if((($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')) || ($login_user == config('commanConfig.co_engineer')) || ($login_user == config('commanConfig.joint_co'))))
                 <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='supporting_docs')?'m-menu__item--active':''}}">
                     <a href="{{ route('supporting_docs', encrypt($hearing_data->id)) }}"
                        class="m-menu__link m-menu__toggle">
