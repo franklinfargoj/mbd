@@ -1521,3 +1521,6 @@ Route::get('/hearing_users', 'Common\CommonController@getHearingList')->name('he
 Route::get('/view_hearing_letter/{id}', 'Common\CommonController@view_hearing_letter')->name('view_hearing_letter');
 Route::post('/saveHearingLetter','Common\CommonController@saveHearingLetter')->name('saveHearingLetter');
 Route::post('/upload_hearing_letter','Common\CommonController@upload_hearing_letter')->name('upload_hearing_letter');
+Route::get('/supporting_documents/{id}', 'Common\CommonController@supporting_documents')->name('supporting_documents');
+Route::post('/upload_support_documents', 'Common\CommonController@upload_support_documents')->name('upload_support_documents');
+Route::get('delete_supporting_documents/{id}', 'Common\CommonController@delete_supporting_documents')->name('delete_supporting_documents');

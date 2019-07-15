@@ -67,6 +67,20 @@
                                value="{{ $user_name." (".$role_name.")" }}" disabled>
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
+
+                    <div class="col-sm-4 offset-sm-1 form-group">
+                        <label class="col-form-label" for="hearing_user_id">Hearing Letter by {{$user_name}}:</label>
+                        <div class="custom-file">
+                        @if($arrData['hearing']->uploaded_hearing_letter)
+                            <div class="d-flex" style="padding-top: 10px;">
+                                <div class="text-truncate text-primary">hearing-letter</div>
+                                <a href="{{ config('commanConfig.storage_server').$hearing_data->hearing_letter[0]->document_path }}"><img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}"></a>
+                            </div>
+                                @else
+                                <span class="star">No Hearing Letter Uploaded by {{$user_name}}. </span>
+                            @endif
+                        </div>
+                    </div>
                 </div>
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
