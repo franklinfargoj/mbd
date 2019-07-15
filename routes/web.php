@@ -220,6 +220,7 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
     Route::resource('/schedule_hearing', 'ScheduleHearingController');
     Route::get('/schedule_hearing/create/{id}', 'ScheduleHearingController@create')->name('schedule_hearing.add');
+    Route::get('/supporting_docs/{id}', 'ScheduleHearingController@supporting_docs')->name('supporting_docs');
 
     Route::resource('/fix_schedule', 'PrePostScheduleController');
     Route::get('/fix_schedule/create/{id}', 'PrePostScheduleController@create')->name('fix_schedule.add');
