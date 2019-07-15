@@ -36,7 +36,7 @@
         </div>
         <div class="col-sm-6 overlay overlay--login h-100vh">
             <div class="text-center w-100 m-login--left-box">
-                <h4 class="text-uppercase">Maharashtra Housing and Area Development Board</h4>
+                <h4 class="text-uppercase">Maharashtra Housing and Area Development Authority</h4>
             </div>
         </div>
         <table class="table table-striped">
@@ -379,7 +379,8 @@
     $(function(){
     $(".datepicker").datepicker({
         changeMonth: true,
-        changeYear: true
+        changeYear: true,
+        yearRange: '1950:2019'
     });
 });
 
