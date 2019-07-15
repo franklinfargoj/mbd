@@ -60,6 +60,12 @@
                 <!--end: Datatable -->
             </div>
         </div>
+
+
+    @else
+        <div class="m-portlet m-portlet--compact m-portlet--mobile">
+        <h6>No Supporting documnets available by admin.</h6>
+        </div>
     @endif
 
 
