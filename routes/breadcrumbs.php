@@ -154,6 +154,11 @@ Breadcrumbs::for('supporting_documents', function ($trail, $hearing_id) {
     $trail->push('Supporting Documents', route('supporting_documents', $hearing_id));
 });
 
+Breadcrumbs::for('Supporting_docs', function ($trail, $hearing_id) {
+    $trail->parent('Hearing');
+    $trail->push('Supporting_docs', route('supporting_docs', $hearing_id));
+});
+
 Breadcrumbs::for('Hearing', function ($trail) {
     $trail->push('Hearing', route('hearing.index'));
 });
