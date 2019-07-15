@@ -202,6 +202,11 @@ class HearingPermissionSeeder extends Seeder
                 'description' => 'Add Schedule'
             ],
             [
+                'name' => 'supporting_docs',
+                'display_name' => 'Supporting Documents',
+                'description' => 'Supporting Documents'
+            ],
+            [
                 'name' => 'hearing.show',
                 'display_name' => 'Show Hearing',
                 'description' => 'Display a particular hearing'
@@ -402,6 +407,11 @@ class HearingPermissionSeeder extends Seeder
                 'name' => 'forward_case.update',
                 'display_name' => 'Update Forward Case data',
                 'description' => 'Update Forward Case data'
+            ],
+            [
+                'name' => 'supporting_docs',
+                'display_name' => 'Supporting Documents',
+                'description' => 'Supporting Documents'
             ],
             [
                 'name' => 'forward_case.show',

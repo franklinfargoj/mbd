@@ -6,6 +6,7 @@ use App\Hearing;
 use App\HearingSchedule;
 use App\HearingStatus;
 use App\HearingStatusLog;
+use App\HearingSupportDocuments;
 use App\Http\Requests\hearing_schedule\HearingScheduleRequest;
 use App\Http\Controllers\Common\CommonController;
 use App\Http\Controllers\HearingController;
@@ -53,7 +54,7 @@ class ScheduleHearingController extends Controller
         $hearing_data = $arrData['hearing'];
         $HearingController = new HearingController();
         $hearingLogs = $HearingController->getHearingLogs($id);
-      
+
         return view('admin.schedule_hearing.add', compact('header_data', 'arrData', 'hearing_data','hearingLogs'));
     }
 
@@ -198,4 +199,19 @@ class ScheduleHearingController extends Controller
     {
         //
     }
+
+    /**
+     * Supporting documents
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function supporting_docs($id)
+    {
+        $id = decrypt($id);
+        $hearing_data = Hearing::where('id',$id)->first();
+        $documents_data = HearingSupportDocuments::where('hearing_id',$id)->get();
+        return view('admin.schedule_hearing.supporting_docs',compact('hearing_data','documents_data'));
+    }
+
 }
