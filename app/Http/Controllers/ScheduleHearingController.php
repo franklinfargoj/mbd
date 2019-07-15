@@ -209,7 +209,14 @@ class ScheduleHearingController extends Controller
     public function supporting_docs($id)
     {
         $id = decrypt($id);
-        $hearing_data = Hearing::where('id',$id)->first();
+        $department_id = RtiDepartmentUser::where('user_id',Auth::id())->value('department_id');
+        $hearing_data = Hearing::with(['hearing_letter' =>function($query){
+            $query->orderBy('id','desc');
+        },'hearingStatus', 'hearingApplicationType', 'hearingStatusLog' => function($q) use($department_id){
+            $q->where('department_id', $department_id);
+        }])
+            ->where('id', $id)
+            ->first();
         $documents_data = HearingSupportDocuments::where('hearing_id',$id)->get();
         return view('admin.schedule_hearing.supporting_docs',compact('hearing_data','documents_data'));
     }

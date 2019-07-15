@@ -55,6 +55,7 @@
 
                     <div class="col-sm-4 offset-sm-0 form-group">
                         <label class="col-form-label" for="hearing_user_id">Hearing User:</label>
+                        @if($arrData['hearing']->hearing_user_id != null)
                             @foreach($users as $user)
                                 @if($user->id == $arrData['hearing']->hearing_user_id)
                                     @php
@@ -65,9 +66,13 @@
                             @endforeach
                         <input type="text" id="hearing_user_id" name="hearing_user_id" class="form-control form-control--custom m-input"
                                value="{{ $user_name." (".$role_name.")" }}" disabled>
+                        @else
+                            <span class="star">This hearing is not assigned to any admin user</span>
+                        @endif
                         <span class="help-block">{{$errors->first('case_year')}}</span>
                     </div>
 
+                    @if($arrData['hearing']->hearing_user_id != null)
                     <div class="col-sm-4 offset-sm-1 form-group">
                         <label class="col-form-label" for="hearing_user_id">Hearing Letter by {{$user_name}}:</label>
                         <div class="custom-file">
@@ -81,6 +86,7 @@
                             @endif
                         </div>
                     </div>
+                    @endif
                 </div>
 
                 <div class="m-portlet__head px-0 m-portlet__head--top">
