@@ -1491,8 +1491,13 @@
             @endif
             {{--end report--}}
 
+@php
+    $login_user = session()->get('role_name');
+        @endphp
         <!-- Tabs for Hearing -->
+            @if(($login_user == config('commanConfig.co_pa')) || ($login_user == config('commanConfig.joint_co_pa')) || ($login_user == config('commanConfig.joint_co')) || ($login_user == config('commanConfig.co_engineer')))
 
+            @else
             <li class="m-menu__item @if($route == 'hearing_list') m-menu__item--active @endif"
                 aria-haspopup="true">
                 <a href="{{ route('hearing_list') }}" class="m-menu__link">
@@ -1506,6 +1511,7 @@
                             </span>
                 </a>
             </li>
+            @endif
 
             <!-- end of Hearing -->
 
