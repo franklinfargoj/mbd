@@ -1,6 +1,6 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
+    @include('frontend.society.conveyance.actions',compact('sc_application'))
 @endsection
 @section('content')
 <div class="col-md-12">
@@ -8,7 +8,6 @@
     <div class="m-subheader px-0 m-subheader--top">
         <div class="d-flex align-items-center">
             <h3 class="m-subheader__title m-subheader__title--separator">Upload documents</h3>
-{{--            {{ Breadcrumbs::render('conveyance_society_document') }}--}}
             <a href="{{ url()->previous() }}" class="btn btn-link ml-auto"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
         </div>
     </div>
@@ -50,13 +49,21 @@
                                 </td>
                                 <td>
                                 @if($document->is_other == 1) 
-                                <!-- href="{{ route('upload_other_documents',[encrypt($sc_application->id),encrypt($document->id)]) }}" -->
-                                    <a href="" class="app-card__details mb-0 btn-link" style="font-size: 14px" data-target="#myModal" data-toggle="modal"> upload other documents</a> 
+                                
+                                    <a href="{{ route('upload_sc_other_documents',[encrypt($sc_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px"> upload other documents</a> 
                                 @else
                                     <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status->document_path }}" data-value='{{ $document->id }}' class="upload_documents" target="_blank" rel="noopener" download>
                                     <button type="submit" class="btn btn-primary btn-custom">Download</button></a>
                                     @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending'))
-                                        <a href="{{ route('delete_sc_upload_docs', encrypt($document->sc_document_status->id)) }}" data-value='{{ $document->id }}' class="upload_documents"><button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-trash"></i></button></a>
+
+                                    <form action="{{ route('delete_sc_upload_docs') }}" method="post" enctype="multipart/form-data" style="display: inline-block;">
+                                    @csrf
+                                        <input type="hidden" name="id" value="{{ $document->sc_document_status->id}}">
+                                        <input type="hidden" name="applicationId" value="{{ $sc_application->id}}">
+                                        <input type="hidden" name="oldFile" value="{{ $document->sc_document_status->document_path }}">
+                                        <input type="hidden" name="type" value="form">
+                                        <button type="submit" class="btn btn-primary btn-custom"><i class="fa fa-trash"></i></button>
+                                    </form>
                                     @endif    
                                 @endif    
                                 </td>                    
@@ -68,11 +75,10 @@
                                 </td>
                                 <td>
                                 @if($document->is_other == 1) 
-                                <!-- href="{{ route('upload_other_documents',[encrypt($sc_application->id),encrypt($document->id)]) }}" -->
-                                    <a  class="app-card__details mb-0 btn-link" style="font-size: 14px" data-target="#myModal" data-toggle="modal">
+                                    <a href="{{ route('upload_sc_other_documents',[encrypt($sc_application->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
                                     upload other documents</a> 
-                                @else    
-                                    <form action="{{ route('upload_sc_docs') }}" method="post" enctype='  multipart/form-data' class="sc_upload_documents_form"
+                                @else     
+                                    <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
                                           id="sc_upload_documents_form_{{ $document->id }}">
                                         @csrf
                                         <div class="custom-file">
@@ -132,7 +138,12 @@
                         @endfor
                         <div class="mt-3 btn-list">
                             @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.pending') || $sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.reverted'))
-                                <button class="btn btn-primary" type="submit" id="uploadBtn">Submit</button>
+
+                                @if($documents_count != $documents_uploaded_count)
+                                    <p style="color: #ab2c2c;">* Note : Please upload all compulsory documents.</p>
+                                @endif
+
+                                <button class="btn btn-primary" type="submit" id="uploadBtn" {{ ($documents_count == $documents_uploaded_count) ? '' : 'disabled' }}>Submit</button>
                             @endif
                             <a href="{{route('society_conveyance.index')}}" class="btn btn-primary">Cancel</a>
                         </div>
@@ -141,47 +152,7 @@
             </div>
         </div>
     </div>
-
-    <!-- Modal content-->
-    <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">Upload Documents</h4>
-            <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-        <form action="{{ route('upload_sc_docs') }}" method="post" enctype='multipart/form-data' class="sc_upload_documents_form"
-            id="sc_upload_documents_form_{{ $document->id }}">
-            @csrf
-            <div class="col-sm-6 form-group">
-                <label class="col-form-label" for="other_document_name">Document Name:</label>
-                <input type="text" id="other_document_name" name="other_document_name" class="form-control form-control--custom m-input">
-
-                <span class="help-block">{{$errors->first('doc_name')}}</span>
-            </div>
-            <div class="col-sm-6 form-group">
-                <label class="col-form-label" for="doc_name">Upload Document:</label>
-                <div class="custom-file @if(session('error_'.$document->id)) has-error @endif">
-                    <input class="custom-file-input" name="document_name" type="file" id="test-upload_{{ $document->id }}"
-                    @if($document->is_optional == '0') required @endif>
-                    <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
-                    <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
-                        file ...</label>
-                    <span class="help-block text-danger">
-                            @if(session('error_'.$document->id))
-                            {{session('error_'.$document->id)}}
-                            @endif
-                        </span>
-                </div>
-            </div>
-            <br>
-            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn_{{ $document->id }}">Upload</button>
-        </form>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-    </div>
-</div>
+ </div>
 @endsection
 @section('datatablejs')
     <script>

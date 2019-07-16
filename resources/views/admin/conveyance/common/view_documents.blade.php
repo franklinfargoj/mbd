@@ -42,7 +42,9 @@
                                                 </h2>
                                             </td>
                                             <td>
-                                                @if($document->sc_document_status)
+                                                @if($document->is_other == 1)
+                                                    <a href="{{ route('show_sc_other_documents',[encrypt($data->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px"> View other documents</a> 
+                                                @elseif($document->sc_document_status)
                                                     <span>
                                                     <a href="{{ config('commanConfig.storage_server').'/'.$document->sc_document_status['document_path'] }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener" download>Download</a>
                                                     </span>

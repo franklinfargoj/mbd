@@ -31,6 +31,7 @@ use DB;
 use App\conveyance\ScChecklistMaster;
 use App\conveyance\ScChecklistScrutinyStatus;
 use App\Http\Controllers\conveyance\renewalCommonController;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use App\conveyance\ConveyanceArchitectNote;
 use App\LayoutUser;
 
@@ -303,6 +304,10 @@ class conveyanceCommonController extends Controller
             // if reverted to society 
             if ($request->society_flag == '1'){
              $Tostatus = config('commanConfig.conveyance_status.pending'); 
+             // send email nd sms to society
+            $type = 'conveyance';
+            $EmailMsgConfigration = new EmailMsgConfigration();
+            $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
 
             }
         foreach($toUsers as $to_user_id){
@@ -314,7 +319,8 @@ class conveyanceCommonController extends Controller
                 'status_id'      => $status,
                 'to_user_id'     => $to_user_id,
                 'to_role_id'     => $user_data->role_id,
-                'remark'         => count($request->remark) > 0 ? (isset($request->remark[$to_user_id]) ? $request->remark[$to_user_id] : $request->remark) : $request->remark,
+                'remark'         => is_array($request->remark) ? $request->remark[$to_user_id] : 
+                $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => '0',
                 'is_active'      => 1,
@@ -399,10 +405,11 @@ class conveyanceCommonController extends Controller
         $data->folder = $this->getCurrentRoleFolderName();
         $mLanguage = LanguageMaster::where('language','=','marathi')->value('id');
         $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($data) { $q->where('application_id', $data->id)->get(); }])->where('application_type_id', $data->sc_application_master_id)->where('society_flag', '1')->where('language_id', $mLanguage)->get();
-        // $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $data->id)->get();
+
         $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $data->em_document = $this->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
        
+       // $module == 'conveyance'
         return view('admin.conveyance.common.view_documents', compact('data', 'documents', 'documents_uploaded'));
     }
 
@@ -1449,5 +1456,19 @@ class conveyanceCommonController extends Controller
              $status = 'error';
         }
         return $status;
+    }
+
+    //display society conveyance other documents
+    public function showSCOtherDocuments($applicationId,$documentId){
+
+        $documentId = decrypt($documentId);
+        $applicationId = decrypt($applicationId);
+        
+        $data=scApplication::with('ConveyanceSalePriceCalculation')->where('id',$applicationId)
+        ->first();
+        $documents = SocietyConveyanceDocumentStatus::where('application_id',$applicationId)->where('document_id',$documentId)->get();
+
+        $data->folder = $this->getCurrentRoleFolderName();
+        return view('admin.conveyance.common.sc_other_document', compact('data', 'documents'));
     }  
 }      

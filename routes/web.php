@@ -634,12 +634,17 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
 
         Route::get('download_template', 'SocietyConveyanceController@download_excel')->name('sc_download');
         Route::get('sc_upload_docs', 'SocietyConveyanceController@sc_upload_docs')->name('sc_upload_docs');
+        Route::post('/save_sc_other_documents','SocietyConveyanceController@saveSCOtherDocuments')->name('save_sc_other_documents');
+
         Route::post('upload_sc_docs', 'SocietyConveyanceController@upload_sc_docs')->name('upload_sc_docs');
-        Route::get('delete_sc_upload_docs/{id}', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
+        Route::post('delete_sc_upload_docs', 'SocietyConveyanceController@delete_sc_upload_docs')->name('delete_sc_upload_docs');
         Route::post('society_bank_details', 'SocietyConveyanceController@society_bank_details')->name('society_bank_details');
         Route::get('sc_form_download', 'SocietyConveyanceController@generate_pdf')->name('sc_form_download');
         Route::get('sc_form_upload_show', 'SocietyConveyanceController@sc_form_upload_show')->name('sc_form_upload_show');
         Route::post('sc_form_upload', 'SocietyConveyanceController@sc_form_upload')->name('sc_form_upload');
+        Route::post('sc_submit_application', 'SocietyConveyanceController@scSubmitApplication')->name('sc_submit_application');
+
+        Route::get('/upload_sc_other_documents/{applicationId}/{documentId}', 'SocietyConveyanceController@uploadSCOtherDocuments')->name('upload_sc_other_documents');
 
         //sale & lease deed alongwith pay stamp duty letter & resolution & undertaking
         Route::get('sale_lease_deed/{id}', 'SocietyConveyanceController@show_sale_lease')->name('show_sale_lease');
@@ -1056,6 +1061,8 @@ Route::group(['middleware' => ['check-permission', 'auth', 'disablepreventback']
  //common in conveyance
     Route::resource('conveyance', 'conveyance\conveyanceCommonController');    
     Route::get('sc_dashboard', 'conveyance\conveyanceCommonController@displayDashboard')->name('conveyance.dashboard');
+
+    Route::get('show_sc_other_documents/{id}/{documentId}', 'conveyance\conveyanceCommonController@showSCOtherDocuments')->name('show_sc_other_documents');
 
     Route::get('conveyance_application/{id}', 'conveyance\conveyanceCommonController@ViewApplication')->name('conveyance.view_application');
 
