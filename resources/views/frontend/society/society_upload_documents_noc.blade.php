@@ -4,6 +4,17 @@
 @endsection
 @section('content')
 
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div> 
+@endif
+@if(session()->has('error'))
+<div class="alert alert-danger display_msg">
+    {{ session()->get('error') }}
+</div> 
+@endif
+
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -89,14 +100,9 @@
                                                         <input class="form-control m-input" type="hidden" name="document_id" value="{{ $document->id }}">
                                                         <label class="custom-file-label" for="test-upload_{{ $document->id }}">Choose
                                                             file ...</label>
-                                                        <span class="help-block">
-                                                            @if(session('error_'.$document->id))
-                                                            session('error_'.$document->id)
-                                                            @endif
-                                                        </span>
                                                     </div>
                                                     <br>
-                                                    <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                    <button type="submit" class="btn btn-primary btn-custom uploadBtn" id="{{ $document->id }}">Upload</button>
                                                 </form>
                                             @endif    
                                         @endif    
@@ -195,4 +201,23 @@
 @endif
 @endif
 @endif
+@endsection
+@section('actions_js')
+<script type="text/javascript">
+    $(".uploadBtn").click(function(){
+       var id = this.id;
+       var form = 'upload_documents_form_'+id;
+        $("#"+form).validate({
+            rules: {
+                document_name: {
+                    extension: "pdf"
+                }          
+            }, messages: {
+                document_name: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    });
+</script>
 @endsection

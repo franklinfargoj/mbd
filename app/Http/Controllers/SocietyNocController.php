@@ -336,8 +336,9 @@ class SocietyNocController extends Controller
                 $folder_name = "society_noc_documents";
                 $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+
             }else{
-                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
+                return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
         $input = array(
@@ -362,7 +363,7 @@ class SocietyNocController extends Controller
                 }
         }
         $id = encrypt($applicationId);
-        return redirect()->route('documents_upload_noc',$id);
+        return redirect()->back()->with('success', 'Documents uploaded successfully.');
     }
 
     public function deleteSocietyDocuments(Request $request,$applicationId,$id){

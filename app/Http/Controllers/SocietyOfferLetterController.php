@@ -847,7 +847,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber($request->applicationId);
+        $applicationNo = $this->generateApplicationNumber($request->applicationId,'offer');
 
         $insert_application = array(
             'user_id' => Auth::user()->id,
@@ -904,7 +904,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber($request->applicationId);
+        $applicationNo = $this->generateApplicationNumber($request->applicationId,'reval');
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -1113,7 +1113,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber($request->applicationId);
+        $applicationNo = $this->generateApplicationNumber($request->applicationId,'offer');
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -1169,7 +1169,7 @@ class SocietyOfferLetterController extends Controller
             'updated_at' => null
         );
         $last_inserted_id = OlRequestForm::create($input);
-        $applicationNo = $this->generateApplicationNumber($request->applicationId);
+        $applicationNo = $this->generateApplicationNumber($request->applicationId,'reval');
         $insert_application = array(
             'user_id' => Auth::user()->id,
             'language_id' => '1',
@@ -1650,8 +1650,9 @@ class SocietyOfferLetterController extends Controller
                 $folder_name = "society_offer_letter_documents";
                 $path = '/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+                
             }else{
-                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
+                return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
         $input = array(
@@ -1662,7 +1663,7 @@ class SocietyOfferLetterController extends Controller
         );
         OlSocietyDocumentsStatus::create($input);
         $applicationId = encrypt($applicationId);
-        return redirect()->route('documents_upload',$applicationId);
+        return redirect()->back()->with('success', 'Document uploaded successfully');
     }
 
 
@@ -1689,8 +1690,9 @@ class SocietyOfferLetterController extends Controller
                 $folder_name = "society_reval_offer_letter_documents";
                 $path = config('commanConfig.storage_server').'/'.$folder_name.'/'.$name;
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name,$request->file('document_name'),$name);
+                
             }else{
-                return redirect()->back()->with('error_'.$request->input('document_id'), 'Invalid type of file uploaded (only pdf allowed)');
+                return redirect()->back()->with('error', 'Invalid type of file uploaded (only pdf allowed)');
             }
         }
         $input = array(
@@ -1701,7 +1703,7 @@ class SocietyOfferLetterController extends Controller
         );
         RevalOlSocietyDocumentStatus::create($input);
         $id = encrypt($application->id);
-        return redirect()->route('reval_documents_upload',$id);
+        return redirect()->back()->with('success', 'Document uploaded successfully.');
     }
 
 
@@ -2702,15 +2704,24 @@ class SocietyOfferLetterController extends Controller
     }
 
     //generate application Number
-    public function generateApplicationNumber($applicationId){
+    public function generateApplicationNumber($applicationId,$module){
 
-        if (isset($applicationId)){
-            $applicationId = OlApplication::where('id',$applicationId)->value('application_no');
+        if (isset($module) && ($module == 'offer' || $module == 'reval')){
+            if (isset($applicationId)){
+                $applicationId = OlApplication::where('id',$applicationId)->value('application_no');
 
-        }else{
-            $id = OlApplication::orderBy('id','desc')->value('id');
-            $id++;
-            $applicationId = 'Offer-0000'.$id;
+            }else{
+                $id = OlApplication::orderBy('id','desc')->value('id');
+                $id++;
+                $id1 = str_pad($id,6, '0', STR_PAD_LEFT);
+                
+                if ($module == 'offer'){
+                    $applicationId = 'Offer-'.$id1;
+
+                }else if ($module == 'reval'){
+                    $applicationId = 'Reval-'.$id1;  
+                }
+            }
         }
 
         return $applicationId;

@@ -3,7 +3,16 @@
     @include('frontend.society.actions',compact('ol_applications'))
 @endsection
 @section('content')
-
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div> 
+@endif
+@if(session()->has('error'))
+<div class="alert alert-danger display_msg">
+    {{ session()->get('error') }}
+</div> 
+@endif
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -95,7 +104,7 @@
                                                         <a href="{{ route('upload_other_documents',[encrypt($ol_applications->id),encrypt($document->id)]) }}" class="app-card__details mb-0 btn-link" style="font-size: 14px">
                                                         upload other documents</a>     
                                                     @else
-                                                        <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}">
+                                                        <form action="{{ route('uploaded_documents') }}" method="post" enctype='multipart/form-data' id="upload_documents_form_{{ $document->id }}" class="upload_documents_form">
                                                         @csrf
                                                         <input type="hidden" name="applicationId" value="{{ isset($ol_applications->id) ? $ol_applications->id : '' }}">
                                                             <div class="custom-file">
@@ -111,7 +120,7 @@
                                                                 </span>
                                                             </div>
                                                             <br>
-                                                            <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>
+                                                            <button type="submit" class="btn btn-primary btn-custom uploadBtn" id="{{ $document->id }}">Upload</button>
                                                         </form>
                                                     @endif
                                                 </td>
@@ -214,8 +223,25 @@
     </div>
 </div>
 @endif
-
-
+@endsection
+@section('actions_js')
+<script type="text/javascript">
+    $(".uploadBtn").click(function(){
+       var id = this.id;
+       var form = 'upload_documents_form_'+id;
+        $("#"+form).validate({
+            rules: {
+                document_name: {
+                    extension: "pdf"
+                }          
+            }, messages: {
+                document_name: {
+                    extension: "Invalid type of file uploaded (only pdf allowed)."
+                }
+            }
+        });
+    });
+</script>
 @endsection
 
 
