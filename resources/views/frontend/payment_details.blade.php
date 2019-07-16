@@ -25,7 +25,7 @@
             }
         });
     </script>
-    {{--<link rel="shortcut icon" href="http://rrboardbilling.php-dev.in/img/fav-icon-new.png" />--}}
+
     <!--end::Web font -->
 </head>
 
@@ -62,10 +62,6 @@
                                                     <span class="field-name">Society Name : </span>
                                                     <span class="field-value">{{$billing_detail->society_detail->name}}</span>
                                                 </div>
-                                                {{--<div class="col-sm-6 field-col">--}}
-                                                    {{--<span class="field-name">Tenant Name : </span>--}}
-                                                    {{--<span class="field-value">{{$billing_detail->tenant_detail->name}}</span>--}}
-                                                {{--</div>--}}
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Building Number : </span>
                                                     <span class="field-value">{{$billing_detail->building_detail->building_no}}</span>
@@ -172,88 +168,9 @@
 </body>
 
 
-
-<script src="http://rrboardbilling.php-dev.in/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-<script src="http://rrboardbilling.php-dev.in/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
-<!--end::Base Scripts -->
-<!--begin::Page Vendors Scripts -->
-<script src="http://rrboardbilling.php-dev.in/plugins/datatables/datatables.all.min.js" type="text/javascript"></script>
-<script src="http://rrboardbilling.php-dev.in/assets/snippets/pages/user/login.js" type="text/javascript"></script>
-
-
-
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#clickmewow').click(function () {
-            $('#radio1003').attr('checked', 'checked');
-        });
-    })
-
-</script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/common.js"></script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/assets/demo/default/custom/components/forms/validation/form-widgets.js"></script>
-
-<!--end::Page Vendors Scripts -->
-<!--begin::Page Resources -->
-;
-;
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/custom.js"></script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/bootstrap-select.js"></script>
-<script>
-//    var bill_amount = '3045.00';
-//    var arrears_amount = '93350.00';
-//    var grand_total = '96395.00';
-//
-//    // alert(bill_amount);
-//    // alert(arrears_amount);
-//    // alert(grand_total);
-//
-//    $('.payment_mode').click(function(){
-//        $('#cash_payment').show();
-//        if($(this).val() === '1'){
-//            $('#dd_payment').hide();
-//        }else if($(this).val() === '2'){
-//            $('#dd_payment').show();
-//        }
-//    });
-//
-//    $('#amount').blur(function(){
-//        var amount = $(this).val();
-//        var credit = 0;
-//        var balance = 0;
-//        var bill_amount_balance = 0;
-//        var bill_arrears_balance = 0;
-//        var extra = 0;
-//
-//        if(parseFloat(amount) > parseFloat(grand_total)){
-//            //alert(grand_total);
-//            credit =  (parseFloat(amount) - parseFloat(grand_total)).toFixed(2);
-//            balance = 0;
-//            bill_amount_balance = 0;
-//            bill_arrears_balance = 0;
-//        }else if(parseFloat(grand_total) > parseFloat(amount)){
-//            //alert('dsg');
-//            balance = (parseFloat(grand_total) - parseFloat(amount)).toFixed(2);
-//
-//            if(parseFloat(amount) > parseFloat(bill_amount)){
-//                bill_amount_balance = 0;
-//                extra = (parseFloat(amount) - parseFloat(bill_amount)).toFixed(2);
-//                bill_arrears_balance = (parseFloat(arrears_amount) - parseFloat(extra)).toFixed(2);
-//            }else{
-//                bill_amount_balance = (parseFloat(bill_amount) - parseFloat(amount)).toFixed(2);
-//                bill_arrears_balance = arrears_amount;
-//            }
-//        }
-//
-//        $('#balance_amount').text(balance);
-//        $('#credit_amount').text(credit);
-//        $('#balance_bill_amount').val(bill_amount_balance);
-//        $('#balance_arrears_amount').val(bill_arrears_balance);
-//        $('#total_balance').val(balance);
-//        $('#total_credit').val(credit);
-//
-//    });
 
     $('#payment_form').submit(function () {
         $('#amountError').remove();

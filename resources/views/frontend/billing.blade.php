@@ -25,8 +25,6 @@
             }
         });
     </script>
-    <link rel="shortcut icon" href="http://rrboardbilling.php-dev.in/img/fav-icon-new.png" />
-    <!--end::Web font -->
 </head>
 
 <body>
@@ -85,35 +83,9 @@
 </div>
 </body>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.0/jquery.validate.min.js"></script>
 
-
-<script src="http://rrboardbilling.php-dev.in/assets/vendors/base/vendors.bundle.js" type="text/javascript"></script>
-<script src="http://rrboardbilling.php-dev.in/assets/demo/default/base/scripts.bundle.js" type="text/javascript"></script>
-<!--end::Base Scripts -->
-<!--begin::Page Vendors Scripts -->
-<script src="http://rrboardbilling.php-dev.in/plugins/datatables/datatables.all.min.js" type="text/javascript"></script>
-<script src="http://rrboardbilling.php-dev.in/assets/snippets/pages/user/login.js" type="text/javascript"></script>
-
-
-
-
-<script>
-    $(document).ready(function () {
-        $('#clickmewow').click(function () {
-            $('#radio1003').attr('checked', 'checked');
-        });
-    })
-
-</script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/common.js"></script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/assets/demo/default/custom/components/forms/validation/form-widgets.js"></script>
-
-<!--end::Page Vendors Scripts -->
-<!--begin::Page Resources -->
-;
-;
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/custom.js"></script>
-<script type="text/javascript" src="http://rrboardbilling.php-dev.in/js/bootstrap-select.js"></script>
 <script>
     $('#check-form').submit(function () {
         $('#consumer_noError').remove();
