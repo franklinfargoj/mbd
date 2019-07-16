@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom"
-                                                id="uploadBtn">Upload and Submit</button>
+                                                id="uploadBtn">Upload</button>
                                         </div>
                                     </form>
                                 </div>

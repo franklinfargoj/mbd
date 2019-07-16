@@ -79,7 +79,7 @@
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <label class="col-form-label" for="resolution_no">Resolution No:
                             <span class="star">*</span></label>
-                            <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->resolution_no }}">
+                            <input type="text" id="resolution_no" name="resolution_no" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->resolution_no }}" required>
                             <span class="help-block">{{$errors->first('resolution_no')}}</span>
                         </div>
                     </div>
@@ -92,8 +92,8 @@
                         </div>
                         @if($id == '13' || $id == '17')
                             <div class="col-sm-4 offset-sm-1 form-group">
-                                <label class="col-form-label" for="developer_name">Developer Name:</label>
-                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->developer_name }}">
+                                <label class="col-form-label" for="developer_name">Developer Name: <span class="star">*</span></label>
+                                <input type="text" id="developer_name" name="developer_name" class="form-control form-control--custom form-control--fixed-height m-input" value="{{ $ol_application->request_form->developer_name }}" required>
                                 <span class="help-block">{{$errors->first('developer_name')}}</span>
                             </div>
                         @endif
