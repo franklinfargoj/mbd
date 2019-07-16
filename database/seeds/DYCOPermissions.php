@@ -362,6 +362,11 @@ class DYCOPermissions extends Seeder
                 'display_name'=>'generate approve Daft Sale Lease Agreement',
                 'description'=>'generate approve Daft Sale Lease Agreement'
             ],
+            [
+                'name'=>'show_sc_other_documents',
+                'display_name'=>'show sc other documents',
+                'description'=>'show sc other documents'
+            ],
         ];
 
         //dycdo

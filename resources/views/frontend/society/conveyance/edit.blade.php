@@ -1,14 +1,12 @@
 @extends('frontend.layouts.sidebarAction')
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_applications', 'documents', 'documents_uploaded'))
+    @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
 @endsection
 @section('content')
     <div class="col-md-12">
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Society Conveyance Application Form</h3>
-                {{--                {{ Breadcrumbs::render('society_offer_application_create', $id) }}--}}
-
             </div>
         </div>
         <!-- END: Subheader -->
@@ -23,14 +21,17 @@
                             <label class="col-form-label" for="layout_id">Layout:</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id" required>
                                 @foreach($layouts as $layout)
-                                    <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @if(isset($sc_application) && $sc_application->layout_id == $layout['id'])
+                                        <option value="{{ $layout['id'] }}" selected>{{ $layout['layout_name'] }}</option>
+                                    @else
+                                        <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                             <input type="hidden" name="society_id" value="{{ $society_details->id }}">
                             <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>
-{{--                    @php dd($sc_application->sc_form_request[$field_names[1]]); @endphp--}}
                     @for($i=0; $i < count($field_names); $i++)
                         @if($i != 0) @php $i++; @endphp @endif
                         <div class="m-form__group row mhada-lease-margin">

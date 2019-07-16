@@ -9,6 +9,7 @@ use App\Events\SmsHitEvent;
 use App\NocApplication;
 use App\OcApplication;
 use App\OlApplication;
+use App\conveyance\scApplication;
 use Config;
 use App\User;
 use App\Role;
@@ -227,6 +228,15 @@ class EmailMsgConfigration extends Controller
         $data['application_no'] = $applicationData->application_no;
         $data['application_type'] = $applicationData->oc_application_master->title."(".$applicationData->oc_application_master->model.")";
         return $data;
+    } 
+
+    // get society and conveyance application data
+    public function conveyanceSocietyDetails($applicationId) {
+        $applicationData=scApplication::where('id',$applicationId)->with('societyApplication')->first();
+        $data = $applicationData->societyApplication;
+        $data['application_no'] = $applicationData->application_no;
+        $data['application_type'] = "conveyance";
+        return $data;
     }
 
     // send mail and msg to society on reject offer letter application
@@ -362,11 +372,12 @@ class EmailMsgConfigration extends Controller
     // send revert notification by sms nd mail to society
     public function RevetApplicationToSociety($applicationId,$type){
         try{
-            if ($this->isEmailActive == 0) {
+            if ($this->isEmailActive == 1) {
                 if ($type == 'oc_module'){
                     $data = $this->ocSocietyDetails($applicationId);
+                }else if ($type == 'conveyance'){
+                    $data = $this->conveyanceSocietyDetails($applicationId);
                 }
-
                 $emailSubject = config('commanConfig.email_subject.revert_society_application');
                 $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
 

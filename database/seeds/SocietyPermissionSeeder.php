@@ -738,6 +738,21 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'save oc construction',
                 'description'  => 'save oc construction'
             ],
+            [
+                'name'         => 'upload_sc_other_documents',
+                'display_name' => 'upload conveyance other documents',
+                'description'  => 'upload conveyance other documents'
+            ],
+            [
+                'name'         => 'save_sc_other_documents',
+                'display_name' => 'save uploaded conveyance other documents',
+                'description'  => 'save uploaded conveyance other documents'
+            ], 
+            [
+                'name'         => 'sc_submit_application',
+                'display_name' => 'submit conveyance application form',
+                'description'  => 'submit conveyance application form'
+            ],
             
         ];
         

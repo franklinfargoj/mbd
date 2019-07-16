@@ -173,8 +173,7 @@
                                                 <td>{{isset($log->getRole->display_name) ? $log->getRole->display_name : ''}}</td>
                                                 <td>{{(isset($log) && $log->created_at != '' ? date("d-m-Y",
                                                             strtotime($log->created_at)) : '')}}</td>
-                                                <td>{{(isset($log) && $log->created_at != '' ? date("H:i",
-                                                            strtotime($log->created_at)) : '')}}</td>
+                                                <td>{{(isset($log) && $log->created_at != '' ? date("h:i:A",strtotime($log->created_at)) : '')}}</td>
                                                 <td>{{$status}} to {{isset($log->getRoleName->display_name) ? $log->getRoleName->display_name : ''}}</td>
                                                 <td>{{(isset($log) ? $log->remark : '')}}</td>
                                             </tr>

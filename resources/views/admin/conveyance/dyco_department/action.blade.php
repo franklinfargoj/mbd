@@ -2,7 +2,6 @@
 $route="";
 $route=\Request::route()->getName();
 @endphp
-
 <li class="m-menu__item" >
     <a href="{{route('conveyance.index')}}" class="m-menu__link m-menu__toggle">
         <i class="m-menu__link-icon flaticon-line-graph"></i>
@@ -43,7 +42,7 @@ $route=\Request::route()->getName();
             </a>
         </li>
   
-        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.view_documents')?'m-menu__item--active':''}}">
+        <li class="m-menu__item m-menu__item--submenu m-menu__item--level-2 {{($route=='conveyance.view_documents' || $route == 'show_sc_other_documents')?'m-menu__item--active':''}}">
             <a class="m-menu__link" title="Society Documents" href="{{ route('conveyance.view_documents',encrypt($data->id)) }}">
                 <span class="sidebar-icon sidebar-menu-icon--level-1">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 470 470">
