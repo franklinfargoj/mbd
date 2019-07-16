@@ -13,6 +13,8 @@ use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
 use App\LayoutUser;
+use App\TransBillGenerate;
+use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
 use App\DashboardHeader;
 use App\EENote;
@@ -5183,7 +5185,7 @@ class CommonController extends Controller
 
     /**
      * Deletes uploaded society documents.
-     * Author: Amar Prajapati
+     * Author: PRAJAKTA SISALE
      * @param  $id
      * @return \Illuminate\Http\Response
      */
@@ -5200,4 +5202,50 @@ class CommonController extends Controller
         return redirect()->back()->with('success','Document Deleted Successfully.');
     }
 
+
+    //ONLINE PAYMENT
+
+    public function billing(){
+
+        return view('frontend.billing');
+    }
+
+    public function payment_billing(Request $request){
+
+        $currentMonth = date('m');
+        if($currentMonth < 4) {
+            if($currentMonth == 1) {
+                $data['month'] = 12;
+                $data['year'] = date('Y') -1;
+            } else {
+                $data['month'] = date('m') -1;
+                $data['year'] = date('Y') -1;
+            }
+        } else {
+            $data['month'] = date('m') - 1;
+            $data['year'] = date('Y');
+        }
+
+        $dateObj   = \DateTime::createFromFormat('!m', $data['month']);
+        $data['month'] = $dateObj->format('F');
+
+        $billing_detail = TransBillGenerate::with('building_detail','tenant_detail','society_detail')
+            ->where('consumer_number',$request->consumer_no)
+            ->first();
+
+
+        if(($billing_detail != null )){
+            return view('frontend.payment_details',compact('billing_detail','data'));
+
+        } else {
+            return redirect()->back()->with('error','Wrong consumer id entered.');
+        }
+    }
+
+    public function pay_bill(Request $request)
+    {
+        dd($request->all());
+
+
+    }
 }
