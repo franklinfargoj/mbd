@@ -1525,3 +1525,7 @@ Route::post('/upload_hearing_letter','Common\CommonController@upload_hearing_let
 Route::get('/supporting_documents/{id}', 'Common\CommonController@supporting_documents')->name('supporting_documents');
 Route::post('/upload_support_documents', 'Common\CommonController@upload_support_documents')->name('upload_support_documents');
 Route::get('delete_supporting_documents/{id}', 'Common\CommonController@delete_supporting_documents')->name('delete_supporting_documents');
+
+Route::get('/billing', 'Common\CommonController@billing')->name('billing');
+Route::post('/payment_billing', 'Common\CommonController@payment_billing')->name('payment_billing');
+Route::post('/pay_bill', 'Common\CommonController@pay_bill')->name('pay_bill');
