@@ -60,7 +60,7 @@
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Society Name : </span>
-                                                    <span class="field-value">{{$billing_detail->society_detail->name}}</span>
+                                                    <span class="field-value">{{$billing_detail->society_detail->society_name}}</span>
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Building Number : </span>

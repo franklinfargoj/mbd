@@ -5238,7 +5238,7 @@ class CommonController extends Controller
             return view('frontend.payment_details',compact('billing_detail','data'));
 
         } else {
-            return redirect()->back()->with('error','Wrong consumer id entered.');
+            return redirect()->back()->with('warning','Wrong consumer id entered.');
         }
     }
 

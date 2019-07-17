@@ -56,6 +56,11 @@
                                         <p class="sub-title">
                                         </p>
                                     </div>
+                                    @if(session()->has('warning'))
+                                        <div class="alert alert-danger display_msg">
+                                            {{ session()->get('warning') }}
+                                        </div>
+                                    @endif
                                     <form id="check-form" class="m-login__form m-form" action="{{route('payment_billing')}}" method="POST">
                                                                              <div>
 
