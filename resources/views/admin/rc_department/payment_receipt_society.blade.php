@@ -1,6 +1,5 @@
 <div>
     <div>
-        <h3>Bill for {{date('F', mktime(0, 0, 0, $bill[0]->bill_details->bill_month, 10))}}, {{$bill[0]->bill_details->bill_year}}</h3>
         <h3 style="text-decoration: underline; text-align: center;">Receipt for {{date('F', mktime(0, 0, 0, $bill[0]->bill_details->bill_month, 10))}}, {{$bill[0]->bill_details->bill_year}}</h3>
     </div>
 

@@ -49,11 +49,16 @@
                                         <form id="payment_form" class="m-login__form m-form" action="{{route('pay_bill')}}" method="POST">
                                             <input type="hidden" name="bill_id"  value="{{$billing_detail->id}}">
                                             @csrf
-                                            <div class="mb-4">
-                                                <label class="col-form-label d-block" for=""><b>Payment Details</b> Due Date: {{$billing_detail->due_date}}</label>
-
-                                            </div>
                                             <div class="row field-row">
+                                                <div class="col-sm-6  field-col">
+                                                    <label class="col-form-label d-block" for=""><b>Payment Details</b> Due Date: {{$billing_detail->due_date}}</label>
+                                                </div>
+                                                <div class="col-sm-6  field-col">
+                                                    <div class="d-flex" style="padding-top: 10px;">
+                                                        <div class="text-truncate text-primary">Download-Bill</div>
+                                                        <a target="_blank" href="{{route('download_bill',$billing_detail->id)}}"><img style="cursor:pointer;" download class="download-icon-pdf" src="{{ asset('/img/down-arrow.svg') }}"></a>
+                                                    </div>
+                                                </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Building Name : </span>
                                                     <span class="field-value">{{$billing_detail->building_detail->name}}</span>
@@ -67,8 +72,8 @@
                                                     <span class="field-value">{{$billing_detail->building_detail->building_no}}</span>
                                                 </div>
                                                 <div class="col-sm-6 field-col">
-                                                    <span class="field-name">Flat Number : </span>
-                                                    <span class="field-value">408</span>
+                                                    <span class="field-name">Tenant Name : </span>
+                                                    <span class="field-value">{{$billing_detail->tenant_detail->first_name.' '.$billing_detail->tenant_detail->last_name}}</span>
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Amount Paid By : </span>
@@ -78,10 +83,10 @@
                                                 </div>
                                                 @php
                                                     if(strtotime(date('Y-m-d')) < strtotime(date('Y-m-d',strtotime($billing_detail->due_date)))){
-                                                                $total_amount = $billing_detail->total_bill;
+                                                                $total_amount = ceil($billing_detail->monthly_bill+$billing_detail->prev_service_charge_balance+$billing_detail->prev_arrear_balance+$billing_detail->prev_arrear_interest_balance-$billing_detail->prev_credit);
                                                             }
                                                             else{
-                                                                $total_amount = $billing_detail->total_bill_after_due_date;
+                                                                $total_amount = ceil($billing_detail->total_service_after_due+$billing_detail->prev_service_charge_balance+$billing_detail->prev_arrear_balance+$billing_detail->prev_arrear_interest_balance-$billing_detail->prev_credit);
                                                             }
 
                                                 @endphp
@@ -91,7 +96,7 @@
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Arrears Amount of Month {{$data['month']}} : </span>
-                                                    <span class="field-value">Rs. {{$billing_detail->arrear_bill}}</span>
+                                                    <span class="field-value">Rs. {{$billing_detail->arrear_balance + $billing_detail->arrear_interest_balance}}</span>
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Total Amount to be paid : </span>
