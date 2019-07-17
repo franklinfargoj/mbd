@@ -1536,3 +1536,4 @@ Route::get('delete_supporting_documents/{id}', 'Common\CommonController@delete_s
 Route::get('/billing', 'Common\CommonController@billing')->name('billing');
 Route::post('/payment_billing', 'Common\CommonController@payment_billing')->name('payment_billing');
 Route::post('/pay_bill', 'Common\CommonController@pay_bill')->name('pay_bill');
+Route::get('/download_bill/{id}', 'Common\CommonController@download_bill')->name('download_bill');

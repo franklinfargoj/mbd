@@ -1336,7 +1336,8 @@ class RCController extends Controller
             
             }
             // $this->view_bill_tenant($request,true);
-          } else {
+          }
+          else {
             // $this->view_bill_building($request,true);
             
                 if($request->has('building_id') && '' != $request->building_id) {

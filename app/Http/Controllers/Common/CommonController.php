@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Common;
 
 use App\ApplicationStatusMaster;
 use App\ArchitectApplication;
+use App\ArrearCalculation;
 use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalApplicationLog;
 use App\Hearing;
@@ -13,6 +14,10 @@ use App\Http\Controllers\Dashboard\AppointingArchitectController;
 use App\Http\Controllers\Dashboard\ArchitectLayoutDashboardController;
 use App\Http\Controllers\OcDashboardController;
 use App\LayoutUser;
+use App\MasterBuilding;
+use App\MasterTenant;
+use App\ServiceChargesRate;
+use App\SocietyDetail;
 use App\TransBillGenerate;
 use Faker\Provider\DateTime;
 use Illuminate\Http\Request;
@@ -5231,21 +5236,108 @@ class CommonController extends Controller
 
         $billing_detail = TransBillGenerate::with('building_detail','tenant_detail','society_detail')
             ->where('consumer_number',$request->consumer_no)
+            ->orderBy('id','desc')
             ->first();
-
-
+//        dd($billing_detail);
         if(($billing_detail != null )){
             return view('frontend.payment_details',compact('billing_detail','data'));
 
         } else {
             return redirect()->back()->with('warning','Wrong consumer id entered.');
         }
+
+
     }
 
     public function pay_bill(Request $request)
     {
         dd($request->all());
 
+
+    }
+    public function download_bill($id){
+//        dd($id);
+
+        $billing_detail = TransBillGenerate::with('building_detail','tenant_detail','society_detail')
+            ->where('id',$id)
+            ->first();
+
+//        dd($billing_detail);
+
+        $data['TransBillGenerate'] = $billing_detail;
+
+        $data['tenant'] = MasterTenant::where('building_id',$billing_detail->building_id)
+            ->where('id',$billing_detail->tenant_id)->first();
+
+        $data['building'] = MasterBuilding::find($billing_detail->building_id);
+        $data['society'] = SocietyDetail::find($billing_detail->society_id);
+
+
+        if($billing_detail->bill_month != '') {
+
+            $data['month'] = $billing_detail->bill_month;
+            if($billing_detail->bill_month < 4 ) {
+                $data['year'] = date('Y') -1;
+            } else {
+                $data['year'] = date('Y');
+            }
+        }
+
+        if($data['month'] == 1) {
+            $lastBillMonth = 12;
+            $lastBillYear=$data['year']-1;
+        } else {
+            $lastBillMonth = $data['month']-1;
+            $lastBillYear=$data['year'];
+        }
+//         dd($lastBillYear." ".$lastBillMonth);
+
+        $data['lastBill'] = TransBillGenerate::where('consumer_number', '=', $billing_detail->consumer_number)
+            ->where('bill_month', '=', $lastBillMonth)
+            ->where('bill_year', '=', $lastBillYear)
+            ->orderBy('id','DESC')
+            ->first();
+        //dd($data['lastBill']);
+        $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,
+        sum(electric_city_charge) as electric_city_charge,
+        sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,
+        sum(external_expender_charge) as external_expender_charge,
+        sum(administrative_charge) as administrative_charge, 
+        sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, 
+        sum(other) as other')
+            ->where('building_id',$billing_detail->building_id)->where('year',$data['year'])->first();
+
+        if(!$data['serviceChargesRate']){
+            //dd($data);
+            return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
+        }
+
+        $data['arreasCalculation'] = ArrearCalculation::where('tenant_id',$billing_detail->tenant_id)->get();
+        $arrear_balance=$arrear_interest_balance=0;
+        if(count($data['arreasCalculation'])>0)
+        {
+            foreach($data['arreasCalculation'] as $arreasCalculation)
+            {
+                $arrear_balance+=($arreasCalculation->total_amount - $arreasCalculation->old_intrest_amount -
+                    $arreasCalculation->difference_intrest_amount);
+                $arrear_interest_balance+=($arreasCalculation->old_intrest_amount +
+                    $arreasCalculation->difference_intrest_amount);
+            }
+        }
+
+        //dd($data['arreasCalculation']);
+        $data['consumer_number'] = $billing_detail->consumer_number;
+//                $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
+//                return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+
+        $fileName = 'bill_'.$billing_detail->consumer_number.'.pdf';
+
+        $mpdf = new Mpdf();
+        $mpdf->autoScriptToLang = true;
+        $mpdf->autoLangToFont = true;
+        $contents = view('admin.rc_department.download_tenant_bill', compact('data'));
+        $mpdf->WriteHTML($contents);
+        $mpdf->Output($fileName,'D');
 
     }
 }
