@@ -107,14 +107,14 @@
                                                                 <label for="amount">
                                                                     Amount <span style="color: red;">*</span>
                                                                 </label>
-                                                                <input type="text" class="form-control m-input" name="amount" id="amount" value="">
+                                                                <input type="text" class="form-control m-input number" name="amount" id="amount" value="">
                                                                 <span class="help-block" style="color:red;"></span>
                                                             </div>
                                                             <div class="col-md-4 col-sm-12 form-group m-form__group mhada-category">
                                                                 <label for="amount">
                                                                     Mobile No. <span style="color: red;">*</span>
                                                                 </label>
-                                                                <input type="text" class="form-control m-input" name="mob_no" id="mob_no" value="">
+                                                                <input type="text" class="form-control m-input number" name="mob_no" id="mob_no" value="">
                                                                 <span class="help-block" style="color:red;"></span>
                                                             </div>
                                                             <div class="col-md-4 col-sm-12 form-group m-form__group mhada-category">
@@ -249,6 +249,20 @@
             }
 
         }
+
+
+        // validation for number
+        $(".number").keypress(function(){
+            var key = window.event ? event.keyCode : event.which;
+            if (event.keyCode == 8 || event.keyCode == 45
+                || event.keyCode == 37 || event.keyCode == 39) {
+                return true;
+            }
+            else if ( key < 48 || key > 57 ) {
+                event.preventDefault();
+            }
+            else return true;
+        });
 
     });
 </script>
