@@ -73,8 +73,9 @@
                                     $total_amount = $bill[0]->total_bill_after_due_date;
                                 }
 
-                            if(isset($receipt_data) && !empty($receipt_data)){
+                            if(isset($receipt_data) && (count($receipt_data) > 0)){
                                     $amount = $bill[0]->balance_amount;
+
                             }
                             else{
                                 if(count($dispute_data) > 0){
@@ -118,7 +119,7 @@
                 <div class="form-group m-form__group row" id="cash_block">
                     <div class="col-sm-3 form-group">
                         <label class="col-form-label" for="">Amount Paid:</label>
-                        <input type="number" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input" value="00">
+                        <input type="text" id="cash_amount" name="cash_amount" class="form-control form-control--custom m-input number" value="00">
                         <span></span>
                     </div>
                 </div>
