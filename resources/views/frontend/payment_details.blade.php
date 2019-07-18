@@ -73,7 +73,7 @@
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Tenant Name : </span>
-                                                    <span class="field-value">{{$billing_detail->tenant_detail->first_name.' '.$billing_detail->tenant_detail->last_name}}</span>
+                                                    <span class="field-value">{{ isset($billing_detail->tenant_detail) ? ($billing_detail->tenant_detail->first_name ?? '' .' '.$billing_detail->tenant_detail->last_name ?? '') : ''}}</span>
                                                 </div>
                                                 <div class="col-sm-6 field-col">
                                                     <span class="field-name">Amount Paid By : </span>

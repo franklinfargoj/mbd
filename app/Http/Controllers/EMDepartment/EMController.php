@@ -2410,12 +2410,12 @@ class EMController extends Controller
                         //dd($data);
                         $bill[] = TransBillGenerate::insertGetId($data);
                // }
-                //dd($dat);
+//                dd($bill[0]);
                if(isset($bill)){
                     $ids = implode(",",$bill);
                     //dd($ids);
                     $lastBillGenerated = DB::table('building_tenant_bill_association')->orderBy('id','DESC')->first();
-                    
+//                    dd($lastBillGenerated);
                     if($lastBillGenerated) {
                         //dd($lastBillGenerated);
                         $lastGeneratedNumber = substr($lastBillGenerated->bill_number,-7);
@@ -2425,9 +2425,10 @@ class EMController extends Controller
                     } else {
                         $bill_number = $request->building_id.'0000001';
                     }
+//                    dd($lastBillGenerated);
                     if($lastBillGenerated)
                     {
-                        $this->insertServiceChrargeForBill($lastBillGenerated->bill_id,$serviceChargesRate);
+                        $this->insertServiceChrargeForBill($bill[0],$serviceChargesRate);
                     }
                     TransBillGenerate::where(['id'=>$ids])->update(['bill_number'=>$bill_number]);
                     $association = DB::table('building_tenant_bill_association')->insert(['building_id' => $request->building_id, 'bill_id' => $ids, 'bill_month' => $request->bill_month, 'bill_year' => $request->bill_year,'bill_number'=>$bill_number]);

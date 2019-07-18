@@ -567,7 +567,7 @@ class RCController extends Controller
             }
             $number_of_tenants = MasterBuilding::with('tenant_count')->where('id',$request->building_id)->first();
 
-            $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$year)->first();
+            $serviceChargesRate = $this->getServiceChargeRate($request->building_id , $year);
             
             $totalServiceCharge = ($serviceChargesRate->water_charges+$serviceChargesRate->pump_man_and_repair_charges+$serviceChargesRate->external_expender_charge+$serviceChargesRate->na_assessment+$serviceChargesRate->other+$serviceChargesRate->lease_rent+$serviceChargesRate->administrative_charge+$serviceChargesRate->electric_city_charge)*$number_of_tenants->tenant_count()->first()->count;
             
@@ -1111,9 +1111,9 @@ class RCController extends Controller
             $request->building_id = decrypt($request->building_id);
             $data['building'] = MasterBuilding::find($request->building_id);
             $data['society'] = SocietyDetail::find($data['building']->society_id);
-            $data['serviceChargesRate'] = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,sum(electric_city_charge) as electric_city_charge,sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,sum(external_expender_charge) as external_expender_charge,sum(administrative_charge) as administrative_charge, sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')->where('building_id',$request->building_id)->where('year',$data['year'])->first();
+            $data['serviceChargesRate'] = $this->getServiceChargeRate($request->building_id,$data['year']);
 
-         //  dd($data['serviceChargesRate']); 
+         //  dd($data['serviceChargesRate']);
             if(!$data['serviceChargesRate']){
                 return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
             }
@@ -1143,18 +1143,25 @@ class RCController extends Controller
                                     ->orderBy('id','DESC')
                                     ->first();
             //dd($data['currentBill']);
-            $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->where('year',$data['currentBill']->bill_year)->where('month',(int)$data['currentBill']->bill_month)->orderby('year','month')->get();
-            $data['association'] = DB::table('building_tenant_bill_association')->where('building_id',$request->building_id)->where('bill_year',$bill_year)->where('bill_month',$data['month'])->first();
+            if(isset($data['currentBill']) ){
 
-            $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
-            if(true == $is_download) {
-              // return view('admin.rc_department.download_building_bill', $data);
-              $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
-              // print_r($pdf);exit;
-              return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
-            } else {
-              return view('admin.rc_department.view_bill_building',$data);
+                $data['arreasCalculation'] = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->where('year',$data['currentBill']->bill_year)->where('month',(int)$data['currentBill']->bill_month)->orderby('year','month')->get();
+                $data['association'] = DB::table('building_tenant_bill_association')->where('building_id',$request->building_id)->where('bill_year',$bill_year)->where('bill_month',$data['month'])->first();
+
+                $data['consumer_number'] = substr(sprintf('%08d', $data['building']->society_id),0,8).'|'.substr(sprintf('%08d', $data['building']->id),0,8);
+                if(true == $is_download) {
+                    // return view('admin.rc_department.download_building_bill', $data);
+                    $pdf = PDF::loadView('admin.rc_department.download_building_bill', $data);
+                    // print_r($pdf);exit;
+                    return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+                } else {
+                    return view('admin.rc_department.view_bill_building',$data);
+                }
+            }else{
+                return redirect()->back()->with('warning','Current bill is not available');
+
             }
+
         }   
     }
 
@@ -2053,4 +2060,20 @@ class RCController extends Controller
      }
 
 
+     //General functions for ebilling
+
+    public function getServiceChargeRate($building_id , $year){
+        $serviceChargesRate = ServiceChargesRate::selectRaw('Sum(water_charges) as water_charges,
+        sum(electric_city_charge) as electric_city_charge,
+        sum(pump_man_and_repair_charges) as  pump_man_and_repair_charges,
+        sum(external_expender_charge) as external_expender_charge,
+        sum(administrative_charge) as administrative_charge, 
+        sum(lease_rent) as lease_rent,sum(na_assessment) as na_assessment, sum(other) as other')
+            ->where('building_id',$building_id)
+            ->where('year',$year)
+            ->first();
+
+        return $serviceChargesRate;
+
+    }
 }
