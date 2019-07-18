@@ -1100,7 +1100,7 @@ class RCController extends Controller
                     $data['year'] = date('Y') -1;
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m')-1;
                 $data['year'] = date('Y');
             }
 
@@ -1184,7 +1184,7 @@ class RCController extends Controller
                     $data['year'] = date('Y') -1;
                 }
             } else {
-                $data['month'] = date('m');
+                $data['month'] = date('m')-1;
                 $data['year'] = date('Y');
             }
 
@@ -1525,7 +1525,6 @@ class RCController extends Controller
         } 
      }
 
-
      public function downloadReceiptSociety(Request $request) {
 //       print_r($request->bill_no);exit;
 
@@ -1660,7 +1659,6 @@ class RCController extends Controller
             }
         }
      }
-
 
     public function downloadGeneratedReceipt(Request $request) {
             //dd('ok');

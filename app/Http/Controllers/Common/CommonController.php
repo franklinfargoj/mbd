@@ -5335,7 +5335,7 @@ class CommonController extends Controller
         $mpdf = new Mpdf();
         $mpdf->autoScriptToLang = true;
         $mpdf->autoLangToFont = true;
-        $contents = view('admin.rc_department.download_tenant_bill', compact('data'));
+        $contents = view('frontend.download_bill', compact('data'));
         $mpdf->WriteHTML($contents);
         $mpdf->Output($fileName,'D');
 
