@@ -89,13 +89,15 @@
                                 @csrf
                                 <input type="hidden" name="applicationId" value="{{ $sc_application->id }}">
                                 <input type="hidden" name="applicationFile" value="{{ isset($uploaded_stamped_application->document_path) ? $uploaded_stamped_application->document_path : '' }}">
+                                
+                                @if(!isset($uploaded_stamped_application) && !isset($uploaded_stamped_application->document_path))
+                                    <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : Please upload signed Conveyance application. </span>
+                                @endif    
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary btn-custom"
-                                            id="uploadBtn" onclick="return confirm('Are you sure you want to submit the application.');">Submit</button>
-                                    @if(!isset($uploaded_stamped_application) && !isset($uploaded_stamped_application->document_path))
-                                        <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                        * Note : Please upload signed Conveyance application. </span>
-                                    @endif            
+                                            id="uploadBtn" onclick="return confirm('Are you sure you want to submit the application.');" {{ isset($uploaded_stamped_application) && isset($uploaded_stamped_application->document_path) ? '' : 'disabled' }}>Submit</button>
+                                    
+                                        
                                 </div>
                             </form>
                         </div>

@@ -241,7 +241,7 @@ class conveyanceCommonController extends Controller
     // forward and revert application
     public function forwardApplication($request){
        
-        $Scstatus = "";
+        $Scstatus = ""; $society_flag = 0;
         $toUsers = "";
         $data = scApplication::where('id',$request->applicationId)->first();
         $applicationStatus = $data->application_status;
@@ -302,14 +302,17 @@ class conveyanceCommonController extends Controller
             }
 
             // if reverted to society 
-            if ($request->society_flag == '1'){
-             $Tostatus = config('commanConfig.conveyance_status.pending'); 
-             // send email nd sms to society
-            $type = 'conveyance';
-            $EmailMsgConfigration = new EmailMsgConfigration();
-            $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
+            if ($request->society_flag == '1' && $applicationStatus == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
+                $Tostatus = config('commanConfig.conveyance_status.Verify_sale_&_lease_deed');
+                
+            }else if ($request->society_flag == '1') {
+                 $Tostatus = config('commanConfig.conveyance_status.pending'); 
+                 // send email nd sms to society
+                $type = 'conveyance';
+                $EmailMsgConfigration = new EmailMsgConfigration();
+                $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
+            }    
 
-            }
         foreach($toUsers as $to_user_id){
             $user_data = User::find($to_user_id);
             $application = [[
@@ -340,7 +343,7 @@ class conveyanceCommonController extends Controller
                 'created_at'    => Carbon::now(),
             ],
             ];
-
+            // dd($application);
             DB::beginTransaction();
             try{
             scApplicationLog::where('application_id',$request->applicationId)
@@ -638,6 +641,7 @@ class conveyanceCommonController extends Controller
       $applicationId = decrypt($applicationId);  
       $data          = $this->getForwardApplicationData($applicationId);
       $data->folder  = $this->getCurrentRoleFolderName(); 
+      $type = '';
 
       $remarkHistory = $this->getRemarkHistory($applicationId,$data->sc_application_master_id);
       $data->conveyance_map = $this->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
@@ -659,24 +663,40 @@ class conveyanceCommonController extends Controller
         $route = 'admin.conveyance.common.forward_application';
       }
 
+      // society data
+      $societyData = $data->societyApplication;
+      $societyData->society_flag = 1;
+      $societyData->id = $societyData->user_id;
+      $societyData->roles = Role::where('id',$societyData->role_id)->get();
+
       //condition on child and parent only for dyco
       $parentData = $childData = [];
         $roleName = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.estate_manager'),config('commanConfig.junior_architect'));
         $roleIds = Role::whereIn('name',$roleName)->pluck('id')->toArray();
+
+        
+
         if (count($data->parent) > 0){
             foreach($data->parent as $parent){
                 if (session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')){
 
                     if (in_array($parent->role_id,$roleIds)){
                         $parentData [] = $parent;
+                        $type = 'multiple';
                     }
-                }else{
+                } 
+                else{
                    if (!in_array($parent->role_id,$roleIds)){
                         $parentData [] = $parent;
                     } 
                 }    
             }
         }
+        // Added society name in forward list only for DYCO user to send drafted Agreement
+        if ($data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') && session()->get('role_name') == config('commanConfig.dyco_engineer')){
+            $parentData [] = $societyData;
+        }
+
         if ($data->child!="" && session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')) {
             foreach($data->child as $child){
                if (!(in_array($child->role_id,$roleIds))){
@@ -706,7 +726,7 @@ class conveyanceCommonController extends Controller
                 }    
             }
         }
-      return view($route,compact('data','remarkHistory','parentData','childData','eeParentData'));          
+      return view($route,compact('data','remarkHistory','parentData','childData','eeParentData','type'));          
     }
 
     public function getRemarkHistory($applicationId,$masterId)

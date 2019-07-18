@@ -753,6 +753,16 @@ class SocietyPermissionSeeder extends Seeder
                 'display_name' => 'submit conveyance application form',
                 'description'  => 'submit conveyance application form'
             ],
+            [
+                'name'         => 'verify_sale_lease',
+                'display_name' => 'verify sale lease deed agreement',
+                'description'  => 'verify sale lease deed agreement'
+            ],
+            [
+                'name'         => 'upload_verified_sale_lease',
+                'display_name' => 'upload verified sale lease deed agreement',
+                'description'  => 'upload verified sale lease deed agreement'
+            ],
             
         ];
         

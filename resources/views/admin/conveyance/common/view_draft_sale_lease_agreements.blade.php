@@ -39,68 +39,93 @@
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-section__content mb-0 table-responsive">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedSale->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Sale Deed Agreement is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-sm-6">
+                    <div class="d-flex flex-column h-100 two-cols">
+                        <h5>Download</h5>
+                        <span class="hint-text">Click to download Sale Deed Agreement </span>
+                        <div class="mt-auto">
+                            @if(isset($data->DraftGeneratedSale->document_path))
+                            <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
+                            <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                    Download </Button>
+                            </a>
+                            @else
+                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                *Note : Sale Deed Agreement is not available.</span>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
-
-            <!-- Add Send to JT CO here -->
+            <!-- verified sale deed agreement from society -->
+            @if(isset($data->VerifiedLeaseAgreement) || isset($data->VerifiedSaleAgreement))
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Download Verified Sale Deed Agreement</h5>
+                                <span class="hint-text">Click to download Verified Sale Deed Agreement from society </span>
+                                @if(isset($data->VerifiedSaleAgreement))
+                                    <div class="mt-auto">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->VerifiedSaleAgreement->document_path }}" target="_blank">
+                                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                Download </Button>
+                                        </a>
+                                    </div>
+                                @else
+                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            @endif
         </div>
+
 
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-section__content mb-0 table-responsive">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedLease->document_path))
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Lease Deed Agreement is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="col-sm-6">
+                    <div class="d-flex flex-column h-100 two-cols">
+                        <h5>Download</h5>
+                        <span class="hint-text">Click to download Lease Deed Agreement</span>
+                        <div class="mt-auto">
+                            @if(isset($data->DraftGeneratedLease->document_path))
+                            <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
+                            <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                    Download </Button>
+                            </a>
+                            @else
+                            <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
+                                *Note : Lease Deed Agreement is not available.</span>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
+            <!-- verified lease deed agreement from society -->
+            @if(isset($data->VerifiedLeaseAgreement) || isset($data->VerifiedSaleAgreement))
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Download Verified Lease Deed Agreement</h5>
+                                <span class="hint-text">Click to download Verified Lease Deed Agreement from society </span>
+                                @if(isset($data->VerifiedLeaseAgreement))
+                                    <div class="mt-auto">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->VerifiedLeaseAgreement->document_path }}" target="_blank">
+                                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                Download </Button>
+                                        </a>
+                                    </div>
+                                @else
+                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            @endif
         </div>
     </div>
     @if(count($data->AgreementComments) > 0)       
