@@ -44,6 +44,8 @@ class ApplicationStatusMasterSeeder extends Seeder
         ['status_name' => 'generate_draft'],
         ['status_name' => 'text'],
         ['status_name' => 'approve_draft'],
+        ['status_name' => 'Verify_sale_&_lease_deed'],
+        ['status_name' => 'Verified'],
     	];
      	$applicationStatus = ApplicationStatusMaster::pluck('status_name');
  		 if (count($applicationStatus) > '0') {

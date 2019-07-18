@@ -126,7 +126,6 @@ class DYCOController extends Controller
 
     // draft sale and lease deed Agreement
     public function saleLeaseAgreement(Request $request,$applicationId){
-
         $applicationId = decrypt($applicationId);
         $data = scApplication::with(['scApplicationLog','ConveyanceSalePriceCalculation','societyApplication'])
         ->where('id',$applicationId)->first();
@@ -149,6 +148,13 @@ class DYCOController extends Controller
         $data->conveyance_map = $this->common->getArchitectSrutiny($applicationId,$data->sc_application_master_id);
         $data->em_document = $this->common->getEMNoDueCertificate($data->sc_application_master_id,$applicationId);
 
+        // get verified sale nd lease documents
+        $verified = ApplicationStatusMaster::where('status_name','=','Verified')->value('id');
+        $verifySaleId = $this->common->getScAgreementId($this->SaleAgreement,$Applicationtype);
+        $verifyLeaseId = $this->common->getScAgreementId($this->LeaseAgreement,$Applicationtype);
+
+        $data->VerifiedSaleAgreement = $this->common->getScAgreement($verifySaleId,$applicationId,$verified);
+        $data->VerifiedLeaseAgreement= $this->common->getScAgreement($verifyLeaseId,$applicationId,$verified);
         //generated draft and text sale and lease agreement
 
         $draft = ApplicationStatusMaster::where('status_name','=','generate_draft')->value('id');

@@ -84,24 +84,6 @@
                                     </div>
                                 </div>
                             </div>
-                            {{--<div >--}}
-                                {{--<div "col-sm-6 application-fields">--}}
-                                    {{--<label  for="">८. अधिकृत सभासदांची यादी (पती व पत्नी संयुक्त नावे):</label>--}}
-                                    {{--<p><a href="{{ route('sc_download') }}"  target="_blank" rel="noopener">Download Template</a> </p>--}}
-                                    {{----}}
-                                    {{--<input  type="text" id=""--}}
-                                               {{--name="" value="">--}}
-                                    {{--</div>--}}
-                                {{--<div "col-sm-6 application-fields">--}}
-                                    {{-- <label  for="">Upload File:</label> --}}
-                                    {{--<p>--}}
-                                        {{--<input "custom-file-input" name="template" type="file"--}}
-                                                   {{--id="test-upload" required>--}}
-                                        {{--<label "custom-file-label" for="test-upload">Choose--}}
-                                            {{--file ...</label>--}}
-                                        {{--</p>--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
                             <div style="font-size: 16px;">
                                 <p style="margin-bottom: 10px;">९. सेवा हस्तांकरण झाल्याचा दिनांक:</p>
                                 <div style="">
@@ -120,19 +102,6 @@
                                     <div style="clear: both;"></div>
                                 </div>
                             </div>
-                            {{--<div >--}}
-                                {{--<div >--}}
-                                    {{--<label  for="">१०. कार्यकारणी यादी</label>--}}
-                                    {{--<input  type="text" id=""--}}
-                                               {{--name="society_address" value="{{ $sc_application->societyApplication->address }}">--}}
-                                    {{--</div>--}}
-                                {{--</div>--}}
-                            {{--<div style="margin-bottom: 5px;">--}}
-                                {{--<div style="font-size: 16px;">--}}
-                                    {{--<p style="margin-bottom: 10px;">११. संस्थेचा अधिकृत पत्ता</p>--}}
-                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->address }} &nbsp; </span>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                             <div style="margin-bottom: 5px;">
                                 <div style="width: 50%; float: left;">
                                     <label  for="">११. संस्थेचा अधिकृत पत्ता:</label>
@@ -155,32 +124,20 @@
                                 </div>
                                 <div style="clear: both;"></div>
                             </div>
-                            {{--<div style="margin-bottom: 5px;"><br/>--}}
-                                {{--<span style="font-weight: bold;font-size: 1em">Bank Details :</span>--}}
-                                {{--<div style="font-size: 16px;">--}}
-                                    {{--<p style="margin-bottom: 10px;">Account No:</p>--}}
-                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->account_no }} &nbsp; </span>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
                         <span style="font-weight: bold;font-size: 1.2em">Bank Details :</span>
                             <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: 2px">
                                 <label  for="">Account No:</label>
-                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->account_no }} &nbsp; </span>
+                                <span style="font-weight: bold;"> &nbsp; {{ isset($sc_application->society_bank_details) ? $sc_application->society_bank_details->account_no : '________' }} &nbsp; </span>
                             </div>
                             <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: -1px">
                                 <label  for="">Ifsc Code:</label>
-                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->ifsc_code }} &nbsp; </span>
+                                <span style="font-weight: bold;"> &nbsp; {{ isset($sc_application->society_bank_details) ? $sc_application->society_bank_details->ifsc_code : '________' }} &nbsp; </span>
                             </div>
                             <div style="width: 50%; float: left; margin-bottom: -2px;margin-top: 2px">
                                 <label  for="">Bank Name:</label>
-                                <span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->bank_name }} &nbsp; </span>
+                                <span style="font-weight: bold;"> &nbsp; {{ isset($sc_application->society_bank_details) ? $sc_application->society_bank_details->bank_name : '________' }} &nbsp; </span>
                             </div>
-                            {{--<div style="margin-bottom: 5px;">--}}
-                                {{--<div style="font-size: 16px;">--}}
-                                    {{--<p style="margin-bottom: 10px;">Bank Name:</p>--}}
-                                    {{--<span style="font-weight: bold;"> &nbsp; {{ $sc_application->society_bank_details->bank_name }} &nbsp; </span>--}}
-                                {{--</div>--}}
-                            {{--</div>--}}
+                            
                         </div>
                     </div>
                     <div style="width: 100%;">
@@ -193,19 +150,6 @@
                             <p style="font-size: 16px;" >
                                 <span >सचिव <span style="font-weight: bold;"> &nbsp; {{ $sc_application->societyApplication->secretary_name }} &nbsp;</span></span>
                             </p>
-                        </div>
-                    </div>
-                    <div>
-                        <div >
-                            <div >
-                                <div >
-                                    <div >
-                                        {{--<button type="submit" >Submit & Next</button>--}}
-                                        {{--<a href="" "btn btn-secondary">Cancel</a>--}}
-                                        {{--<a href="" "btn btn-secondary">Cancel</a>--}}
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

@@ -38,202 +38,133 @@
     </div>
 <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.save_agreement')}}" enctype="multipart/form-data">
 @csrf
-
 <input type="hidden" name="applicationId" value="{{ isset($data) ? $data->id : '' }}">
     <div class="tab-content">
         <div class="tab-pane active show" id="sale-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
-                            <div class="m-section__content mb-0 table-responsive">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Generate</h5>
-                                                <span class="hint-text">Click to Generate Sale Deed Agreement </span>
-                                                <div class="mt-auto">
-                                                    @if(isset($data->DraftGeneratedSale))
-                                                     <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                                            Edit </Button>
-                                                    </a>
-                                                    @else
-                                                    <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
-                                                            Generate </Button>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if(isset($data->DraftGeneratedSale))
-                                        <div class="col-sm-6 border-left">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download</h5>
-                                                <span class="hint-text">Click to download Sale Deed Agreement </span>
-                                                <div class="mt-auto">
-                                                    
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
-                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                            Download </Button>
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>  
-            </div>   
-            <!-- <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-section__content mb-0 table-responsive">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download Sale Deed Agreement </span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedSale))
-                                                
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Sale Deed Agreement is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <span class="hint-text">Click to upload Sale Deed Agreement</span>
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input sale_file" name="sale_agreement" type="file" id="test-upload1">
-                                                
-                                                        <label class="custom-file-label" for="test-upload1">Choose
-                                                        file...</label>  
-                                                    @if(isset($data->DraftSaleAgreement))
-
-                                                       <input type="hidden" name="oldSaleFile" value="{{ $data->DraftSaleAgreement->document_path }}">
-                                                            <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftSaleAgreement->document_path }}" download>Download</a> 
-                                                    @endif 
-                                                </div>
-                                                <div class="mt-3">
-                                                    <button type="submit" id="sale_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>
-                                                </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Generate</h5>
+                            <span class="hint-text">Click to Generate Sale Deed Agreement </span>
+                            <div class="mt-auto">
+                                @if(isset($data->DraftGeneratedSale))
+                                 <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        Edit </Button>
+                                </a>
+                                @else
+                                <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#myModal">
+                                        Generate </Button>
+                                @endif
                             </div>
                         </div>
                     </div>
+                    @if(isset($data->DraftGeneratedSale))
+                    <div class="col-sm-6 border-left">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Download</h5>
+                            <span class="hint-text">Click to download Sale Deed Agreement </span>
+                            <div class="mt-auto">
+                                
+                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedSale->document_path }}" target="_blank">
+                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                        Download </Button>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
-            </div> -->
+            </div> 
 
-            <!-- Add Send to JT CO here -->
+            <!-- verified sale deed agreement from society -->
+            @if(isset($data->VerifiedLeaseAgreement) || isset($data->VerifiedSaleAgreement))
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Download Verified Sale Deed Agreement</h5>
+                                <span class="hint-text">Click to download Verified Sale Deed Agreement from society </span>
+                                @if(isset($data->VerifiedSaleAgreement))
+                                    <div class="mt-auto">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->VerifiedSaleAgreement->document_path }}" target="_blank">
+                                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                Download </Button>
+                                        </a>
+                                    </div>
+                                @else
+                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            @endif  
         </div>
 
         <div class="tab-pane" id="lease-deed-agreement" role="tabpanel">
             <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                        <div class="m-portlet__body m-portlet__body--table">
-                            <div class="m-section__content mb-0 table-responsive">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-sm-6">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Generate</h5>
-                                                <span class="hint-text">Click to Generate Lease Deed Agreement </span>
-                                                <div class="mt-auto">
-                                                    @if(isset($data->DraftGeneratedLease))
-                                                     <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#generateLeaseAgr">
-                                                            Edit </Button>
-                                                    </a>
-                                                    @else
-                                                    <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#generateLeaseAgr">
-                                                            Generate </Button>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @if(isset($data->DraftGeneratedLease))
-                                        <div class="col-sm-6 border-left">
-                                            <div class="d-flex flex-column h-100 two-cols">
-                                                <h5>Download</h5>
-                                                <span class="hint-text">Click to download Lease Deed Agreement</span>
-                                                <div class="mt-auto">    
-                                                    <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
-                                                    <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                            Download </Button>
-                                                    </a>  
-                                                </div>
-                                            </div>
-                                        </div>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                </div>  
-            </div>  
-
-            <!-- <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
-                <div class="portlet-body">
-                    <div class="m-portlet__body m-portlet__body--table">
-                        <div class="m-section__content mb-0 table-responsive">
-                            <div class="container">
-                                <div class="row">
-                                    <div class="col-sm-6">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Download</h5>
-                                            <span class="hint-text">Click to download Lease Deed Agreement</span>
-                                            <div class="mt-auto">
-                                                @if(isset($data->DraftGeneratedLease))
-                                                
-                                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
-                                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
-                                                        Download </Button>
-                                                </a>
-                                                @else
-                                                <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">
-                                                    *Note : Lease Deed Agreement is not available.</span>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-sm-6 border-left">
-                                        <div class="d-flex flex-column h-100 two-cols">
-                                            <h5>Upload</h5>
-                                            <span class="hint-text">Click to upload Lease Deed Agreement</span>
-                                                <div class="custom-file">
-                                                    <input class="custom-file-input" name="lease_agreement" type="file" id="test-upload2">
-   
-                                                    <label class="custom-file-label" for="test-upload2">Choose
-                                                        file...</label>
-                                                       @if(isset($data->DraftLeaseAgreement))
-                                                       <input type="hidden" name="oldLeaseFile" value="{{ isset($data->DraftLeaseAgreement->document_path) ? $data->DraftLeaseAgreement->document_path : '' }}">
-                                                            <a target="_blank" class="btn-link" href="{{ config('commanConfig.storage_server').'/'.$data->DraftLeaseAgreement->document_path }}" download>Download</a> 
-                                                        @endif
-                                                </div>
-                                                <div class="mt-3">
-                                                    <button type="submit" id="lease_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Upload</button>
-                                                 </div>
-                                        </div>
-                                    </div>
-                                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Generate</h5>
+                            <span class="hint-text">Click to Generate Lease Deed Agreement </span>
+                            <div class="mt-auto">
+                                @if(isset($data->DraftGeneratedLease))
+                                 <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#generateLeaseAgr">
+                                        Edit </Button>
+                                </a>
+                                @else
+                                <Button type="button" class="s_btn btn btn-primary" data-toggle="modal" data-target="#generateLeaseAgr">
+                                        Generate </Button>
+                                @endif
                             </div>
                         </div>
                     </div>
+                    @if(isset($data->DraftGeneratedLease))
+                    <div class="col-sm-6 border-left">
+                        <div class="d-flex flex-column h-100 two-cols">
+                            <h5>Download</h5>
+                            <span class="hint-text">Click to download Lease Deed Agreement</span>
+                            <div class="mt-auto">    
+                                <a href="{{ config('commanConfig.storage_server').'/'.$data->DraftGeneratedLease->document_path }}" target="_blank">
+                                <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                        Download </Button>
+                                </a>  
+                            </div>
+                        </div>
+                    </div>
+                    @endif
                 </div>
-            </div> -->
+            </div> 
+
+            <!-- verified lease deed agreement from society -->
+            @if(isset($data->VerifiedLeaseAgreement) || isset($data->VerifiedSaleAgreement))
+                <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0 m-portlet--shadow">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="d-flex flex-column h-100 two-cols">
+                                <h5>Download Verified Lease Deed Agreement</h5>
+                                <span class="hint-text">Click to download Verified Lease Deed Agreement from society </span>
+                                @if(isset($data->VerifiedLeaseAgreement))
+                                    <div class="mt-auto">
+                                        <a href="{{ config('commanConfig.storage_server').'/'.$data->VerifiedLeaseAgreement->document_path }}" target="_blank">
+                                        <Button type="button" class="s_btn btn btn-primary" id="submitBtn">
+                                                Download </Button>
+                                        </a>
+                                    </div>
+                                @else
+                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                @endif
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            @endif 
         </div>
     </div>
+
+    <!-- display agreements comments -->
     @if(count($data->AgreementComments) > 0)       
         <div class="m-portlet m-portlet--mobile m_panel">
             <div class="m-portlet__body">

@@ -201,7 +201,6 @@
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                         <input type="hidden" name="to_role_id" id="to_role_id">
-                                        
                                         <input type="hidden" name="check_status" class="check_status" value="1">
 
                                         <div class="m-form__group form-group">
@@ -233,12 +232,12 @@
                                                         Forward To:
                                                     </label>
                                                     <div class="col-lg-4 col-md-9 col-sm-12">
-                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" value="" name="to_user_id[]" {{(count($parentData) > 1 && session()->get('role_name') == config('commanConfig.dyco_engineer')) ? 'multiple' : '' }}>
+                                                        <select class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="to_user" value="" name="to_user_id[]" {{ $type }}>
 
                                                             @if(count($parentData) > 0 && session()->get('role_name') == config('commanConfig.dyco_engineer'))
 
                                                             @foreach($parentData as $parent)
-                                                                <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}">{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
+                                                                <option value="{{ $parent->id}}" data-role="{{ $parent->role_id }}" society-flag ="{{ isset($parent->society_flag) && $parent->society_flag == 1 ? '1' : '0' }}" >{{ $parent->name }} ({{ $parent->roles[0]->display_name }})</option>
                                                             @endforeach
 
                                                             @elseif($data->parent)
@@ -281,7 +280,7 @@
                                                 </div>
                                             </div>
                                             @endif
-                                            @if(count($parentData) > 1)
+                                            @if(count($parentData) > 1 && $type == 'multiple')
                                                 @foreach($parentData as $parent)
                                                     <div class="mt-3 table--box-input show_parent">
                                                         <label for="remark" style="font-weight: 500;">Remark for {{ $parent->roles[0]->display_name }}:</label>
@@ -349,6 +348,7 @@
             var data = $(".check_status").val();
             if (data == 1) {
                 var id = $("#to_user").find('option:selected').attr("data-role");
+                var societyFlag = $("#to_user").find('option:selected').attr("society-flag");
                 
                 if (id != undefined){
                     $(".error").css("display","none");
@@ -366,7 +366,7 @@
                 var user_id = $("#to_child_id").find('option:selected').attr("value");
             }
             $("#to_role_id").val(id);
-            // $("#to_user_id").val(user_id);
+            $("#society_flag").val(societyFlag);
         });
     });
 

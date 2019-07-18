@@ -128,6 +128,7 @@ return [
         'Send_society_for_registration_of_sale_&_lease' => 13,
         'Registered_sale_&_lease_deed' => 14,
         'Conveyance_Issued' => 15,
+        'Verify_sale_&_lease_deed' => 32,
         'society_stamp_duty' => 'Pay Stamp Duty',
         'society_register_sale_lease_deed' => 'Register Sale & Lease Deed'
     ],
@@ -299,6 +300,7 @@ return [
         '26'=>'info',
         '27'=>'success',
         '29' => 'danger',
+        '32' => 'success',
     ],
 
     'architect_applicationStatus' => [
