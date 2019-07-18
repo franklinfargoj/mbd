@@ -1241,15 +1241,20 @@ class RCController extends Controller
                                     ->orderBy('id','DESC')
                                     ->first();
 
-            // echo '<pre>';
-            // print_r($data['currentBill']);exit;
-            if(true == $is_download) {
-                // return view('admin.rc_department.download_tenant_bill', $data);
-              $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
-              return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
-            } else {
-                return view('admin.rc_department.view_bill_tenant',$data);
+            if(isset($data['currentBill'])){
+                // echo '<pre>';
+                // print_r($data['currentBill']);exit;
+                if(true == $is_download) {
+                    // return view('admin.rc_department.download_tenant_bill', $data);
+                    $pdf = PDF::loadView('admin.rc_department.download_tenant_bill', $data);
+                    return $pdf->download('bill_'.$data['building']->name.'_'.$data['building']->building_no.'.pdf');
+                } else {
+                    return view('admin.rc_department.view_bill_tenant',$data);
+                }
+            }else{
+                return redirect()->back()->with('warning','Current bill is not available.');
             }
+
         }
 
      }
