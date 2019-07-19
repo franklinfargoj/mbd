@@ -2275,7 +2275,7 @@ class EMController extends Controller
                                     'arrear_bill' => $arrear_bill,
                                     'arrear_id' => $arrear_id,
                                     'total_bill' => $total_bill,
-                                    'bill_date' => date('04-m-Y'),
+                                    'bill_date' => date('01-m-Y'),
                                     'due_date' => $request->due_date,
                                     'consumer_number' => $consumer_number,
                                     'total_bill_after_due_date'=>ceil($total_service_after_due),

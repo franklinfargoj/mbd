@@ -95,7 +95,7 @@
                 <div class="form-group m-form__group row">
                     <div class="col-sm-6 form-group">
                         <span>Bill For:{{date("M", strtotime("2001-" . $month . "-01"))}}, {{$year}}</span>
-                        <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden>
+                        <input type="text" name="bill_date" value="{{date('01-m-Y')}}" hidden>
                     </div>
                 </div>
                 <div class="form-group m-form__group row">
@@ -116,9 +116,9 @@
                 </div>
                 <div class="form-group m-form__group row">
                     <table class="display table table-responsive table-bordered" style="width:100%">
-                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('1-M-Y', strtotime('-1 month'))}} to {{date('1-M-Y')}} </td></tr>
-                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('d-M-Y')}}  <input type="text" name="bill_date" value="{{date('d-m-Y')}}" hidden></td></tr>
-                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : {{date('d-M-Y', strtotime(date('Y-m-d'). ' + 5 days'))}} <input type="text" name="due_date" value="{{date('d-m-Y', strtotime(date('Y-m-d'). ' + 5 days'))}}" hidden> </td></tr>
+                        <tr><td>Buidling Name : {{$building->name}} </td><td>Bill Period : {{date('01-M-Y', strtotime('-1 month'))}} to {{date('01-M-Y')}} </td></tr>
+                        <tr><td>Address : @if(!empty($society)){{$society->society_address}}@endif </td><td>Bill Date : {{date('01-M-Y')}}  <input type="text" name="bill_date" value="{{date('01-m-Y')}}" hidden></td></tr>
+                        <tr><td>Total Tenament : {{ $number_of_tenants->tenant_count()->first()->count }} </td><td>Due Date : {{date('10-M-Y')}} <input type="text" name="due_date" value="{{date('10-m-Y')}}" hidden> </td></tr>
 
                         @php
                         $totalTemp = $total + $total_service;
