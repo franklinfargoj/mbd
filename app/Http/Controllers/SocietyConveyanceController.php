@@ -199,7 +199,7 @@ class SocietyConveyanceController extends Controller
                     $time = time();
                     $folder_name = "society_conveyance_documents";
                     $path = '/' . $folder_name . '/' . $file_name;
-                    $headers = ['sr_no', 'tenament_no', 'tenament_name', 'residentialnon_residential'];
+                    $headers = ['sr_no', 'tenament_no', 'tenament_full_name', 'residentialnon_residential'];
                     $filepath = $request->file('template')->getRealPath();
                     $data = Excel::load($filepath)->get();
                     if (isset($data) && count($data) > 0){
