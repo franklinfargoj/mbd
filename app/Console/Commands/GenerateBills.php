@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Http\Controllers\EMDepartment\EMController;
 use App\Http\Requests\GenerateBillRequest;
 use Illuminate\Console\Command;
 use App\MasterLayout;
@@ -41,6 +42,8 @@ class GenerateBills extends Command
     public function __construct()
     {
         parent::__construct();
+        $this->em = new EMController();
+
     }
 
     /**
@@ -245,24 +248,15 @@ class GenerateBills extends Command
                                 if($lastBill==null)
                                 {
 //                                $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
-                                  $arreasCalculation = ArrearCalculation::where('building_id',$building->id)->where('payment_status','0')->get();
+                                  $arreasCalculation = $this->em->getArrearCalculation($building->id);
                                 
-                                if(!$arreasCalculation->isEmpty()){ 
-                                        foreach($arreasCalculation as $calculation){
-                                            $arrear_bill = $arrear_bill + $calculation->total_amount;
-                                            $arrearID[] = $calculation->id; 
-                                        }
-                                        $arrear_id = implode(",",$arrearID);                      
-                                    }  
-                                    if(!$arreasCalculation->isEmpty())
-                                    {
-                                        foreach($arreasCalculation as $arreasCalculations)
-                                        {
-                                            $arrear_balance+=($arreasCalculations->total_amount - $arreasCalculations->old_intrest_amount -
-                                                        $arreasCalculations->difference_intrest_amount);
-                                            $arrear_interest_balance+=($arreasCalculations->old_intrest_amount +
-                                                $arreasCalculations->difference_intrest_amount);
-                                        }
+                                if(!$arreasCalculation->isEmpty()){
+
+                                    $data = $this->em->getArrearIdBalanceInterestBalance($arreasCalculation, $arrear_bill, $arrear_balance, $arrear_interest_balance);
+
+                                    $arrear_id = $data['arrear_id'];
+                                    $arrear_balance = $data['arrear_balance'];
+                                    $arrear_interest_balance = $data['arrear_interest_balance'] ;
                                     }
                                 }
                                 
