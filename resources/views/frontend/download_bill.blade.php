@@ -67,7 +67,7 @@
                 <table>
                     <tbody>
                     <tr>
-                        <td valign="top" style="font-weight: bold;">Tenant Name : {{$data['tenant']->first_name.' '.$data['tenant']->last_name}}</td>
+                        <td valign="top" style="font-weight: bold;">Tenant Name : {{ isset($data['tenant']) ? ($data['tenant']->first_name ?? '' .' '.$data['tenant']->last_name ?? '') : ''}}</td>
                         <td valign="top" style="text-align: center;"></td>
                     </tr>
                     </tbody>
