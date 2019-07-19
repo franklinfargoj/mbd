@@ -2,6 +2,15 @@
 @section('actions')
 @include('admin.conveyance.dyco_department.action',compact('data'))
 @endsection
+@section('css')
+<style type="text/css">
+.error{
+    display: block;
+    color: #ce2323;
+    margin-bottom: 17px;
+}
+</style>
+@endsection
 @section('content')
 
 @if(session()->has('success'))
@@ -93,7 +102,7 @@
                                         </a>
                                     </div>
                                 @else
-                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                    <span class="error">Note * Sale Deed Agreement not verified by society. </span>
                                 @endif
                             </div>
                         </div>
@@ -154,7 +163,7 @@
                                         </a>
                                     </div>
                                 @else
-                                    <span>Note * Sale Deed Agreement not verified by society. </span>
+                                    <span class="error">Note * Sale Deed Agreement not verified by society. </span>
                                 @endif
                             </div>
                         </div>
