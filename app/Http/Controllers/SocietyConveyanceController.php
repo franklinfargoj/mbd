@@ -241,7 +241,10 @@ class SocietyConveyanceController extends Controller
                                 "layout_id" => $request->layout_id
                             );
                             $applicationId = scApplication::insertGetId($applicationData);
-                            // save excel file 
+                            
+                            // save excel file
+                            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, 
+                                $file_name); 
                             $arr['application_id'] = $applicationId;
                             $arr['sc_application_master_id'] = $request->sc_application_master_id;
                             $arr['society_flag'] = 1;
@@ -1111,8 +1114,12 @@ class SocietyConveyanceController extends Controller
         //get uploaded signed application pdf
         $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $sc_application->sc_application_master_id);
         $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
-        $uploaded_stamped_application = $doc->document_path;
-
+    
+        if (isset($doc)){
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
+        }
         return view('frontend.society.conveyance.upload_sc_other_documents',compact('documents_count','documents','issued_noc','sc_application','documents_uploaded_count','documentId','uploaded_stamped_application'));
     }
 
