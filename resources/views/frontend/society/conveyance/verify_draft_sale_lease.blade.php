@@ -71,15 +71,22 @@
                                         @endif    
                                     </div>
                                     <div class="col-sm-6 d-flex flex-column h-100 border-left">
-                                        <span class="hint-text font_w500">Click on 'Upload' to verified upload Sale Deed Agreement</span>
-                                        <div class="custom-file mt-3">
-                                            <input class="custom-file-input pdfcheck" name="document_path" type="file" id="test-upload_sale_dee" required="required">
-                                            <label class="custom-file-label" for="test-upload_sale_dee">Choose file...</label>
-                                            <span class="text-danger" id="file_error"></span>
-                                            @if($sc_application->VerifiedSaleAgreement)
-                                             <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedSaleAgreement->document_path }}" target="_blank" class="btn btn-link" rel="noopener">Download</a>
-                                            @endif 
-                                        </div>
+                                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Verify_sale_&_lease_deed'))
+                                            <span class="hint-text font_w500">Click on 'Upload' to verified upload Sale Deed Agreement</span>
+                                            <div class="custom-file mt-3">
+                                                <input class="custom-file-input pdfcheck" name="document_path" type="file" id="test-upload_sale_dee" required="required">
+                                                <label class="custom-file-label" for="test-upload_sale_dee">Choose file...</label>
+                                                <span class="text-danger" id="file_error"></span>
+                                                @if($sc_application->VerifiedSaleAgreement)
+                                                 <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedSaleAgreement->document_path }}" target="_blank" class="btn btn-link" rel="noopener">Download</a>
+                                                @endif 
+                                            </div>
+                                        @else
+                                            <span class="hint-text font_w500">Click on 'Download' to download verified uploaded Sale Deed Agreement</span>
+                                            <div class="mt-3">
+                                                <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedSaleAgreement->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
+                                            </div>
+                                        @endif    
                                     </div>
                                 </div>
                                 <div class="col-xs-12 mt-3" style="width: 890px;">
@@ -119,17 +126,24 @@
                                         @endif    
                                     </div>
                                     <div class="col-sm-6 d-flex flex-column h-100 border-left">
-                                        <span class="hint-text font_w500">Click on 'Upload' to verified upload Lease Deed Agreement</span>
-                                           
-                                        <div class="custom-file mt-3">
-                                            <input class="custom-file-input pdfcheck" name="document_path" type="file"
-                                                   id="test-upload_lease_deed" required="required">
-                                            <label class="custom-file-label" for="test-upload_lease_deed">Choose file...</label>
-                                            <span class="text-danger" id="file_error"></span>
-                                            @if($sc_application->VerifiedLeaseAgreement)
-                                             <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedLeaseAgreement->document_path }}" target="_blank" class="btn btn-link" rel="noopener">Download</a>
-                                            @endif
-                                        </div>
+                                        @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Verify_sale_&_lease_deed'))
+                                            <span class="hint-text font_w500">Click on 'Upload' to verified upload Lease Deed Agreement</span>
+                                               
+                                            <div class="custom-file mt-3">
+                                                <input class="custom-file-input pdfcheck" name="document_path" type="file"
+                                                       id="test-upload_lease_deed" required="required">
+                                                <label class="custom-file-label" for="test-upload_lease_deed">Choose file...</label>
+                                                <span class="text-danger" id="file_error"></span>
+                                                @if($sc_application->VerifiedLeaseAgreement)
+                                                 <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedLeaseAgreement->document_path }}" target="_blank" class="btn btn-link" rel="noopener">Download</a>
+                                                @endif
+                                            </div>
+                                        @else
+                                            <span class="hint-text font_w500">Click on 'Download' to download verified uploaded Lease Deed Agreement</span>
+                                            <div class="mt-3">
+                                                <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedLeaseAgreement->document_path }}" target="_blank" class="btn btn-primary btn-custom" rel="noopener">Download</a>
+                                            </div>
+                                        @endif
                                     </div>
                                 </div>
 

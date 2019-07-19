@@ -53,8 +53,8 @@
                                         </span>
                                             <input type="hidden" name="id" value="{{ $sc_application->id }}">
                                         </div>
-                                        @if(isset($uploaded_stamped_application->document_path))
-                                            <a class="btn-link" target="_blank" href=" {{ config('commanConfig.storage_server').$uploaded_stamped_application->document_path }}"> Download </a>
+                                        @if(isset($uploaded_stamped_application))
+                                            <a class="btn-link" target="_blank" href=" {{ config('commanConfig.storage_server').$uploaded_stamped_application }}"> Download </a>
                                         @endif
                                         <div class="mt-auto">
                                             <button type="submit" class="btn btn-primary btn-custom"
@@ -88,14 +88,14 @@
                             <form id="sc_form" action="{{ route('sc_submit_application') }}" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="applicationId" value="{{ $sc_application->id }}">
-                                <input type="hidden" name="applicationFile" value="{{ isset($uploaded_stamped_application->document_path) ? $uploaded_stamped_application->document_path : '' }}">
+                                <input type="hidden" name="applicationFile" value="{{ isset($uploaded_stamped_application) ? $uploaded_stamped_application : '' }}">
                                 
-                                @if(!isset($uploaded_stamped_application) && !isset($uploaded_stamped_application->document_path))
+                                @if(!isset($uploaded_stamped_application))
                                     <span class="error" style="display: block;color: #ce2323;margin-bottom: 17px;">* Note : Please upload signed Conveyance application. </span>
                                 @endif    
                                 <div class="mt-2">
                                     <button type="submit" class="btn btn-primary btn-custom"
-                                            id="uploadBtn" onclick="return confirm('Are you sure you want to submit the application.');" {{ isset($uploaded_stamped_application) && isset($uploaded_stamped_application->document_path) ? '' : 'disabled' }}>Submit</button>
+                                            id="uploadBtn" onclick="return confirm('Are you sure you want to submit the application.');" {{ isset($uploaded_stamped_application) ? '' : 'disabled' }}>Submit</button>
                                     
                                         
                                 </div>

@@ -2898,7 +2898,7 @@ class SocietyOfferLetterController extends Controller
         }])->whereHas('LayoutUser', function($query)use($application){
             $query->where('layout_id',$application->layout_id);
         })->get();
-
+        dd($users);
         if(count($users) > 0) {
             foreach ($users as $key => $user) {
 
