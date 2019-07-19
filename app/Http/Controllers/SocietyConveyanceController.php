@@ -1098,7 +1098,6 @@ class SocietyConveyanceController extends Controller
         $applicationId = decrypt($applicationId);
         $documents = SocietyConveyanceDocumentStatus::where('application_id', $applicationId)
         ->where('document_id', $documentId)->where('society_flag', 1)->get();
-
         $sc_application = scApplication::where('id', $applicationId)->with(['scApplicationLog' => function($q) use($applicationId) { $q->where('application_id',$applicationId)->where('society_flag', '1')->orderBy('id', 'desc');
         } ])->first();
 
@@ -1112,8 +1111,8 @@ class SocietyConveyanceController extends Controller
         $issued_noc = $this->ConveyanceIssuedDoc($applicationId,$sc_application->sc_application_master_id);
 
         //get uploaded signed application pdf
-        $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $sc_application->sc_application_master_id);
-        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        $docId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $sc_application->sc_application_master_id);
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$docId);
     
         if (isset($doc)){
             $uploaded_stamped_application = $doc->document_path;
