@@ -1192,6 +1192,7 @@ class EMController extends Controller
 
         $pdf_data =array();
 
+//        dd($month);
         $trans_bill_generate_data = TransBillGenerate::with(['tenant_detail','trans_payment', 'service_charges'])
             ->where('trans_bill_generate.society_id', $society_id)
 //            ->where('trans_bill_generate.building_id', $building_id)
@@ -1234,17 +1235,19 @@ class EMController extends Controller
                     if(!$data['serviceChargesRate']){
                         return redirect()->back()->with('warning', 'Service charge Rates Not added into system.');
                     }
-
+//dd($bill_data['building_id']);
                     $data['Tenant_bill_id'] = DB::table('building_tenant_bill_association')
                         ->where('building_id', '=', $bill_data['building_id'])
                         ->where('bill_month', '=',  $data['month'])
                         ->where('bill_year', '=', $data['year'])
                         ->orderBy('id','DESC')->first();
 
+//                    dd($data['Tenant_bill_id']);
                     $bill_ids = '';
                     if($data['Tenant_bill_id']) {
                         $bill_ids = $data['Tenant_bill_id']->bill_id;
                     }
+//                    dd($bill_ids);
                     $data['TransBillGenerate'] = TransBillGenerate::selectRaw('sum(total_bill)as total_bill_temp,
                 sum(arrear_bill) as arrear_bill_temp,
                 sum(`total_service_after_due`) as `total_service_after_due_temp`,
@@ -1253,14 +1256,15 @@ class EMController extends Controller
                 sum(`balance_amount`) as `balance_amount_temp`, 
                 sum(credit_amount) as credit_amount_temp,
                 sum(monthly_bill) as monthly_bill_temp,trans_bill_generate.*')
-                        ->whereIn('id',explode(',',$bill_ids))->first();
+                        ->where('id',explode(',',$bill_ids))->first();
 
-                    //  echo '<pre>';
-                    // print_r($data['TransBillGenerate']);exit;
+//                      echo '<pre>';
+//                     print_r($data['TransBillGenerate']);exit;
 
                     $data['arrear_ids'] = TransBillGenerate::whereIn('id',explode(',', $bill_ids))->pluck('arrear_id')->toArray();
 
 
+//                    dd( $data['arrear_ids']);
                     $data['arrear_ids_temp'] = [];
                     if($data['arrear_ids']) {
                         foreach($data['arrear_ids'] as $arrear_id) {
@@ -1274,8 +1278,8 @@ class EMController extends Controller
                             }
                         }
                     }
-                    $data['arreasCalculation'] = ArrearCalculation::whereIn('id',$data['arrear_ids_temp'])->get();
 
+                    $data['arreasCalculation'] = ArrearCalculation::whereIn('id',$data['arrear_ids_temp'])->get();
                     $data['number_of_tenants'] = MasterBuilding::with('tenant_count')->where('id',$bill_data['building_id'])->first();
                     //dd($data['number_of_tenants']->tenant_count()->first());
                     if(!$data['number_of_tenants']->tenant_count()->first()) {
@@ -1302,8 +1306,8 @@ class EMController extends Controller
                     $pdf_data[] = $data;
                 }
 
-            }
 
+            }
 //            $fileName = 'building_bills.pdf';
 //
 //            $mpdf = new Mpdf();
