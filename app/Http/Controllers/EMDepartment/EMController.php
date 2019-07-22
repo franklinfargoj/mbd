@@ -2225,33 +2225,23 @@ class EMController extends Controller
                     $arrear_id = '';
                     $monthly_bill=0;
                     $arrearID = [];
-                    $arrear_balance=$arrear_interest_balance=0;                
+                    $arrear_balance=$arrear_interest_balance=0;
                     if($lastBill==null)
                     {
                         //$arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->whereIn('year',$years)->whereIn('month',$months)->get();
-                        $arreasCalculation = ArrearCalculation::where('building_id',$request->building_id)->where('payment_status','0')->get();                        
-                        if(!$arreasCalculation->isEmpty()){ 
-                            foreach($arreasCalculation as $calculation){
-                            $arrear_bill = $arrear_bill + $calculation->total_amount;
-                            $arrearID[] = $calculation->id; 
-                            }
-                            $arrear_id = implode(",",$arrearID);                      
-                        }
-                        if(!$arreasCalculation->isEmpty())
-                        {
-                            foreach($arreasCalculation as $arreasCalculations)
-                            {
-                                $arrear_balance+=($arreasCalculations->total_amount - $arreasCalculations->old_intrest_amount -
-                                            $arreasCalculations->difference_intrest_amount);
-                                $arrear_interest_balance+=($arreasCalculations->old_intrest_amount +
-                                    $arreasCalculations->difference_intrest_amount);
-                            }
+                        $arreasCalculation = $this->getArrearCalculation($request->building_id);
+
+                        if(!$arreasCalculation->isEmpty()){
+                            $data = $this->getArrearIdBalanceInterestBalance($arreasCalculation, $arrear_bill, $arrear_balance, $arrear_interest_balance);
+
+                            $arrear_id = $data['arrear_id'];
+                            $arrear_balance = $data['arrear_balance'];
+                            $arrear_interest_balance = $data['arrear_interest_balance'] ;
+
                         }
                     }
                     //dd($arreasCalculation);
                    
-                    
-                    
 
                     //dd($arrear_balance);
                     $monthly_bill=$request->monthly_bill;
@@ -2540,5 +2530,35 @@ class EMController extends Controller
             $TransBillServiceCharge->save();
         }
         return $TransBillServiceCharge;
+    }
+
+    //Get arrear calculation with building id
+    public function getArrearCalculation($building_id){
+
+        $arreasCalculation = ArrearCalculation::where('building_id',$building_id)->where('payment_status','0')->get();
+
+        return $arreasCalculation;
+
+    }
+
+    //Get arrear id with arrear_balance,arrear_interest_balance
+    public function getArrearIdBalanceInterestBalance($arreasCalculation , $arrear_bill, $arrear_balance, $arrear_interest_balance ){
+        foreach($arreasCalculation as $calculation){
+            $arrear_bill = $arrear_bill + $calculation->total_amount;
+            $arrearID[] = $calculation->id;
+
+            $arrear_balance+=($calculation->total_amount - $calculation->old_intrest_amount -
+                $calculation->difference_intrest_amount);
+            $arrear_interest_balance+=($calculation->old_intrest_amount +
+                $calculation->difference_intrest_amount);
+        }
+
+        $data =array();
+        $data['arrear_id'] = implode(",",$arrearID);
+        $data['arrear_balance'] = $arrear_balance;
+        $data['arrear_interest_balance'] = $arrear_interest_balance;
+
+//        dd($data);
+        return $data;
     }
 }
