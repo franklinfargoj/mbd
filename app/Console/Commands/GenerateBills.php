@@ -286,7 +286,7 @@ class GenerateBills extends Command
                                     'total_service_after_due' => ceil($total_after_due+$monthly_bill),
                                     'created_at'=>date('Y-m-d H:i:s'),
                                     'updated_at'=>date('Y-m-d H:i:s'),
-                                    'arrear_balance'=>$arrear_bill,
+                                    'arrear_balance'=>$arrear_balance,
                                     'arrear_interest_balance'=>$arrear_interest_balance,
                                     'prev_arrear_balance'=>$arrear_bill,
                                     'prev_arrear_interest_balance'=>$arrear_interest_balance,
