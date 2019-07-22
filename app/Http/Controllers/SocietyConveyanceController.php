@@ -241,7 +241,10 @@ class SocietyConveyanceController extends Controller
                                 "layout_id" => $request->layout_id
                             );
                             $applicationId = scApplication::insertGetId($applicationData);
-                            // save excel file 
+                            
+                            // save excel file
+                            $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, 
+                                $file_name); 
                             $arr['application_id'] = $applicationId;
                             $arr['sc_application_master_id'] = $request->sc_application_master_id;
                             $arr['society_flag'] = 1;
@@ -527,7 +530,12 @@ class SocietyConveyanceController extends Controller
 
         //get uploaded signed application pdf
         $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
-        $uploaded_stamped_application = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        if (isset($doc->document_path)) {
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
+        }
 
         return view('frontend.society.conveyance.show_doc_bank_details', compact('documents', 'uploaded_stamped_application', 'sc_application', 'society', 'sc_bank_details_fields', 'comm_func', 'society_bank_details', 'issued_noc', 'documents_count', 'documents_uploaded_count'));
     }
@@ -717,7 +725,13 @@ class SocietyConveyanceController extends Controller
 
         //get uploaded signed application pdf
         $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
-        $uploaded_stamped_application = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        if (isset($doc->document_path)) {
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
+        }
+        // dd($documentId);
         return view('frontend.society.conveyance.sc_form_upload_show', compact('sc_application', 'documents', 'documents_count', 'documents_uploaded_count','uploaded_stamped_application'));
     }
 
@@ -768,9 +782,8 @@ class SocietyConveyanceController extends Controller
                 $name = File::name(str_replace(' ', '_', $file->getClientOriginalName())) . '_' . $time . '.' . $extension;
                 $folder_name = "society_conveyance_documents";
                 $path = '/' . $folder_name . '/' . $name;
-
                 $fileUpload = $this->CommonController->ftpFileUpload($folder_name, $file, $name);
-                $this->conveyance_common->uploadDocumentStatus($request->id, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
+                $this->conveyance_common->uploadDocumentStatus($applicationId, config('commanConfig.documents.society.stamp_conveyance_application'), $path);
 
                 return redirect()->back()->with('success','Application form uploaded successfully.');
 
@@ -1095,7 +1108,6 @@ class SocietyConveyanceController extends Controller
         $applicationId = decrypt($applicationId);
         $documents = SocietyConveyanceDocumentStatus::where('application_id', $applicationId)
         ->where('document_id', $documentId)->where('society_flag', 1)->get();
-
         $sc_application = scApplication::where('id', $applicationId)->with(['scApplicationLog' => function($q) use($applicationId) { $q->where('application_id',$applicationId)->where('society_flag', '1')->orderBy('id', 'desc');
         } ])->first();
 
@@ -1109,10 +1121,14 @@ class SocietyConveyanceController extends Controller
         $issued_noc = $this->ConveyanceIssuedDoc($applicationId,$sc_application->sc_application_master_id);
 
         //get uploaded signed application pdf
-        $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $sc_application->sc_application_master_id);
-        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
-        $uploaded_stamped_application = $doc->document_path;
-
+        $docId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $sc_application->sc_application_master_id);
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$docId);
+    
+        if (isset($doc)){
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
+        }
         return view('frontend.society.conveyance.upload_sc_other_documents',compact('documents_count','documents','issued_noc','sc_application','documents_uploaded_count','documentId','uploaded_stamped_application'));
     }
 
@@ -1220,14 +1236,14 @@ class SocietyConveyanceController extends Controller
         $sc_application->LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
         
         $Applicationtype= $sc_application->sc_application_master_id;
-        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','Draft')->value('id');
+        $Agreementstatus = ApplicationStatusMaster::where('status_name','=','generate_draft')->value('id');
         $draftSaleId   = $this->conveyance_common->getScAgreementId($sc_application->SaleAgreement,$Applicationtype);
         $draftLeaseId  = $this->conveyance_common->getScAgreementId($sc_application->LeaseAgreement,$Applicationtype);
 
         $sc_application->DraftSaleAgreement  = $this->conveyance_common->getScAgreement($draftSaleId,$applicationId,$Agreementstatus);
         $sc_application->DraftLeaseAgreement = $this->conveyance_common->getScAgreement($draftLeaseId,$applicationId,$Agreementstatus); 
         $sc_application->AgreementComments = ScAgreementComments::with('Roles')->where('application_id',$applicationId)->where('agreement_type_id',$Applicationtype)->whereNotNull('remark')->get();
-
+        // dd($sc_application);
         $documents_count = SocietyConveyanceDocumentMaster::where('application_type_id', $sc_application->sc_application_master_id)->where('is_optional',0)->where('society_flag', '1')->where('language_id', '2')->count();
 
         $documents_uploaded_count = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id); 
@@ -1245,8 +1261,12 @@ class SocietyConveyanceController extends Controller
 
         //get uploaded signed application pdf
         $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $Applicationtype);
-        $uploaded_stamped_application = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
-
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        if (isset($doc->document_path)) {
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
+        }
         return view('frontend.society.conveyance.verify_draft_sale_lease',compact('sc_application','documents_count','documents_uploaded_count','uploaded_stamped_application'));
     }
 
