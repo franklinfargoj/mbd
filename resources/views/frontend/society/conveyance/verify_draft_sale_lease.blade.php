@@ -51,7 +51,7 @@
 
         <div class="tab-content">
             <!-- sale deed agreement -->
-            <div class="tab-pane section-2" id="sale-deed-agreement" role="tabpanel">
+            <div class="tab-pane section-2 active" id="sale-deed-agreement" role="tabpanel">
                 <div class="m-portlet m-portlet--tabs m-portlet--bordered-semi mb-0">
                     <div class="portlet-body">
                         <form action="{{ route('upload_verified_sale_lease') }}" id="sale_deed_agreement" method="post" enctype="multipart/form-data">

@@ -78,7 +78,7 @@ class AddChildParentToConveyanceModule extends Seeder
         $cdo_child = json_encode([$dycdo_role_id]);    
         Role::where('id', $cdo_role_id)->update(['conveyance_child_id' => $cdo_child]);
 
-        $dyco_child = json_encode([$cdo_role_id,$society_role_id,$ee_jr_id,$em_role_id,$architect_jr_id]);    
+        $dyco_child = json_encode([$cdo_role_id,$society_role_id,$ee_jr_id,$em_role_id,$architect_jr_id,$dycdo_role_id]);    
         Role::where('id', $dyco_role_id)->update(['conveyance_child_id' => $dyco_child]); 
 
         // $architect_jr_child = json_encode([$architect_as_id]);    

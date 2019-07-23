@@ -191,7 +191,7 @@ class conveyanceCommonController extends Controller
     } 
 
     //revert application child id
-    public function getRevertApplicationChildData($societyId){
+    public function getRevertApplicationChildData($societyId,$layoutId){
         
         $SocietyOfferLetter = SocietyOfferLetter::find($societyId);
         $society_user_id = $SocietyOfferLetter->user_id;
@@ -201,13 +201,12 @@ class conveyanceCommonController extends Controller
         $result  = json_decode($role_id->conveyance_child_id);
         $child   = "";
         if ($result){
-            $child = User::with(['roles','LayoutUser' => function($q){
-                $q->where('layout_id', session('layout_id'));
+            $child =User::with(['roles','LayoutUser' => function($q) use($layoutId){
+                $q->where('layout_id', $layoutId);
             }])
-            ->whereHas('LayoutUser' ,function($q){
-                $q->where('layout_id', session('layout_id'));
-            })
-            ->whereIn('role_id',$result)->get();            
+            ->whereHas('LayoutUser' ,function($q) use($layoutId){
+                $q->where('layout_id', $layoutId);
+            })->whereIn('role_id',$result)->get(); 
         }
         if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $child != "")
         {
@@ -219,19 +218,20 @@ class conveyanceCommonController extends Controller
     
     //forward Application parent Id 
 
-     public function getForwardApplicationParentData(){
+     public function getForwardApplicationParentData($layoutId){
             
         $role_id = Role::where('id',Auth::user()->role_id)->first();
         $result  = json_decode($role_id->conveyance_parent_id);
         $parent  = "";
-        $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
-        $layout_ids = array_column($layout_id_array, 'layout_id');
+        // $layout_id_array=LayoutUser::where(['user_id'=>auth()->user()->id])->get()->toArray();
+        // dd($layout_id_array);
+        // $layout_ids = array_column($layout_id_array, 'layout_id');
         if ($result){
-            $parent = User::with(['roles','LayoutUser' => function($q) use($layout_ids){
-                $q->whereIn('layout_id', $layout_ids);
+            $parent = User::with(['roles','LayoutUser' => function($q) use($layoutId){
+                $q->where('layout_id', $layoutId);
             }])
-            ->whereHas('LayoutUser' ,function($q) use($layout_ids){
-                $q->whereIn('layout_id', $layout_ids);
+            ->whereHas('LayoutUser' ,function($q) use($layoutId){
+                $q->where('layout_id', $layoutId);
             })
             ->whereIn('role_id',$result)->get();            
         }
@@ -276,7 +276,7 @@ class conveyanceCommonController extends Controller
                 $Tostatus = $applicationStatus;
                 $Scstatus = $Tostatus;
             }
-        }elseif((session()->get('role_name') == config('commanConfig.cdo_engineer') && $request->to_role_id == $dycoId)){
+        }elseif((session()->get('role_name') == config('commanConfig.cdo_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')) && $request->to_role_id == $dycoId){
             if ($applicationStatus == config('commanConfig.conveyance_status.Approved_sale_&_lease_deed')){
 
                 $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
@@ -336,14 +336,14 @@ class conveyanceCommonController extends Controller
                 'status_id'     => $Tostatus,
                 'to_user_id'    => null,
                 'to_role_id'    => null,
-                'remark'        => count($request->remark) > 0 ? (isset($request->remark[$to_user_id]) ? $request->remark[$to_user_id] : $request->remark) : $request->remark,
+                'remark'        => is_array($request->remark) ? $request->remark[$to_user_id] : 
+                $request->remark,
                 'application_master_id' => $masterId,
                 'society_flag'   => $request->society_flag,
                 'is_active'      => 1,
                 'created_at'    => Carbon::now(),
             ],
             ];
-            // dd($application);
             DB::beginTransaction();
             try{
             scApplicationLog::where('application_id',$request->applicationId)
@@ -362,7 +362,7 @@ class conveyanceCommonController extends Controller
                  
                 DB::rollback();
             }
-        }    
+        } 
     }
 
     public function getForwardApplicationData($applicationId){
@@ -371,8 +371,8 @@ class conveyanceCommonController extends Controller
         ->where('id',$applicationId)->first();
         $data->society_role_id = Role::where('name', config('commanConfig.society_offer_letter'))->value('id');
         $data->status = $this->getCurrentStatus($applicationId,$data->sc_application_master_id);
-        $data->parent = $this->getForwardApplicationParentData();
-        $data->child  = $this->getRevertApplicationChildData($data->society_id);
+        $data->parent = $this->getForwardApplicationParentData($data->layout_id);
+        $data->child  = $this->getRevertApplicationChildData($data->society_id,$data->layout_id);
         return $data;        
     }
 
