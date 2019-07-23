@@ -188,6 +188,8 @@ class BillingDetailController extends Controller
             //     echo "<pre>";
             //     print_r($arreas_calculations);
             //     dd('ok');
+            
+
             if ($datatables->getRequest()->ajax()) {
                 if($request->has('tenant_id') && !empty($request->tenant_id)) {
                     $arreas_calculations = TransBillGenerate::with(['trans_payment','service_charges'])
@@ -342,70 +344,70 @@ class BillingDetailController extends Controller
                     ->editColumn('water_charges', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id') && !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->water_charges;
+                                return $arreas_calculations->service_charges->water_charges ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->water_charges*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->water_charges;
+                                return $arreas_calculations->service_charges->water_charges ?? 0.00;
                             }  
                         }
                     })
                     ->editColumn('electric_city_charge', function ($arreas_calculations) use($service_charges,$building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->electric_city_charge;
+                                return $arreas_calculations->service_charges->electric_city_charge ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->electric_city_charge*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->electric_city_charge;
+                                return $arreas_calculations->service_charges->electric_city_charge ?? 0.00;
                             }  
                         }
                     })
                     ->editColumn('pump_man_and_repair_charges', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->pump_man_and_repair_charges;
+                                return $arreas_calculations->service_charges->pump_man_and_repair_charges ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->pump_man_and_repair_charges*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->pump_man_and_repair_charges;
+                                return $arreas_calculations->service_charges->pump_man_and_repair_charges ?? 0.00;
                             }
                         }  
                     })
                     ->editColumn('external_expender_charge', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->external_expender_charge;
+                                return $arreas_calculations->service_charges->external_expender_charge ?? 0.00 ;
                             } else {
                                // return $arreas_calculations->service_charges->external_expender_charge*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->external_expender_charge;
+                                return $arreas_calculations->service_charges->external_expender_charge ?? 0.00;
                             }
                         }  
                     })
                     ->editColumn('administrative_charge', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->administrative_charge;
+                                return $arreas_calculations->service_charges->administrative_charge ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->administrative_charge*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->administrative_charge;
+                                return $arreas_calculations->service_charges->administrative_charge ?? 0.00;
                             }
                         }
                     })
                     ->editColumn('lease_rent', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->lease_rent;
+                                return $arreas_calculations->service_charges->lease_rent ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->lease_rent*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->lease_rent;
+                                return $arreas_calculations->service_charges->lease_rent ?? 0.00;
                             }
                         }  
                     })
                     ->editColumn('na_assessment', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->na_assessment;
+                                return $arreas_calculations->service_charges->na_assessment ?? 0.00;
                             } else{
                                // return $arreas_calculations->service_charges->na_assessment*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->na_assessment;
+                                return $arreas_calculations->service_charges->na_assessment ?? 0.00;
                             }
                         }
                     })
@@ -415,17 +417,17 @@ class BillingDetailController extends Controller
                                 return $arreas_calculations->service_charges->property_tax==null?'0.00':$arreas_calculations->property_tax;
                             } else {
                                 //return $arreas_calculations->service_charges->property_tax*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->property_tax;
+                                return $arreas_calculations->service_charges->property_tax ?? 0.00;
                             } 
                         }
                     })
                     ->editColumn('other', function ($arreas_calculations) use($building,$request){
                         if(isset($arreas_calculations)) {
                             if($request->has('tenant_id')&& !empty($arreas_calculations)) {
-                                return $arreas_calculations->service_charges->other;
+                                return $arreas_calculations->service_charges->other ?? 0.00;
                             } else {
                                 //return $arreas_calculations->service_charges->other*$building->tenant_count()->first()->count;
-                                return $arreas_calculations->service_charges->other;
+                                return $arreas_calculations->service_charges->other ?? 0.00;
                             } 
                         }
                     })

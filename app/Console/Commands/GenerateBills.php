@@ -257,6 +257,8 @@ class GenerateBills extends Command
                                     $arrear_id = $data['arrear_id'];
                                     $arrear_balance = $data['arrear_balance'];
                                     $arrear_interest_balance = $data['arrear_interest_balance'] ;
+                                    $arrear_bill = $data['arrear_bill'];
+                                    $arrearID = $data['arrear_id'];
                                     }
                                 }
                                 

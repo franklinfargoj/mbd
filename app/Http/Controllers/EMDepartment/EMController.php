@@ -1802,7 +1802,7 @@ class EMController extends Controller
                                     ->orderBy('id','DESC')
                                     ->get();
 //                                     echo '<pre>';
-//  print_r($data['lastBill']);exit;                                    
+//  print_r($data['lastBill']);exit;
             return view('admin.em_department.generate_building_bill',$data);
 
         }
@@ -2238,10 +2238,12 @@ class EMController extends Controller
                         if(!$arreasCalculation->isEmpty()){
                             $data = $this->getArrearIdBalanceInterestBalance($arreasCalculation, $arrear_bill, $arrear_balance, $arrear_interest_balance);
 
+//                            dd($data);
                             $arrear_id = $data['arrear_id'];
                             $arrear_balance = $data['arrear_balance'];
                             $arrear_interest_balance = $data['arrear_interest_balance'] ;
-
+                            $arrear_bill = $data['arrear_bill'];
+                            $arrearID = $data['arrear_id'];
                         }
                     }
                     //dd($arreasCalculation);
@@ -2249,6 +2251,8 @@ class EMController extends Controller
 
                     //dd($arrear_balance);
                     $monthly_bill=$request->monthly_bill;
+
+//                    dd($arrear_bill);
                     $total_bill  = $monthly_bill + $arrear_bill;
                     $total_after_due = $request->monthly_bill * 0.015; 
                     //dd($total_after_due);
@@ -2561,7 +2565,8 @@ class EMController extends Controller
         $data['arrear_id'] = implode(",",$arrearID);
         $data['arrear_balance'] = $arrear_balance;
         $data['arrear_interest_balance'] = $arrear_interest_balance;
-
+        $data['arrear_bill'] = $arrear_bill;
+        $data['arrearID'] = $arrearID;
 //        dd($data);
         return $data;
     }
