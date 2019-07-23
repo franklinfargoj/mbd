@@ -9,6 +9,7 @@
 <body>
 {{--@foreach($pdf_data as $data)--}}
 @php
+
     $total_service = $data['TransBillGenerate']->service_charges->water_charges + $data['TransBillGenerate']->service_charges->electric_city_charge + $data['TransBillGenerate']->service_charges->pump_man_and_repair_charges + $data['TransBillGenerate']->service_charges->external_expender_charge + $data['TransBillGenerate']->service_charges->administrative_charge + $data['TransBillGenerate']->service_charges->lease_rent + $data['TransBillGenerate']->service_charges->na_assessment + $data['TransBillGenerate']->service_charges->other;
 
     $total_service = $total_service;

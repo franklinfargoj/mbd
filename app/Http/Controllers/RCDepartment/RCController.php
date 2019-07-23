@@ -1279,7 +1279,7 @@ class RCController extends Controller
                 $data['tenant'] = MasterTenant::where('building_id',$data['building']->id)->where('id',$request->tenant_id)->first();
 
                 $data['TransBillGenerate'] = TransBillGenerate::find($request->id);
-                
+
                 if($request->has('year') && !empty($request->year)) {
                   $data['year'] = $request->year;
                 }

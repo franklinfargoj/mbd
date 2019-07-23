@@ -2,7 +2,7 @@
 
 @section('content')
 
-    @php 
+    @php
         $total_service = $serviceChargesRate->water_charges + $serviceChargesRate->electric_city_charge + $serviceChargesRate->pump_man_and_repair_charges + $serviceChargesRate->external_expender_charge + $serviceChargesRate->administrative_charge + $serviceChargesRate->lease_rent + $serviceChargesRate->na_assessment + $serviceChargesRate->other +$serviceChargesRate->property_tax; 
         
         $total_service = $total_service;
@@ -10,8 +10,8 @@
         $total_after_due = $total_service * 0.015; 
     
         $total_service_after_due = $total_service + $total_after_due;   
-    
-        $total ='0';           
+
+        $total ='0';
     @endphp
     @if(count($lastBill)<=0)
         @if(!$arreasCalculation->isEmpty())  
@@ -131,9 +131,9 @@
 
                         if($lastBill && !empty($lastBill) && 0 < $credit) {
                             if($total + $total_service > $credit) {
-                                $totalTemp =  ($total + $total_service) - $credit;  
+                                $totalTemp =  ($total + $total_service) - $credit;
                             } else {
-                                $totalTemp =  0;    
+                                $totalTemp =  0;
                             }
                         }
 
@@ -144,7 +144,7 @@
                                 $balance += $lastbil->balance_amount;
                             }
                         }
-                        
+
                         if($lastBill && !empty($lastBill) && 0 < $balance) {
                             $totalTemp = $total+ $total_service + $balance;
                         }
