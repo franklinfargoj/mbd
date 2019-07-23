@@ -674,8 +674,6 @@ class conveyanceCommonController extends Controller
         $roleName = array(config('commanConfig.ee_junior_engineer'),config('commanConfig.estate_manager'),config('commanConfig.junior_architect'));
         $roleIds = Role::whereIn('name',$roleName)->pluck('id')->toArray();
 
-        
-
         if (count($data->parent) > 0){
             foreach($data->parent as $parent){
                 if (session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.in_process')){
@@ -726,6 +724,31 @@ class conveyanceCommonController extends Controller
                 }    
             }
         }
+
+        //condition for CDO role (If Application goes to society for verification and society forward that time only CDO role display for DYCDO in forward option)
+
+        $parentData = [];
+        $roleName = array(config('commanConfig.cdo_engineer'));
+        $roleIds = Role::where('name',$roleName)->pluck('id')->toArray();
+
+        if (count($data->parent) > 0){
+            foreach($data->parent as $parent){
+                if (session()->get('role_name') == config('commanConfig.dycdo_engineer') && 
+                    $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') && $data->verified == 1) {
+
+                    if (in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                        $data->parent = $parentData;
+                    }
+                }else{
+                    if (!in_array($parent->role_id,$roleIds)){
+                        $parentData [] = $parent;
+                        $data->parent = $parentData;
+                    } 
+                }    
+            }
+        }
+        
       return view($route,compact('data','remarkHistory','parentData','childData','eeParentData','type'));          
     }
 

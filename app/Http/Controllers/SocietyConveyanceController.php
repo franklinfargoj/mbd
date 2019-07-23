@@ -1272,6 +1272,7 @@ class SocietyConveyanceController extends Controller
 
     // upload verified sale and lease deed
     public function uploadVerifiedSaleLease(Request $request){
+        DB::beginTransaction();
         try{
             if($request->hasFile('document_path')) {
                 $insert_arr = $request->all();
@@ -1285,7 +1286,6 @@ class SocietyConveyanceController extends Controller
 
                 $status = ApplicationStatusMaster::where('status_name', 'Verified')->value('id');
                 $uploaded = $this->conveyance_common->uploadDocumentStatus($request->application_id, $request->document_name, $path, $status);
-
             }
             if(isset($request->remark)){
                 $application_master_id = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->first();
@@ -1298,13 +1298,13 @@ class SocietyConveyanceController extends Controller
                     'remark' => $request->remark
                 );
                 $inserted_data = ScAgreementComments::create($input);
-                if(count($inserted_data) > 0){
-                    return redirect()->back();
-                }
             }
+            scApplication::where('id',$request->application_id)->update(['verified' => 1]);
+            DB::commit();
             return back()->with('success','Documents uploaded successfully');
         }catch(Exception $e){
             return back()->with('error','Something went wrong.');
+            DB::rollback();
         }
 
     }
