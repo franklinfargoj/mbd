@@ -727,7 +727,7 @@ class conveyanceCommonController extends Controller
 
         //condition for CDO role (If Application goes to society for verification and society forward that time only CDO role display for DYCDO in forward option)
 
-        $parentData = [];
+        $dycdoParent = [];
         $roleName = array(config('commanConfig.cdo_engineer'));
         $roleIds = Role::where('name',$roleName)->pluck('id')->toArray();
 
@@ -737,13 +737,13 @@ class conveyanceCommonController extends Controller
                     $data->status->status_id == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed') && $data->verified == 1) {
 
                     if (in_array($parent->role_id,$roleIds)){
-                        $parentData [] = $parent;
-                        $data->parent = $parentData;
+                        $dycdoParent [] = $parent;
+                        $data->parent = $dycdoParent;
                     }
                 }else{
                     if (!in_array($parent->role_id,$roleIds)){
-                        $parentData [] = $parent;
-                        $data->parent = $parentData;
+                        $dycdoParent [] = $parent;
+                        $data->parent = $dycdoParent;
                     } 
                 }    
             }
