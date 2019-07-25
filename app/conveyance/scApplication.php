@@ -16,7 +16,7 @@ class scApplication extends Model
 		'society_id',
 	    'form_request_id',
 	    'layout_id',
-	    'riders','verified',
+	    'riders','verified','submission_date'
 	];
  
     public function applicationLayoutUser()

@@ -160,7 +160,7 @@
                                     <div class="col-sm-6 application-fields">
                                         <label class="application-form-label" for="">१४. सेवा शुल्क</label>
                                         <input class="letter-form-input letter-form-input--100" type="text" id="" name="society_address"
-                                               value="{{ $sc_application->sc_form_request->service_charges->name }}" readonly>
+                                               value="{{ isset($sc_application->sc_form_request->service_charges->name) ? $sc_application->sc_form_request->service_charges->name : '' }}" readonly>
                                     </div>
                                 </div>
                             </div>

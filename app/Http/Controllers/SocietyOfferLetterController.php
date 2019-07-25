@@ -435,7 +435,6 @@ class SocietyOfferLetterController extends Controller
             // dd($sc_applications->get());
             $sc_applications = $sc_applications->get();
             $ol_applications = $ol_applications->toBase()->merge($sc_applications);
-            
             $sr_applications = RenewalApplication::where('society_id', $society_details->id)->with(['ol_application_master', 'olApplicationStatus1' => function($q){
                 $q->where('society_flag', '1')->orderBy('id', 'desc');
             } ])->orderBy('id', 'desc');
@@ -515,8 +514,8 @@ class SocietyOfferLetterController extends Controller
                     }
                 })
                 ->editColumn('created_at', function ($ol_applications) {
-                    if(isset($ol_applications->created_at)){
-                        return date(config('commanConfig.dateFormat'), strtotime($ol_applications->created_at));
+                    if(isset($ol_applications->submission_date)){
+                        return date(config('commanConfig.dateFormat'), strtotime($ol_applications->submission_date));
                     }
                 })
                 ->editColumn('status', function ($ol_applications) {

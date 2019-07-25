@@ -30,7 +30,7 @@ class ScAgreementComments extends Model
         'user_id',
         'role_id',
         'agreement_type_id',
-        'remark',
+        'remark','status_id'
     ];
 
     public function Roles()
