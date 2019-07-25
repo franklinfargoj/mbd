@@ -37,7 +37,7 @@
             @endif
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                 <li class="nav-item m-tabs__item em_tabs" id="section-2">
-                    <a class="nav-link m-tabs__link active show" data-toggle="tab" href="#sale-deed-agreement" role="tab" aria-selected="true">
+                    <a class="nav-link m-tabs__link show active" data-toggle="tab" href="#sale-deed-agreement" role="tab" aria-selected="true">
                         <i class="la la-bell-o"></i> Sale Deed Agreement
                     </a>
                 </li>
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="col-xs-12 mt-3" style="width: 890px;">
                                 <span class="font_w500">Comments</span>
-                                    <textarea class="form-control form-control--custom" name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control" {{ $readonly }}></textarea>
+                                    <textarea class="form-control form-control--custom" name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control" {{ $readonly }}> {{ isset($saleComment) ? $saleComment->remark : '' }}</textarea>
                                 </div>
                                 <div class="col-xs-12 mt-4">
                                     @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Verify_sale_&_lease_deed'))
@@ -152,7 +152,7 @@
                                 <div class="col-sm-12">
                                     <div class="d-flex flex-column h-100">
                                         <span class="font_w500"> Comments : </span>
-                                        <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control form-control--custom" {{ $readonly }}></textarea>
+                                        <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control form-control--custom" {{ $readonly }}>{{ isset($leaseComment) ? $leaseComment->remark : '' }}</textarea>
                                         <div class="mt-auto"><br/>
                                         @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Verify_sale_&_lease_deed'))
                                             <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

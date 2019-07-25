@@ -4,11 +4,10 @@
         <div class="m-subheader px-0 m-subheader--top">
             <div class="d-flex align-items-center">
                 <h3 class="m-subheader__title m-subheader__title--separator">Society Conveyance Application Form</h3>
-{{--                {{ Breadcrumbs::render('society_offer_application_create', $id) }}--}}
-
             </div>
         </div>
         <!-- END: Subheader -->
+
         <div class="m-portlet m-portlet--mobile m-portlet--forms-view">
             <form id="save_sc_application" role="form" method="post" class="m-form m-form--rows m-form--label-align-right floating-labels-form" action="{{ route('society_conveyance.store') }}" enctype="multipart/form-data">
                 @csrf
@@ -23,82 +22,118 @@
                             </select>
                             <input type="hidden" name="society_id" value="{{ $society_details->id }}">
                             <input type="hidden" name="sc_application_master_id" value="{{ $application_master_id->id }}">
-                            <span class="help-block">{{$errors->first('layout_id')}}</span>
                         </div>
                     </div>
-                    {{--@php dd($master_tenant_type); @endphp--}}
-                        @for($i=0; $i < count($field_names); $i++)
-                            @if($i != 0) @php $i++; @endphp @endif
-                                <div class="m-form__group row mhada-lease-margin">
-                                    @if(isset($field_names[$i]))
-                                        <div class="col-sm-4 form-group">
-                                            <label class="col-form-label" for="{{ $field_names[$i] }}">@php if($field_names[$i] == 'property_tax' || $field_names[$i] == 'water_bill' || $field_names[$i] == 'non_agricultural_tax' || $field_names[$i] == 'service_charge'){ $rs = '(&#8377;)'; }else{ $rs = ''; } $prefix = $rs; $labels = implode(' ', explode('_', $field_names[$i])); echo ucwords($labels).$prefix; @endphp:</label>
-                                            @if($field_names[$i] == 'society_address')
-                                                @php echo $comm_func->form_fields($field_names[$i], 'textarea','' , '', $society_details->address, 'readonly', 'required') @endphp
-                                                {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
-                                            @elseif(strpos($field_names[$i], 'date') != null)
-                                                @php echo $comm_func->form_fields($field_names[$i], 'date', '', '', old($field_names[$i])) @endphp
-                                            @elseif($field_names[$i] == 'society_name' || $field_names[$i] == 'society_no' || $field_names[$i] == 'society_registration_no')
-                                                @if($field_names[$i] == 'society_name')
-                                                    @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->name, 'readonly', 'required'); @endphp
-                                                @elseif($field_names[$i] == 'society_registration_no')
-                                                    @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->registration_no, 'readonly', 'required') @endphp
-                                                @else
-                                                    @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
-                                                @endif
-                                            @elseif($field_names[$i] == 'scheme_name')
-                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $master_tenant_type, 'name', old($field_names[$i]), '', 'required') @endphp
-                                            @elseif($field_names[$i] == 'nature_of_building')
-                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $building_nature, 'name', old($field_names[$i]), '', 'required') @endphp
-                                            @elseif($field_names[$i] == 'service_charge_type')
-                                                @php echo $comm_func->form_fields($field_names[$i], 'select', $service_charge_names, 'name', old($field_names[$i]), '', 'required') @endphp
-                                            @else
-                                                @php echo $comm_func->form_fields($field_names[$i], 'text', '', '', old($field_names[$i]), '', 'required') @endphp
-                                                {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
-                                            @endif
-                                            <span class="help-block" id="{{ $field_names[$i] }}-error">{{$errors->first($field_names[$i])}}</span>
-                                        </div>
-                                    @endif
-                                    @if(isset($field_names[$i+1]))
-                                        <div class="col-sm-4 offset-sm-1 form-group">
-                                            <label class="col-form-label" for="{{ $field_names[$i+1] }}">@php if($field_names[$i+1] == 'property_tax' || $field_names[$i+1] == 'water_bill' || $field_names[$i+1] == 'non_agricultural_tax' || $field_names[$i+1] == 'service_charge'){ $rs = '(&#8377;)'; }else{ $rs = ''; } $prefix = $rs; $labels = implode(' ', explode('_', $field_names[$i+1])); echo ucwords($labels).$prefix; @endphp:</label>
-                                            @if($field_names[$i+1] == 'society_address')
-                                                @php echo  $comm_func->form_fields($field_names[$i+1], 'textarea','' , '', $society_details->address, 'readonly', 'required') @endphp
-                                                {{--<textarea id="society_address" name="society_address" class="form-control form-control--custom form-control--fixed-height m-input" readonly>{{ $society_details->address }}</textarea>--}}
-                                            @elseif(strpos($field_names[$i+1], 'date') != null)
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'date', '', '', old($field_names[$i+1])) @endphp
-                                            @elseif($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no' || $field_names[$i+1] == 'society_registration_no')
-                                                @if($field_names[$i+1] == 'society_name')
-                                                    @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->name, 'readonly', 'required') @endphp
-                                                @elseif($field_names[$i+1] == 'society_registration_no')
-                                                    @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->registration_no, 'readonly', 'required') @endphp
-                                                @else
-                                                    @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', $society_details->building_no, 'readonly', 'required') @endphp
-                                                @endif
-                                            @elseif($field_names[$i+1] == 'scheme_name')
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $master_tenant_type, 'name', old($field_names[$i+1]), '', 'required') @endphp
-                                            @elseif($field_names[$i+1] == 'nature_of_building')
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $building_nature, 'name', old($field_names[$i+1]), '', 'required') @endphp
-                                            @elseif($field_names[$i+1] == 'service_charge_type')
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'select', $service_charge_names, 'name', old($field_names[$i+1]), '', 'required') @endphp
-                                            @else
-                                                @php echo $comm_func->form_fields($field_names[$i+1], 'text', '', '', old($field_names[$i+1]), '', 'required') @endphp
-                                                {{--<input type="text" id="{{ $field_names[$i+1] }}" name="{{ $field_names[$i+1] }}" class="form-control form-control--custom m-input @if(strpos($field_names[$i+1], 'date') != null) m_datepicker @endif" @if($field_names[$i+1] == 'society_name' || $field_names[$i+1] == 'society_no') value="@if($field_names[$i+1] == 'society_name') {{ $society_details->name }} @else {{ $society_details->building_no }} @endif" readonly @endif>--}}
-                                            @endif
-                                            {{--<input type="hidden" name="application_master_id" value="{{ $id }}">--}}
-                                            <span class="help-block" id="{{ $field_names[$i+1] }}-error">{{$errors->first($field_names[$i+1])}}</span>
-                                        </div>
-                                    @endif
-                                </div>
-                        @endfor
-                    <div class="form-group m-form__group row">
+                    <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <!-- <label class="col-form-label" for="no_agricultural_tax">Download Template:</label> -->
-                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a></p>
-                            <span class="help-block">{{$errors->first('no_agricultural_tax')}}</span>
+                            <label class="col-form-label" for="society_name">Society Name:</label>
+                            <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <!-- <label class="col-form-label" for="template">Upload File:</label> -->
+                            <label class="col-form-label" for="society_no">Society No:</label>
+                            <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly="" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="scheme_name">Scheme Name:</label>
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="scheme_name" name="scheme_name" required="">
+                                @if(isset($master_tenant_type) && count($master_tenant_type) > 0)
+                                    @foreach($master_tenant_type as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="first_flat_issue_date">First Flat Issue Date:</label>
+                            <input type="text" id="first_flat_issue_date" name="first_flat_issue_date" class="form-control form-control--custom m-input m_datepicker" value="" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="no_of_residential_flat">No Of Residential Flat:</label>
+                            <input type="text" id="no_of_residential_flat" name="no_of_residential_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="no_of_non_residential_flat">No Of Non Residential Flat:</label>
+                            <input type="text" id="no_of_non_residential_flat" name="no_of_non_residential_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="total_no_of_flat">Total No Of Flat:</label>
+                            <input type="text" id="total_no_of_flat" name="total_no_of_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="society_registration_no">Society Registration No:</label>
+                            <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom m-input" value="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="society_registration_date">Society Registration Date:</label>
+                            <input type="text" id="society_registration_date" name="society_registration_date" class="form-control form-control--custom m-input m_datepicker" value="" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="property_tax">Property Tax:</label>
+                            <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="water_bill">Water Bill:</label>
+                            <input type="text" id="water_bill" name="water_bill" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="non_agricultural_tax">Non Agricultural Tax:</label>
+                            <input type="text" id="non_agricultural_tax" name="non_agricultural_tax" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="society_address">Society Address:</label>
+                            <input type="text" id="society_address" name="society_address" class="form-control form-control--custom m-input" value="{{ $society_details->address }}" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="nature_of_building">Nature Of Building:</label>
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="nature_of_building" name="nature_of_building" required="">
+                                @if(isset($building_nature) && count($building_nature) > 0)
+                                    @foreach($building_nature as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="society_name">Tax Paid To MHADA Or BMC:</label>
+                            <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
+                            <label class="col-form-label" for="service_charge_type">Service Charge Type:</label>
+                            <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="service_charge_type" name="service_charge_type" required="">
+                                @if(isset($service_charge_names) && count($service_charge_names) > 0)
+                                    @foreach($service_charge_names as $value)
+                                        <option value="{{ $value->id }}">{{ $value->name }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
+                    </div>
+                    <div class="m-form__group row mhada-lease-margin">
+                        <div class="col-sm-4 form-group">
+                            <label class="col-form-label" for="service_charge">Service Charge:</label>
+                            <input type="text" id="service_charge" name="service_charge" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
+                        </div>
+                    </div>
+
+                    <div class="form-group m-form__group row">
+                        <div class="col-sm-4 form-group">
+                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a></p>
+                        </div>
+                        <div class="col-sm-4 offset-sm-1 form-group">
                             <div class="custom-file">
                                 <input class="custom-file-input" name="template" type="file"
                                        id="test-upload" required>
@@ -138,11 +173,6 @@
             }else{
                 $('#society_registration_date-error').html('');
             }
-            // $('#society_registration_date').datepicker({
-            //     format: 'dd-mm-yyyy',
-            //     autoclose:true,
-            //     endDate: date,
-            // });
         });
 
         $('#save_sc_application').validate({
