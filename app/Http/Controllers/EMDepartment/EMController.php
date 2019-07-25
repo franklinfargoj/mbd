@@ -2424,7 +2424,7 @@ class EMController extends Controller
                         $bill_number = $request->building_id.'0000001';
                     }
 //                    dd($lastBillGenerated);
-                    if($lastBillGenerated)
+                    if(isset($bill[0]))
                     {
                         $this->insertServiceChrargeForBill($bill[0],$serviceChargesRate);
                     }
