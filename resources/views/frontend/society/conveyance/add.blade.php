@@ -14,7 +14,7 @@
                 <div class="m-portlet__body m-portlet__body--spaced">
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="layout_id">Layout:</label>
+                            <label class="col-form-label" for="layout_id">Layout</label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="layout_id" name="layout_id" required>
                                 @foreach($layouts as $layout)
                                     <option value="{{ $layout['id'] }}">{{ $layout['layout_name'] }}</option>
@@ -26,17 +26,17 @@
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="society_name">Society Name:</label>
+                            <label class="col-form-label" for="society_name">Society Name</label>
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="{{ $society_details->name }}" readonly="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="society_no">Society No:</label>
+                            <label class="col-form-label" for="society_no">Society No</label>
                             <input type="text" id="society_no" name="society_no" class="form-control form-control--custom m-input" value="{{ $society_details->building_no }}" readonly="" required="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="scheme_name">Scheme Name:</label>
+                            <label class="col-form-label" for="scheme_name">Scheme Name <span class="star">*</span></label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="scheme_name" name="scheme_name" required="">
                                 @if(isset($master_tenant_type) && count($master_tenant_type) > 0)
                                     @foreach($master_tenant_type as $value)
@@ -46,57 +46,57 @@
                             </select>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="first_flat_issue_date">First Flat Issue Date:</label>
-                            <input type="text" id="first_flat_issue_date" name="first_flat_issue_date" class="form-control form-control--custom m-input m_datepicker" value="" required="" autocomplete="off">
+                            <label class="col-form-label" for="first_flat_issue_date">First Flat Issue Date <span class="star">*</span></label>
+                            <input type="text" id="first_flat_issue_date" name="first_flat_issue_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="{{ Input::old('first_flat_issue_date')}}" required="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="no_of_residential_flat">No Of Residential Flat:</label>
+                            <label class="col-form-label" for="no_of_residential_flat">No Of Residential Flat <span class="star">*</span></label>
                             <input type="text" id="no_of_residential_flat" name="no_of_residential_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="no_of_non_residential_flat">No Of Non Residential Flat:</label>
+                            <label class="col-form-label" for="no_of_non_residential_flat">No Of Non Residential Flat <span class="star">*</span></label>
                             <input type="text" id="no_of_non_residential_flat" name="no_of_non_residential_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="total_no_of_flat">Total No Of Flat:</label>
+                            <label class="col-form-label" for="total_no_of_flat">Total No Of Flat <span class="star">*</span></label>
                             <input type="text" id="total_no_of_flat" name="total_no_of_flat" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="society_registration_no">Society Registration No:</label>
+                            <label class="col-form-label" for="society_registration_no">Society Registration No <span class="star">*</span></label>
                             <input type="text" id="society_registration_no" name="society_registration_no" class="form-control form-control--custom m-input" value="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="society_registration_date">Society Registration Date:</label>
-                            <input type="text" id="society_registration_date" name="society_registration_date" class="form-control form-control--custom m-input m_datepicker" value="" required="" autocomplete="off"> 
+                            <label class="col-form-label" for="society_registration_date">Society Registration Date <span class="star">*</span></label>
+                            <input type="text" id="society_registration_date" name="society_registration_date" class="form-control form-control--custom m-input m_datepicker" data-date-end-date="+0d" value="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="property_tax">Property Tax:</label>
+                            <label class="col-form-label" for="property_tax">Property Tax <span class="star">*</span></label>
                             <input type="text" id="property_tax" name="property_tax" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="water_bill">Water Bill:</label>
+                            <label class="col-form-label" for="water_bill">Water Bill <span class="star">*</span></label>
                             <input type="text" id="water_bill" name="water_bill" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="non_agricultural_tax">Non Agricultural Tax:</label>
+                            <label class="col-form-label" for="non_agricultural_tax">Non Agricultural Tax <span class="star">*</span></label>
                             <input type="text" id="non_agricultural_tax" name="non_agricultural_tax" class="form-control form-control--custom m-input" value="" required="" autocomplete="off">
                         </div>
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="society_address">Society Address:</label>
+                            <label class="col-form-label" for="society_address">Society Address </label>
                             <input type="text" id="society_address" name="society_address" class="form-control form-control--custom m-input" value="{{ $society_details->address }}" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="nature_of_building">Nature Of Building:</label>
+                            <label class="col-form-label" for="nature_of_building">Nature Of Building <span class="star">*</span></label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="nature_of_building" name="nature_of_building" required="">
                                 @if(isset($building_nature) && count($building_nature) > 0)
                                     @foreach($building_nature as $value)
@@ -108,11 +108,11 @@
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="society_name">Tax Paid To MHADA Or BMC:</label>
+                            <label class="col-form-label" for="society_name">Tax Paid To MHADA Or BMC</label>
                             <input type="text" id="society_name" name="society_name" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
-                            <label class="col-form-label" for="service_charge_type">Service Charge Type:</label>
+                            <label class="col-form-label" for="service_charge_type">Service Charge Type <span class="star">*</span></label>
                             <select data-live-search="true" class="form-control m-bootstrap-select m_selectpicker form-control--custom m-input" id="service_charge_type" name="service_charge_type" required="">
                                 @if(isset($service_charge_names) && count($service_charge_names) > 0)
                                     @foreach($service_charge_names as $value)
@@ -124,14 +124,14 @@
                     </div>
                     <div class="m-form__group row mhada-lease-margin">
                         <div class="col-sm-4 form-group">
-                            <label class="col-form-label" for="service_charge">Service Charge:</label>
+                            <label class="col-form-label" for="service_charge">Service Charge <span class="star">*</span></label>
                             <input type="text" id="service_charge" name="service_charge" class="form-control form-control--custom m-input" value="" required="" autocomplete="off"> 
                         </div>
                     </div>
 
                     <div class="form-group m-form__group row">
                         <div class="col-sm-4 form-group">
-                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener">Download Template</a></p>
+                            <p><a href="{{ route('sc_download') }}" class="btn btn-primary" target="_blank" rel="noopener" title="Download tenement detail template">Download Template</a></p>
                         </div>
                         <div class="col-sm-4 offset-sm-1 form-group">
                             <div class="custom-file">
@@ -210,6 +210,9 @@
                     required:true,
                     number:true
                 },
+                society_registration_no:{
+                    required:true,
+                },
                 template:{
                     required:true,
                     extension:'xls'
@@ -217,7 +220,7 @@
             },
             messages:{
                 template:{
-                    required:true,
+                    required: 'Please upload tenement details in excel',
                     extension:'Only files with .xls type is required.'
                 }
             }

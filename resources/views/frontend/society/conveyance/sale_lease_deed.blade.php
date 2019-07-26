@@ -12,7 +12,7 @@
 </style>
 @endsection
 @section('actions')
-    @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
+    @include('frontend.society.conveyance.actions',compact('sc_application'))
 @endsection
 @section('content')
     @php $readonly = '';
@@ -122,8 +122,7 @@
                                 <div class="col-xs-12 row mt-3">
                                     <div class="col-xs-12 mt-3" style="width: 890px;">
                                     <span class="font_w500">Comments</span>
-                                        <textarea class="form-control form-control--custom" name="remark" rows="5" cols="30" id="remark" placeholder="Comments" class="form-control" {{ $readonly }}> 
-                                        </textarea>
+                                        <textarea class="form-control form-control--custom" name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control" {{ $readonly }}>{{ isset($comment) && count($comment) > 0 ? $comment['sale'] : '' }}</textarea>
                                     </div>
                                         
                                     @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
@@ -178,7 +177,7 @@
                                 <div class="col-sm-12">
                                     <div class="d-flex flex-column h-100">
                                         <span class="font_w500"> Comments : </span>
-                                        <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control form-control--custom" {{ $readonly }}></textarea>
+                                        <textarea name="remark" rows="5" cols="30" id="remark" placeholder="Write your comments here" class="form-control form-control--custom" {{ $readonly }}>{{ isset($comment) && count($comment) > 0 ? $comment['lease'] : '' }}</textarea>
                                         @if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
                                             <div class="mt-auto"><br/>
                                                 <button type="submit" class="btn btn-primary btn-custom" id="uploadBtn">Upload</button>

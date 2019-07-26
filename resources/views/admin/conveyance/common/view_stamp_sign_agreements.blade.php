@@ -144,12 +144,14 @@
 @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $status->status_id != config('commanConfig.conveyance_status.forwarded'))
     <div class="m-portlet m-portlet--mobile m_panel">
         <div class="m-portlet__body">
-            <h3 class="section-title section-title--small">Send To Society</h3>
+            <h3 class="section-title section-title--small">Send To Society For Registration</h3>
+            <p>Send To Society For Registration of Sale and Lease Deed Agreement</p>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
                     <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
+                        <input type="hidden" name="type" value="register">
                         <div class="col-md-6" style="display: inline;">
                                 <Button type="submit" class="s_btn btn btn-primary" id="submitBtn">
                                 send to society </Button>
@@ -188,7 +190,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <h3 class="section-title section-title--small">Riders</h3>
-                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                        <textarea rows="4" cols="63" name="remark" readonly class="form-control form-control--custom">{{ isset($data->riders) ? $data->riders : '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -205,7 +207,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <h3 class="section-title section-title--small">Remark</h3>
-                            <textarea rows="4" cols="63" name="remark"></textarea>
+                            <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
                             <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                     </div>
                 </div>

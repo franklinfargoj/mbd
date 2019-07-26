@@ -199,7 +199,7 @@
             <h3 class="section-title section-title--small">Remark</h3>
             <div class="col-xs-12 row">
                 <div class="col-md-12">
-                    <textarea rows="4" cols="63" name="remark"></textarea>
+                    <textarea rows="4" cols="63" class="form-control form-control--custom" name="remark"></textarea>
                     <button type="submit" id="remark_btn" class="btn btn-primary mt-3 upload_btn" style="display:block">Save</button>
                 </div>
             </div>

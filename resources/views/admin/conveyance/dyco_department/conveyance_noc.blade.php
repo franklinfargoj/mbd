@@ -151,7 +151,8 @@
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
-                                                <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
+                                        <input type="hidden" name="type" value="final">
+                                        <input type="submit" class="s_btn btn btn-primary" id="submitBtn" value="Send to Society">
                                         </form>
                                         <span class="error" id="NOCError" style="display: none;color: #ce2323;margin-bottom: 17px;">
                                         *Note : Please Upload Final Letter of Conveyance.</span>
@@ -196,7 +197,7 @@
                     <div class="col-xs-12 row">
                         <div class="col-md-12">
                             <h3 class="section-title section-title--small">Remark</h3>
-                                <textarea rows="4" cols="63" name="remark"></textarea>
+                                <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
                                 <button type="submit" class="btn btn-primary mt-3" style="display:block">Save</button>
                         </div>
                     </div>

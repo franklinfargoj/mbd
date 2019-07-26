@@ -15,6 +15,19 @@
     @include('frontend.society.conveyance.actions',compact('sc_application', 'documents', 'documents_uploaded'))
 @endsection
 @section('content')
+
+@if(session()->has('success'))
+<div class="alert alert-success display_msg">
+    {{ session()->get('success') }}
+</div> 
+@endif
+
+@if(session()->has('error'))
+<div class="alert alert-danger display_msg">
+    {{ session()->get('error') }}
+</div> 
+@endif
+
     @php $readonly = '';
     if($sc_application->scApplicationLog->status_id == config('commanConfig.conveyance_status.Verify_sale_&_lease_deed')){
         $readonly = '';
@@ -30,11 +43,6 @@
                     <a href="javascript:void(0);" class="btn btn-link"><i class="fa fa-long-arrow-left" style="padding-right: 8px;"></i>Back</a>
                 </div>
             </div>
-            @if (session('success'))
-                <div class="alert alert-success society_registered">
-                    <div class="text-center">{{ session('success') }}</div>
-                </div>
-            @endif
             <ul class="nav nav-tabs m-tabs-line m-tabs-line--primary m-tabs-line--2x nav-tabs--custom" role="tablist">
                 <li class="nav-item m-tabs__item em_tabs" id="section-2">
                     <a class="nav-link m-tabs__link show active" data-toggle="tab" href="#sale-deed-agreement" role="tab" aria-selected="true">
@@ -58,6 +66,7 @@
                             @csrf
                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                             <input type="hidden" id="document_name" name="document_name" value="{{ $sc_application->SaleAgreement }}">
+                            <input type="hidden" id="verifiedSale" name="verifiedSale" value="{{ isset($sc_application->VerifiedSaleAgreement) ? $sc_application->VerifiedSaleAgreement->document_path : '' }}">
                             <div class="m-portlet__body w-100 row-list" style="padding-right: 0;">
                                 <div class="row mt-3">
                                     <div class="col-sm-6">
@@ -113,6 +122,7 @@
                             @csrf
                             <input type="hidden" id="application_id" name="application_id" value="{{ $sc_application->id }}">
                             <input type="hidden" id="document_name" name="document_name" value="{{ $sc_application->LeaseAgreement }}">
+                            <input type="hidden" id="verifiedLease" name="verifiedLease" value="{{ isset($sc_application->VerifiedLeaseAgreement) ? $sc_application->VerifiedLeaseAgreement->document_path : '' }}">
                             <div class="m-portlet__body" style="padding-right: 0;">
                                 <div class="row w-100 row-list">
                                     <div class="col-sm-6">
@@ -136,6 +146,7 @@
                                                 <span class="text-danger" id="file_error"></span>
                                                 @if(isset($sc_application->VerifiedLeaseAgreement))
                                                  <a href="{{ config('commanConfig.storage_server') .'/'.$sc_application->VerifiedLeaseAgreement->document_path }}" target="_blank" class="btn btn-link" rel="noopener">Download</a>
+
                                                 @endif
                                             </div>
                                         @elseif(isset($sc_application->VerifiedLeaseAgreement))
@@ -221,12 +232,12 @@
                 //alert(id);
 
 
-                $(".tab-pane").removeClass('active');
-                $(".nav-link").removeClass('active');
-                $(".m-tabs__item").removeClass('active');
-                $("#" + id+ " a").addClass('active');
+                // $(".tab-pane").removeClass('active');
+                // $(".nav-link").removeClass('active');
+                // $(".m-tabs__item").removeClass('active');
+                // $("#" + id+ " a").addClass('active');
 
-                $("." + id).addClass('active');
+                // $("." + id).addClass('active');
             }
 
             $(".em_tabs").on('click', function () {
@@ -234,25 +245,10 @@
                 Cookies.set('sectionId', this.id);
             });
 
-            $('#stamp_duty_letter').validate({
-                rules:{
-                    document_path: {
-                        required:true,
-                        extension:'pdf'
-                    }
-                },
-                messages:{
-                    document_path: {
-                        required: 'File is required to upload.',
-                        extension: 'File only in pdf format is required.'
-                    }
-                }
-            });
-
             $('#sale_deed_agreement').validate({
                 rules:{
                     document_path: {
-                        required:true,
+                        required: $("#verifiedSale").val().length <= 0,
                         extension:'pdf'
                     }
                 },
@@ -263,47 +259,12 @@
                     }
                 }
             });
-
-
-
-            $('#society_resolution').validate({
-                rules:{
-                    document_path: {
-                        required:true,
-                        extension:'pdf'
-                    }
-                },
-                messages:{
-                    document_path: {
-                        required: 'File is required to upload.',
-                        extension: 'File only in pdf format is required.'
-                    }
-                }
-            });
-
-            $('#society_undertaking').validate({
-                rules:{
-                    document_path: {
-                        required:true,
-                        extension:'pdf'
-                    }
-                },
-                messages:{
-                    document_path: {
-                        required: 'File is required to upload.',
-                        extension: 'File only in pdf format is required.'
-                    }
-                }
-            });
-
-            $('.society_registered').delay("slow").slideUp("slow");
-
         });
 
 $('#lease_deed_agreement').validate({
     rules:{
         document_path: {
-            required:true,
+            required:$("#verifiedLease").val().length <= 0,
             extension:'pdf'
         }
     },

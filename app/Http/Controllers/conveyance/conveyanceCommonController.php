@@ -243,126 +243,132 @@ class conveyanceCommonController extends Controller
        
         $Scstatus = ""; $society_flag = 0;
         $toUsers = "";
-        $data = scApplication::where('id',$request->applicationId)->first();
-        $applicationStatus = $data->application_status;
-        $masterId = $data->sc_application_master_id;
+        DB::beginTransaction();
+        try {
+            $data = scApplication::where('id',$request->applicationId)->first();
+            $applicationStatus = $data->application_status;
+            $masterId = $data->sc_application_master_id;
 
-        $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
-        $dycoId  =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
-         
-        if ($request->check_status == 1) {
-            $status = config('commanConfig.conveyance_status.forwarded'); 
-            $toUsers = $request->to_user_id;        
-        }else{
-            $status = config('commanConfig.conveyance_status.reverted');
-            $toUsers = $request->to_child_id;
-        }
-        
-        if ((session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.estate_manager') ) && $request->to_role_id == $dycdoId) {
-            $Tostatus = config('commanConfig.conveyance_status.Draft_sale_&_lease_deed');
-            $Scstatus = $Tostatus;
-
-        } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
-            
-            if ($applicationStatus == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
-                $Tostatus = config('commanConfig.conveyance_status.Approved_sale_&_lease_deed');
-                $Scstatus = $Tostatus;
-
-            }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')){
-                $Tostatus = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
-                $Scstatus = $Tostatus;
-                
+            $dycdoId =  Role::where('name',config('commanConfig.dycdo_engineer'))->value('id');  
+            $dycoId  =  Role::where('name',config('commanConfig.dyco_engineer'))->value('id'); 
+             
+            if ($request->check_status == 1) {
+                $status = config('commanConfig.conveyance_status.forwarded'); 
+                $toUsers = $request->to_user_id;        
             }else{
-                $Tostatus = $applicationStatus;
+                $status = config('commanConfig.conveyance_status.reverted');
+                $toUsers = $request->to_child_id;
+            }
+            
+            if ((session()->get('role_name') == config('commanConfig.ee_branch_head') || session()->get('role_name') == config('commanConfig.estate_manager') ) && $request->to_role_id == $dycdoId) {
+                $Tostatus = config('commanConfig.conveyance_status.Draft_sale_&_lease_deed');
                 $Scstatus = $Tostatus;
-            }
-        }elseif((session()->get('role_name') == config('commanConfig.cdo_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')) && $request->to_role_id == $dycoId){
-            if ($applicationStatus == config('commanConfig.conveyance_status.Approved_sale_&_lease_deed')){
 
-                $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
-                $Scstatus = $Tostatus;
-
-            }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')){
+            } elseif (session()->get('role_name') == config('commanConfig.joint_co') && $request->to_role_id == $dycdoId){
                 
-                $Tostatus = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
-                $Scstatus = $Tostatus; 
+                if ($applicationStatus == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
+                    $Tostatus = config('commanConfig.conveyance_status.Approved_sale_&_lease_deed');
+                    $Scstatus = $Tostatus;
 
-            }elseif($applicationStatus == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')){
+                }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_sale_&_lease_deed')){
+                    $Tostatus = config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed');
+                    $Scstatus = $Tostatus;
+                    
+                }else{
+                    $Tostatus = $applicationStatus;
+                    $Scstatus = $Tostatus;
+                }
+            }elseif((session()->get('role_name') == config('commanConfig.cdo_engineer') || session()->get('role_name') == config('commanConfig.dycdo_engineer')) && $request->to_role_id == $dycoId){
+                if ($applicationStatus == config('commanConfig.conveyance_status.Approved_sale_&_lease_deed')){
+
+                    $Tostatus = config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty');
+                    $Scstatus = $Tostatus;
+
+                }elseif($applicationStatus == config('commanConfig.conveyance_status.Stamped_signed_sale_&_lease_deed')){
+                    
+                    $Tostatus = config('commanConfig.conveyance_status.Send_society_for_registration_of_sale_&_lease');
+                    $Scstatus = $Tostatus; 
+
+                }elseif($applicationStatus == config('commanConfig.conveyance_status.Registered_sale_&_lease_deed')){
+                    
+                    $Tostatus = config('commanConfig.conveyance_status.Conveyance_Issued');
+                    $Scstatus = $Tostatus;                
+                }
+                else{
+                    $Tostatus = $applicationStatus;
+                    $Scstatus = $Tostatus;
+                }
+            }
+            else {
+                    $Tostatus = $applicationStatus;               
+                }
+
+                // send for varification of sale nd lease
+                if ($request->society_flag == '1' && $applicationStatus == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
+                    $Tostatus = config('commanConfig.conveyance_status.Verify_sale_&_lease_deed');
+                    $type = 'conveyance';
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $response=$EmailMsgConfigration->scSendToSociety($request->applicationId,
+                        'conveyance','verify');
                 
-                $Tostatus = config('commanConfig.conveyance_status.Conveyance_Issued');
-                $Scstatus = $Tostatus;                
-            }
-            else{
-                $Tostatus = $applicationStatus;
-                $Scstatus = $Tostatus;
-            }
-        }
-        else {
-                $Tostatus = $applicationStatus;               
-            }
+                // if reverted to society     
+                }else if ($request->society_flag == '1') {
+                     $Tostatus = config('commanConfig.conveyance_status.pending'); 
+                     // send email nd sms to society
+                    $type = 'conveyance';
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
+                }    
 
-            // if reverted to society 
-            if ($request->society_flag == '1' && $applicationStatus == config('commanConfig.conveyance_status.Draft_sale_&_lease_deed')){
-                $Tostatus = config('commanConfig.conveyance_status.Verify_sale_&_lease_deed');
-                
-            }else if ($request->society_flag == '1') {
-                 $Tostatus = config('commanConfig.conveyance_status.pending'); 
-                 // send email nd sms to society
-                $type = 'conveyance';
-                $EmailMsgConfigration = new EmailMsgConfigration();
-                $response = $EmailMsgConfigration->RevetApplicationToSociety($request->applicationId,$type);
-            }    
+            foreach($toUsers as $to_user_id){
+                $user_data = User::find($to_user_id);
+                $application = [[
+                    'application_id' => $request->applicationId,
+                    'user_id'        => Auth::user()->id,
+                    'role_id'        => session()->get('role_id'),
+                    'status_id'      => $status,
+                    'to_user_id'     => $to_user_id,
+                    'to_role_id'     => $user_data->role_id,
+                    'remark'         => is_array($request->remark) ? $request->remark[$to_user_id] : 
+                    $request->remark,
+                    'application_master_id' => $masterId,
+                    'society_flag'   => '0',
+                    'is_active'      => 1,
+                    'created_at'     => Carbon::now(),
+                ],
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id'       => $to_user_id,
+                    'role_id'       => $user_data->role_id,
+                    'status_id'     => $Tostatus,
+                    'to_user_id'    => null,
+                    'to_role_id'    => null,
+                    'remark'        => is_array($request->remark) ? $request->remark[$to_user_id] : 
+                    $request->remark,
+                    'application_master_id' => $masterId,
+                    'society_flag'   => $request->society_flag,
+                    'is_active'      => 1,
+                    'created_at'    => Carbon::now(),
+                ],
+                ];
+               
+                scApplicationLog::where('application_id',$request->applicationId)
+                    ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
+                    ->update(array('is_active' => 0)); 
 
-        foreach($toUsers as $to_user_id){
-            $user_data = User::find($to_user_id);
-            $application = [[
-                'application_id' => $request->applicationId,
-                'user_id'        => Auth::user()->id,
-                'role_id'        => session()->get('role_id'),
-                'status_id'      => $status,
-                'to_user_id'     => $to_user_id,
-                'to_role_id'     => $user_data->role_id,
-                'remark'         => is_array($request->remark) ? $request->remark[$to_user_id] : 
-                $request->remark,
-                'application_master_id' => $masterId,
-                'society_flag'   => '0',
-                'is_active'      => 1,
-                'created_at'     => Carbon::now(),
-            ],
-            [
-                'application_id' => $request->applicationId,
-                'user_id'       => $to_user_id,
-                'role_id'       => $user_data->role_id,
-                'status_id'     => $Tostatus,
-                'to_user_id'    => null,
-                'to_role_id'    => null,
-                'remark'        => is_array($request->remark) ? $request->remark[$to_user_id] : 
-                $request->remark,
-                'application_master_id' => $masterId,
-                'society_flag'   => $request->society_flag,
-                'is_active'      => 1,
-                'created_at'    => Carbon::now(),
-            ],
-            ];
-            DB::beginTransaction();
-            try{
-            scApplicationLog::where('application_id',$request->applicationId)
-                ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
-                ->update(array('is_active' => 0)); 
-
-            scApplicationLog::insert($application); 
+                scApplicationLog::insert($application); 
            
                 if ($Scstatus != ""){
                               
                     scApplication::where('id',$request->applicationId)->where('sc_application_master_id',$masterId)
                     ->update(['application_status' => $Tostatus, 'sent_to_society' => '0']);                     
                 }
-            DB::commit();    
-            }catch (\Exception $ex) {
-                 
-                DB::rollback();
-            }
-        } 
+                DB::commit();    
+            } 
+        } catch (\Exception $ex) {
+             
+            DB::rollback();
+        }
     }
 
     public function getForwardApplicationData($applicationId){

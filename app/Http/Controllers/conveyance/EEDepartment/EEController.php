@@ -65,7 +65,7 @@ class EEController extends Controller
                 ]);
         
         $applicationId = encrypt($applicationId);    
-        return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'));
+        return redirect("sale_price_calculation/" . $applicationId."#".$request->get('redirect_tab'))->with('success','Calculation data save successfully');
 	} 
 
 	public function SaveDemarcationPlan(Request $request){

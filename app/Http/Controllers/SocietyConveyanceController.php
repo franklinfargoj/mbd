@@ -776,10 +776,12 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show_sale_lease($id){
+        
         $id = decrypt($id);
         $sc_application = scApplication::with(['sc_form_request', 'societyApplication', 'applicationLayout', 'scApplicationLog' => function($q){
             $q->where('society_flag', '1')->orderBy('id', 'desc')->first();
         }])->where('id', $id)->first();
+
         $documents_req = array(
             config('commanConfig.documents.society.conveyance_stamp_duty_letter'),
             config('commanConfig.documents.society.Sale Deed Agreement'),
@@ -789,7 +791,9 @@ class SocietyConveyanceController extends Controller
             config('commanConfig.documents.society.sc_Indemnity Bond'),
         );
         $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+        
         $document_ids = $this->conveyance_common->getDocumentIds($documents_req, $application_type, $sc_application->id);
+
         $uploaded_document_ids = [];
         $documents_remaining_ids = [];
         foreach($document_ids as $document_id){
@@ -801,31 +805,43 @@ class SocietyConveyanceController extends Controller
             }
         }
 
-        $documents = SocietyConveyanceDocumentMaster::with(['sc_document_status' => function($q) use($sc_application) { $q->where('application_id', $sc_application->id)->get(); }])->where('application_type_id', $sc_application->sc_application_master_id)->where('society_flag', '1')->where('language_id', '2')->get();
-        $documents_uploaded = SocietyConveyanceDocumentStatus::where('application_id', $sc_application->id)->get();
+        //get agreements comments
+        $SaleAgreement  = config('commanConfig.scAgreements.sale_deed_agreement');
+        $LeaseAgreement = config('commanConfig.scAgreements.lease_deed_agreement');
+        $resolution = config('commanConfig.documents.society.sc_resolution');
+        $undertaking = config('commanConfig.documents.society.sc_undertaking');
+        $indemnity = config('commanConfig.documents.society.sc_Indemnity Bond');
+        
+        $Applicationtype= $sc_application->sc_application_master_id;
+        $sale = $this->conveyance_common->getScAgreementId($SaleAgreement,$Applicationtype);
+        $lease = $this->conveyance_common->getScAgreementId($LeaseAgreement,$Applicationtype);
 
-        $sc_agreement_comments = ScAgreementComments::with('scAgreementId')->where('user_id', Auth::user()->id)->where('role_id', Session::get('role_id'))->orderBy('id', 'desc')->get();
+        $stampId = config('commanConfig.applicationStatus.Send_society_to_pay_stamp_duty');
+        $comment = [];
+        $comment['sale'] = ScAgreementComments::where('application_id',$sc_application->id)
+        ->where('user_id',Auth::user()->id)->where('agreement_type_id',$sale)->where('status_id',$stampId)->value('remark');
 
-        foreach($sc_agreement_comments as $sc_agreement_comment_val){
-            foreach($document_ids as $document_id){
-                if($document_id->id == $sc_agreement_comment_val->agreement_type_id){
-                    $sc_agreement_comment[$sc_agreement_comment_val->scAgreementId->document_name] = $sc_agreement_comment_val;
-                }
-            }
+        $comment['lease'] = ScAgreementComments::where('application_id',$sc_application->id)
+        ->where('user_id',Auth::user()->id)->where('agreement_type_id',$lease)->where('status_id',$stampId)->value('remark');
+
+        
+        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
+
+        //get uploaded signed application pdf
+        $documentId = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
+        $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$documentId);
+        if (isset($doc->document_path)) {
+            $uploaded_stamped_application = $doc->document_path;
+        }else{
+            $uploaded_stamped_application = NULL;
         }
+
+        //get final conveyance lettet
         $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
         $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
         $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
-        $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);        
-        $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
-        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
 
-        $application_type = scApplicationType::where('application_type', config('commanConfig.applicationType.Conveyance'))->value('id');
-        $uploaded_stamped_application_id = $this->conveyance_common->getDocumentId(config('commanConfig.documents.society.stamp_conveyance_application'), $application_type);
-        $uploaded_stamped_application_ids = $documents_uploaded->pluck('document_path', 'document_id');
-        $uploaded_stamped_application = isset($uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id])?$uploaded_stamped_application_ids->toArray()[$uploaded_stamped_application_id]:"";
-
-        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'documents', 'uploaded_document_ids', 'documents_remaining_ids', 'sc_agreement_comment', 'documents_uploaded', 'issued_noc', 'uploaded_stamped_application'));
+        return view('frontend.society.conveyance.sale_lease_deed', compact('sc_application', 'document_lease', 'uploaded_document_ids', 'documents_remaining_ids', 'issued_noc', 'uploaded_stamped_application','comment'));
     }
 
     /**
@@ -878,8 +894,13 @@ class SocietyConveyanceController extends Controller
         $stampUpload = $this->conveyance_common->getDocumentId($stamp,$sc_application->sc_application_master_id); 
         $doc = $this->conveyance_common->getDocumentStatus($sc_application->id,$stampUpload);
         $uploaded_stamped_application = $doc->document_path;
+
+        // get issued final conveyance letter
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
         
-        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application','saleRegDetails','leaseRegDetails','sale_agreement','lease_agreement','uploaded_stamped_application','regSaleDocument','regLeaseDocument'));
+        return view('frontend.society.conveyance.signed_sale_lease_deed', compact('sc_application','saleRegDetails','leaseRegDetails','sale_agreement','lease_agreement','uploaded_stamped_application','regSaleDocument','regLeaseDocument','issued_noc'));
     }
 
     /**
@@ -889,7 +910,7 @@ class SocietyConveyanceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function upload_sale_lease(Request $request){
-
+        $scApplication = scApplication::where('id', $request->application_id)->first();
         if($request->hasFile('document_path')) {
             $insert_arr = $request->all();
             $file = $request->file('document_path');
@@ -915,6 +936,7 @@ class SocietyConveyanceController extends Controller
                 'user_id' => Auth::user()->id,
                 'role_id' => Session::get('role_id'),
                 'agreement_type_id' => $document_id,
+                'status_id' => $scApplication->application_status,
                 'remark' => $request->remark
             );
             $inserted_data = ScAgreementComments::create($input);
@@ -1213,6 +1235,11 @@ class SocietyConveyanceController extends Controller
             $uploaded_stamped_application = NULL;
         }
 
+        // get issued final conveyance letter
+        $noc = config('commanConfig.scAgreements.conveynace_uploaded_NOC');
+        $nocId = $this->conveyance_common->getScAgreementId($noc, $sc_application->sc_application_master_id);
+        $issued_noc = $this->conveyance_common->getScAgreement($nocId, $sc_application->id, NULL);
+
         //get verification society comments
         $draftId = config('commanConfig.applicationStatus.Draft_sale_&_lease_deed');
         $saleComment = ScAgreementComments::where('application_id',$sc_application->id)
@@ -1221,7 +1248,7 @@ class SocietyConveyanceController extends Controller
         $leaseComment = ScAgreementComments::where('application_id',$sc_application->id)
         ->where('user_id',Auth::user()->id)->where('agreement_type_id',$draftLeaseId)->where('status_id',$draftId)->first();
 
-        return view('frontend.society.conveyance.verify_draft_sale_lease',compact('sc_application','documents_count','documents_uploaded_count','uploaded_stamped_application','leaseComment','saleComment'));
+        return view('frontend.society.conveyance.verify_draft_sale_lease',compact('sc_application','documents_count','documents_uploaded_count','uploaded_stamped_application','leaseComment','saleComment','issued_noc'));
     }
 
     // upload verified sale and lease deed

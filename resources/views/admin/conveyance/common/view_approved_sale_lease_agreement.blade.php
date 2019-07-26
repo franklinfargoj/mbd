@@ -205,6 +205,7 @@
                                     <div class="mt-auto">
                                         <form class="nav-tabs-form" id ="agreementFRM" role="form" method="POST" action="{{ route('dyco.send_to_society')}}" enctype="multipart/form-data">
                                         @csrf
+                                        <input type="hidden" name="type" value="stamp">
                                         <input type="hidden" name="applicationId" value="{{ isset($data->id) ? $data->id : '' }}">
                                                 <input type="submit" class="s_btn btn btn-primary" id="submitStampBtn" value="Send to Society">
                                         </form> 

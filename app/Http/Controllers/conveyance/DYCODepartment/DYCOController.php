@@ -21,6 +21,7 @@ use App\conveyance\scApplicationLog;
 use App\conveyance\RenewalDocumentStatus;
 use App\conveyance\RenewalApplicationLog;
 use App\conveyance\scRegistrationDetails;
+use App\Http\Controllers\EmailMsg\EmailMsgConfigration;
 use Config;
 use Yajra\DataTables\DataTables;
 use Carbon\Carbon;
@@ -786,39 +787,57 @@ class DYCOController extends Controller
     public function SendToSociety(Request $request){
 
         $applicationId = $request->applicationId; 
-        $data = scApplication::with(['societyApplication','societyApplication.roleUser','ConveyanceSalePriceCalculation'])->where('id',$applicationId)->first();
-        
-        $to_role_id = $data->societyApplication->roleUser->role_id;    
-        $to_user_id = $data->societyApplication->roleUser->id;  
+        DB::beginTransaction();
+        try{
+            $data = scApplication::with(['societyApplication','societyApplication.roleUser','ConveyanceSalePriceCalculation'])->where('id',$applicationId)->first();
+            
+            $to_role_id = $data->societyApplication->roleUser->role_id;    
+            $to_user_id = $data->societyApplication->roleUser->id;  
 
-            $application = [[
-                'application_id' => $request->applicationId,
-                'user_id'        => Auth::user()->id,
-                'role_id'        => session()->get('role_id'),
-                'status_id'      => config('commanConfig.conveyance_status.forwarded'),
-                'society_flag'   => '0',
-                'application_master_id' => $data->sc_application_master_id,
-                'to_user_id'     => $to_user_id,
-                'to_role_id'     => $to_role_id,
-                'is_active'      => 1,
-                'created_at'     => Carbon::now(),
-            ],
-            [
-                'application_id' => $request->applicationId,
-                'user_id'       => $to_user_id,
-                'role_id'       => $to_role_id,
-                'status_id'     => $data->application_status,
-                'society_flag'  => '1',
-                'application_master_id' => $data->sc_application_master_id,
-                'to_user_id'    => null,
-                'to_role_id'    => null,
-                'is_active'     => 1,
-                'created_at'    => Carbon::now(),
-            ],
-            ];
+                $application = [[
+                    'application_id' => $request->applicationId,
+                    'user_id'        => Auth::user()->id,
+                    'role_id'        => session()->get('role_id'),
+                    'status_id'      => config('commanConfig.conveyance_status.forwarded'),
+                    'society_flag'   => '0',
+                    'application_master_id' => $data->sc_application_master_id,
+                    'to_user_id'     => $to_user_id,
+                    'to_role_id'     => $to_role_id,
+                    'is_active'      => 1,
+                    'created_at'     => Carbon::now(),
+                ],
+                [
+                    'application_id' => $request->applicationId,
+                    'user_id'       => $to_user_id,
+                    'role_id'       => $to_role_id,
+                    'status_id'     => $data->application_status,
+                    'society_flag'  => '1',
+                    'application_master_id' => $data->sc_application_master_id,
+                    'to_user_id'    => null,
+                    'to_role_id'    => null,
+                    'is_active'     => 1,
+                    'created_at'    => Carbon::now(),
+                ],
+                ];
 
-            DB::beginTransaction();
-            try{
+                //email nd sms notification on sent application for stamp duty
+                if (isset($request->type) && $request->type == 'stamp'){
+                    $type = 'conveyance';
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $response = $EmailMsgConfigration->scSendToSociety($applicationId,$type,'stamp');
+                }
+
+                //email nd sms notification on sent application for Registration
+                else if (isset($request->type) && $request->type == 'register'){
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $response = $EmailMsgConfigration->scSendToSociety($applicationId,'conveyance','register');
+                }
+                //email nd sms notification on sent Final conveyance letter
+                else if (isset($request->type) && $request->type == 'final'){
+                    $EmailMsgConfigration = new EmailMsgConfigration();
+                    $response = $EmailMsgConfigration->scSendToSociety($applicationId,'conveyance','final');
+                }
+            
                 scApplicationLog::where('application_id',$applicationId)
                 ->whereIn('user_id', [Auth::user()->id,$to_user_id ])
                 ->update(array('is_active' => 0));                

@@ -206,7 +206,7 @@
                                         <div class="m-form__group form-group">
                                             <div class="m-radio-inline">
                                                 <!-- disable forward  -->
-                                                @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                                @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && ($data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $data->status->status_id == config('commanConfig.conveyance_status.Conveyance_Issued')))
                                                 @else
                                                 
                                                 <label class="m-radio m-radio--primary">
@@ -225,7 +225,7 @@
                                                 @endif
                                             </div>
                                             <!-- forward parent -->
-                                            @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && $data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty'))
+                                            @if(session()->get('role_name') == config('commanConfig.dyco_engineer') && ($data->status->status_id == config('commanConfig.conveyance_status.Send_society_to_pay_stamp_duty') || $data->status->status_id == config('commanConfig.conveyance_status.Conveyance_Issued')))
                                             @else
                                                 <div class="form-group m-form__group row mt-3 parent-data" id="select_dropdown">
                                                     <label class="col-form-label col-lg-2 col-sm-12">

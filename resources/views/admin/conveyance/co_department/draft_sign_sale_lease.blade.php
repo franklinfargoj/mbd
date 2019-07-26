@@ -9,7 +9,6 @@
     {{ session()->get('success') }}
 </div>
 @endif
-
 <div class="col-md-12">
     <!-- BEGIN: Subheader -->
     <div class="m-subheader px-0 m-subheader--top">
@@ -200,7 +199,7 @@
                 <div class="col-xs-12 row">
                     <div class="col-md-12">
                         <h3 class="section-title section-title--small">Riders</h3>
-                        <textarea rows="4" cols="63" name="remark" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
+                        <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom" readonly>{{ isset($data->riders) ? $data->riders : '' }}</textarea>
                     </div>
                 </div>
             </div>
@@ -215,7 +214,7 @@
             <div class="col-xs-12 row">
                 <div class="col-md-12">
                     <h3 class="section-title section-title--small">Remark</h3>
-                        <textarea rows="4" cols="63" name="remark"></textarea>
+                        <textarea rows="4" cols="63" name="remark" class="form-control form-control--custom"></textarea>
                         <button type="submit" class="btn btn-primary mt-3 upload_btn" id="remark_btn" style="display:block">Save</button>
                 </div>
             </div>

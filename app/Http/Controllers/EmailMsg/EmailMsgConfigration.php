@@ -16,6 +16,7 @@ use App\Role;
 use Mail;
 use Hash;
 use Auth;
+use DB;
 
 class EmailMsgConfigration extends Controller
 {
@@ -424,6 +425,238 @@ class EmailMsgConfigration extends Controller
             }
         }catch(Exception $e){
 
+        }
+    }
+
+    //send application for verification to society in conveyance module
+    // public function sendVerificationToSociety($applicationId,$type){
+    //     DB::beginTransaction();
+    //     try{
+    //         // $societyUrl = env('APP_URL');
+    //         // $url = $societyUrl.'/society_offer_letter';
+
+    //         if ($this->isEmailActive == 1) {
+    //             if ($type == 'conveyance'){
+    //                 $data = $this->conveyanceSocietyDetails($applicationId);
+    //             }
+
+    //             $emailSubject = config('commanConfig.email_subject.verification_society_application');
+    //             $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
+
+    //             $emailContent = config('commanConfig.email_content.verification_society_application');
+    //             $emailContent=str_replace("<application type>",$data->application_type,$emailContent);
+    //             $emailContent = str_replace("<Society name>",$data->name,$emailContent);
+    //             $emailContent=str_replace("<application Number>",$data->application_no,$emailContent);
+    //             // $emailContent=str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+
+    //             // dd($emailContent);
+    //             $msgContent = config('commanConfig.msg_content.verification_society_application');
+    //             $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+    //             $msgContent = str_replace("<Society name>",$data->name,$msgContent);
+    //             $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
+    //             // $msgContent = str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+                
+
+    //             $this->sendEmail($data->email,$emailContent,$emailSubject);
+    //             $this->sendMsg($data->contact_no,$msgContent);
+    //             $data['mobile_no'] = $data->contact_no;
+    //             $data['msg_content'] = $msgContent;
+    //             $data['mail_content'] = $emailContent;
+    //             $this->saveMailMsgSentDetails($data);
+
+    //             //send verification sms and mail to DYCO head
+
+    //             $headEmailSubject = config('commanConfig.email_subject.verification_user_application');
+    //             $headEmailSubject = str_replace("<application type>",$data->application_type,$headEmailSubject);
+
+    //             $headEmail = config('commanConfig.email_content.verification_user_application');
+    //             $headEmail = str_replace("<application type>",$data->application_type,$headEmail);
+    //             $headEmail = str_replace("<Society name>",$data->name,$headEmail);
+    //             $headEmail = str_replace("<application Number>",$data->application_no,$headEmail);
+
+    //             $headMsg = config('commanConfig.msg_content.verification_user_application');
+    //             $headMsg = str_replace("<application type>",$data->application_type,$headMsg);
+    //             $headMsg = str_replace("<Society name>",$data->name,$headMsg);
+    //             $headMsg = str_replace("<application Number>",$data->application_no,$headMsg);
+
+    //             $this->sendEmail(Auth::user()->email,$headEmail,$headEmailSubject);
+    //             $this->sendMsg(Auth::user()->mobile_no,$headMsg);
+    //             $data['mobile_no'] = Auth::user()->mobile_no;
+    //             $data['email'] = Auth::user()->email;
+    //             $data['msg_content'] = $headMsg;
+    //             $data['mail_content'] = $headEmail;
+    //             $this->saveMailMsgSentDetails($data);
+    //             $response['status'] = 'success';
+    //         }
+    //         DB::commit();
+    //     }catch(Exception $e){
+    //         dd($e);
+    //         DB::rollback();
+    //     }
+    // }
+
+    //send application to pay stamp duty to society in conveyance 
+    // public function sendStampDutyToSociety($applicationId,$type){
+    //     DB::beginTransaction();
+    //     try{
+    //         // $societyUrl = env('APP_URL');
+    //         // $url = $societyUrl.'/society_offer_letter';
+
+    //         if ($this->isEmailActive == 1) {
+    //             if ($type == 'conveyance'){
+    //                 $data = $this->conveyanceSocietyDetails($applicationId);
+    //             }
+
+    //             $emailSubject=config('commanConfig.email_subject.stamp_society_application');
+    //             $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
+
+    //             $emailContent = config('commanConfig.email_content.stamp_society_application');
+    //             $emailContent=str_replace("<application type>",$data->application_type,$emailContent);
+    //             $emailContent = str_replace("<Society name>",$data->name,$emailContent);
+    //             $emailContent=str_replace("<application Number>",$data->application_no,$emailContent);
+    //             // $emailContent=str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+
+    //             $msgContent = config('commanConfig.msg_content.stamp_society_application');
+    //             $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+    //             $msgContent = str_replace("<Society name>",$data->name,$msgContent);
+    //             $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
+    //             // $msgContent = str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+                
+    //             $this->sendEmail($data->email,$emailContent,$emailSubject);
+    //             $this->sendMsg($data->contact_no,$msgContent);
+    //             $data['mobile_no'] = $data->contact_no;
+    //             $data['msg_content'] = $msgContent;
+    //             $data['mail_content'] = $emailContent;
+    //             $this->saveMailMsgSentDetails($data);
+
+    //             //send stamp duty sms and mail to DYCO head
+
+    //             $headEmailSubject = config('commanConfig.email_subject.stamp_user_application');
+    //             $headEmailSubject = str_replace("<application type>",$data->application_type,$headEmailSubject);
+
+    //             $headEmail = config('commanConfig.email_content.stamp_user_application');
+    //             $headEmail = str_replace("<application type>",$data->application_type,$headEmail);
+    //             $headEmail = str_replace("<Society name>",$data->name,$headEmail);
+    //             $headEmail = str_replace("<application Number>",$data->application_no,$headEmail);
+
+    //             $headMsg = config('commanConfig.msg_content.stamp_user_application');
+    //             $headMsg = str_replace("<application type>",$data->application_type,$headMsg);
+    //             $headMsg = str_replace("<Society name>",$data->name,$headMsg);
+    //             $headMsg = str_replace("<application Number>",$data->application_no,$headMsg);
+
+    //             $this->sendEmail(Auth::user()->email,$headEmail,$headEmailSubject);
+    //             $this->sendMsg(Auth::user()->mobile_no,$headMsg);
+    //             $data['mobile_no'] = Auth::user()->mobile_no;
+    //             $data['email'] = Auth::user()->email;
+    //             $data['msg_content'] = $headMsg;
+    //             $data['mail_content'] = $headEmail;
+    //             $this->saveMailMsgSentDetails($data);
+    //             $response['status'] = 'success';
+    //         }
+    //         DB::commit();
+    //     }catch(Exception $e){
+    //         dd($e);
+    //         DB::rollback();
+    //     }
+    // }
+
+    //send application for registration to society in conveyance 
+    public function scSendToSociety($applicationId,$module,$type){
+
+        DB::beginTransaction();
+        try{
+            // $societyUrl = env('APP_URL');
+            // $url = $societyUrl.'/society_offer_letter';
+
+            if ($this->isEmailActive == 1) {
+
+                if ($type == 'verify'){
+                    $emailSubject=config('commanConfig.email_subject.verification_society_application');
+                    $emailContent=config('commanConfig.email_content.verification_society_application');
+                    $msgContent = config('commanConfig.msg_content.verification_society_application');
+                    $headEmailSubject=config('commanConfig.email_subject.verification_user_application');
+                    $headEmail = config('commanConfig.email_content.verification_user_application');
+                    $headMsg = config('commanConfig.msg_content.verification_user_application');
+                    
+                }
+                else if ($type == 'stamp'){
+                    $emailSubject=config('commanConfig.email_subject.stamp_society_application');
+                    $emailContent = config('commanConfig.email_content.stamp_society_application');
+                    $msgContent = config('commanConfig.msg_content.stamp_society_application');
+                    $headEmailSubject = config('commanConfig.email_subject.stamp_user_application');
+                    $headEmail = config('commanConfig.email_content.stamp_user_application');
+                    $headMsg = config('commanConfig.msg_content.stamp_user_application');
+                    
+                }
+                else if ($type == 'register'){
+                    $emailSubject=config('commanConfig.email_subject.register_society_application');
+                    $emailContent = config('commanConfig.email_content.register_society_application');
+                    $msgContent = config('commanConfig.msg_content.register_society_application');
+                    $headEmailSubject = config('commanConfig.email_subject.register_user_application');
+                    $headEmail = config('commanConfig.email_content.register_user_application');
+                    $headMsg = config('commanConfig.msg_content.register_user_application');
+                    
+                }else if ($type == 'final'){
+                    $emailSubject=config('commanConfig.email_subject.final_society_application');
+                    $emailContent = config('commanConfig.email_content.final_society_application');
+                    $msgContent = config('commanConfig.msg_content.final_society_application');
+                    $headEmailSubject = config('commanConfig.email_subject.final_user_application');
+                    $headEmail = config('commanConfig.email_content.final_user_application');
+                    $headMsg = config('commanConfig.msg_content.final_user_application');
+                    
+                }
+                if ($module == 'conveyance'){
+                    $data = $this->conveyanceSocietyDetails($applicationId);
+                    $emailContent=str_replace('<module>','Society Conveyance',$emailContent);
+                    $msgContent=str_replace("<module>",'Society Conveyance',$msgContent);
+                    $headEmail=str_replace("<module>",'Society Conveyance',$headEmail);
+                    $headMsg=str_replace("<module>",'Society Conveyance',$headMsg);
+                }
+
+                $emailSubject=str_replace("<application type>",$data->application_type,$emailSubject);
+
+                $emailContent=str_replace("<application type>",$data->application_type,$emailContent);
+                $emailContent = str_replace("<Society name>",$data->name,$emailContent);
+                $emailContent=str_replace("<application Number>",$data->application_no,$emailContent);
+                // $emailContent=str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+
+                $msgContent = str_replace("<application type>",$data->application_type,$msgContent);
+                $msgContent = str_replace("<Society name>",$data->name,$msgContent);
+                $msgContent = str_replace("<application Number>",$data->application_no,$msgContent);
+                // $msgContent = str_replace("<society_link>",'<a href="'.$url.'">Society Login</a>');
+
+                $this->sendEmail($data->email,$emailContent,$emailSubject);
+                $this->sendMsg($data->contact_no,$msgContent);
+                $data['mobile_no'] = $data->contact_no;
+                $data['msg_content'] = $msgContent;
+                $data['mail_content'] = $emailContent;
+                $this->saveMailMsgSentDetails($data);
+
+                //send stamp duty sms and mail to DYCO head
+                
+                $headEmailSubject = str_replace("<application type>",$data->application_type,$headEmailSubject);
+                
+                $headEmail = str_replace("<application type>",$data->application_type,$headEmail);
+                $headEmail = str_replace("<Society name>",$data->name,$headEmail);
+                $headEmail = str_replace("<application Number>",$data->application_no,$headEmail);
+
+                $headMsg = str_replace("<application type>",$data->application_type,$headMsg);
+                $headMsg = str_replace("<Society name>",$data->name,$headMsg);
+                $headMsg = str_replace("<application Number>",$data->application_no,$headMsg);
+
+                $this->sendEmail(Auth::user()->email,$headEmail,$headEmailSubject);
+                $this->sendMsg(Auth::user()->mobile_no,$headMsg);
+                $data['mobile_no'] = Auth::user()->mobile_no;
+                $data['email'] = Auth::user()->email;
+                $data['msg_content'] = $headMsg;
+                $data['mail_content'] = $headEmail;
+                $this->saveMailMsgSentDetails($data);
+                $response['status'] = 'success';
+            }
+            DB::commit();
+        }catch(Exception $e){
+            dd($e);
+            DB::rollback();
         }
     }
 }    

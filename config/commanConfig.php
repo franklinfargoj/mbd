@@ -561,6 +561,14 @@ return [
         'revert_application' => 'You have reverted new application for <application type>, of society <Society name> with application ID <application Number>',
         'reject_user_application' => 'You have rejected new application for <application type>, of society <Society name> with application ID <application Number>',
         'revert_society_application' => 'Your Application is reverted for <application type>, of society <Society name> with application ID <application Number>.',
+        'verification_society_application' => 'Your application <application Number>, for <module>, has been sent to you for verification of draft sale and lease deed. You can view your documents by clicking on and log in using valid credentials',
+        'verification_user_application' => 'Your have sent application <application Number>, for <module> for verification of draft sale and lease deed.',
+        'stamp_society_application' => 'Your application <application Number>, for <module>, has been sent to you for Stamp Duty of sale and lease deed. You can view your documents by clicking on and log in using valid credentials',
+        'stamp_user_application' => 'You have sent application <application Number>, for <module> for Stamp Duty of sale and lease deed.',
+        'register_society_application' => 'Your application <application Number>, for <module>, has been sent to you of Registration of sale and lease deed. You can view your documents by clicking on and log in using valid credentials',
+        'register_user_application' => 'You have sent application <application Number>, for <module> for Registration of sale and lease deed.',
+        'final_society_application' => 'Your application <application Number>, for <module>, has been successfully processed and Final Letter of Conveyance is issued. To download Final Letter of Conveyance click on and log in using valid credentials',
+        'final_user_application' => 'You have successfully processed and Final Letter of Conveyance is issued for application <application Number>, for <module>.',
     ],
     'msg_content'=>[
         'society_registration'=>'Congratulations! You have registered successfully on MHADA Mumbai portal. Now you can login to apply for various MHADA Mumbai board services, using valid login credentials.',
@@ -573,6 +581,16 @@ return [
         'reject_user_application' => 'You have rejected new application for <application type>, of society <Society name> with application ID <application Number>',
         'user_approval_application' => 'You have Approved new application for <application type>, of society <Society name> with application ID <application Number>',
         'revert_society_application' => 'Your Application is reverted for <application type>, of society <Society name> with application ID <application Number>.',
+        
+        'verification_society_application' => 'Your application <application Number>, for <module>, has been sent to you for verification of draft sale and lease deed. You can view your documents by clicking on and log in using valid credentials',
+        'stamp_society_application' => 'Your application <application Number>, for <module>, has been sent to you for Stamp Duty of sale and lease deed. You can view your documents by clicking on and log in using valid credentials',
+        'register_society_application' => 'Your application <application Number>, for <module>, has been sent to you of Registration of sale and lease deed. You can view your documents by clicking on  and log in using valid credentials',
+        'final_society_application' => 'Your application <application Number>, for <module>, has been successfully processed and Final Letter of Conveyance is issued. To download Final Letter of Conveyance click on and log in using valid credentials',
+        
+        'verification_user_application' => 'Your have sent application <application Number>, for <module> for verification of draft sale and lease deed.',
+        'stamp_user_application' => 'Your have sent application <application Number>, for <module> for Stamp Duty of sale and lease deed.',
+        'register_user_application' => 'Your have sent application <application Number>, for <module> for Registration of sale and lease deed.',
+        'final_user_application' => 'You have successfully processed and Final Letter of Conveyance is issued for application <application Number>, for <module>.',
     ],
     'email_subject' => [
         'society_registration'=> 'Registration on Mumbai board portal',
@@ -585,6 +603,16 @@ return [
         'revert_application' => 'Your application is reverted for <application type>',
         'reject_user_application' => 'Application is rejected for <application type>',
         'revert_society_application' => 'Your application is reverted for <application type>',
+        
+        'verification_society_application' => 'Your application of <application type> is send for verification.',
+        'stamp_society_application' => 'Your application of <application type> is send for Stamp duty',
+        'register_society_application' => 'Your application of <application type> is send for Registration',
+        'final_society_application' => 'Your application of <application type> has successfully issued for Final Letter of Conveyance',
+        
+        'verification_user_application' => 'You have sent application of <application type> for verification.',
+        'stamp_user_application' => 'You have sent application of <application type> for Stamp duty.',
+        'register_user_application' => 'You have sent application of <application type> for Registration.',
+        'final_user_application' => 'You have successfully processed final letter of conveyance of <application type>.',
     ],
     'conveyanced_type'=>[
         'half'=>'half',
