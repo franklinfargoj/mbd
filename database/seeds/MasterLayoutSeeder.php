@@ -437,7 +437,7 @@ class MasterLayoutSeeder extends Seeder
 
         foreach ($layouts as $layout) {
 
-            $layout_id = MasterLayout::where('layout_name', $layout['layout_name'])->value('id');
+            $layout_id = MasterLayout::where('layout_name', $layout['layout_name'])->first();
 
             if ($layout_id == NULL){
                $layoutsdata[] = $layout;
