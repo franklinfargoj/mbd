@@ -309,10 +309,10 @@
             <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Balance Amount</td>
             <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{ceil($data['TransBillGenerate']->prev_service_charge_balance+$data['TransBillGenerate']->prev_arrear_balance+$data['TransBillGenerate']->prev_arrear_interest_balance-$data['TransBillGenerate']->prev_credit)}}</td>
         </tr>
-        @if($data['TransBillGenerate'] && !empty($data['TransBillGenerate']) && 0 < $data['TransBillGenerate']->credit_amount)
+        @if($data['TransBillGenerate'] && !empty($data['TransBillGenerate']) && 0 < $data['TransBillGenerate']->prev_credit)
             <tr>
                 <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Credit Amount</td>
-                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$data['TransBillGenerate']->credit_amount}}</td>
+                <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$data['TransBillGenerate']->prev_credit}}</td>
             </tr>
         @endif
         {{--<tr>--}}

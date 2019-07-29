@@ -310,10 +310,10 @@
                 <td valign="top" style=" padding:10px 5px;">Balance Amount</td>
                 <td valign="top" style=" padding:10px 5px; text-align: center;" class="text-center">{{ceil($bill_data['TransBillGenerate']->prev_service_charge_balance+$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance-$bill_data['TransBillGenerate']->prev_credit)}}</td>
             </tr>
-            @if($bill_data['lastBill'])
+            @if($bill_data['TransBillGenerate'])
                 @php
                     $credit_amount =0;
-                    $credit_amount += $bill_data['lastBill']->credit_amount;
+                    $credit_amount += $bill_data['TransBillGenerate']->prev_credit;
                 @endphp
                 @if(0 <$credit_amount)
                     <tr>

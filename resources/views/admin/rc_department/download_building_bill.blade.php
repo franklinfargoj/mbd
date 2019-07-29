@@ -313,7 +313,7 @@
         @if($data['lastBill'])
             @php
                 $credit_amount =0;
-                $credit_amount += $data['lastBill']->credit_amount;
+                $credit_amount += $data['TransBillGenerate']->prev_credit;
             @endphp
             @if(0 <$credit_amount)
                 <tr>

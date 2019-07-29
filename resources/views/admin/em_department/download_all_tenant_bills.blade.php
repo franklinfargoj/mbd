@@ -253,6 +253,11 @@
         @else
 
             {{--<div style="border: 1px solid #000; background-color: lightblue;"><h4 style="text-align: center;">Balance amount to be paid - Arrears</h4></div>--}}
+            @php
+                $total=0;
+                $total=$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance;
+            @endphp
+            @if($total>0)
             <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                 <thead>
                 <tr>
@@ -266,10 +271,6 @@
                 </tr>
                 </thead>
                 <tbody>
-                @php
-                    $total=0;
-                    $total=$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance;
-                @endphp
                 <tr>
                      {{-- <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{$bill_data['lastBill']->bill_year}}</td>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $bill_data['lastBill']->bill_month . "-01"))}}</td>
@@ -288,6 +289,7 @@
 
                 </tbody>
             </table>
+            @endif
         @endif
         {{--<span style="background-color: #f1f3f4; padding: 5px; text-align: left; font-weight: bold;">Total amount to be paid :</span>--}}
         {{--<div style="border: 1px solid #000; margin-top: 2px;background-color: lightblue;"><h4 style="text-align: center;">Total amount to be paid</h4></div>--}}
@@ -306,10 +308,10 @@
                 <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Balance Amount</td>
                 <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{ceil($bill_data['TransBillGenerate']->prev_service_charge_balance+$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance-$bill_data['TransBillGenerate']->prev_credit)}}</td>
             </tr>
-            @if($bill_data['TransBillGenerate'] && !empty($bill_data['TransBillGenerate']) && 0 < $bill_data['TransBillGenerate']->credit_amount)
+            @if($bill_data['TransBillGenerate'] && !empty($bill_data['TransBillGenerate']) && 0 < $bill_data['TransBillGenerate']->prev_credit)
                 <tr>
                     <td valign="top" style="background-color: #f1f3f4; padding: 5px;text-align: right;">Credit Amount</td>
-                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$bill_data['TransBillGenerate']->credit_amount}}</td>
+                    <td valign="top" style="background-color: #f1f3f4; padding: 5px; text-align: center;">{{$bill_data['TransBillGenerate']->prev_credit}}</td>
                 </tr>
             @endif
              {{--<tr>--}}
