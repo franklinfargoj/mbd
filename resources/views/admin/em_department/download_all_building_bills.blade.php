@@ -259,6 +259,11 @@
             @endif
         @else
             {{--<div style="border: 2px solid #000; padding: 5px; margin-top: 20px;"><h3 style="text-align: center;">Balance amount to be paid - Arrears</h3></div>--}}
+            @php
+                    $total=0;
+                    $total=$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance;
+            @endphp
+            @if($total>0)
             <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
                 <thead>
                 <tr>
@@ -272,10 +277,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @php
-                    $total=0;
-                    $total=$bill_data['TransBillGenerate']->prev_arrear_balance+$bill_data['TransBillGenerate']->prev_arrear_interest_balance;
-                @endphp
+                
                 <tr>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{$bill_data['lastBill']->bill_year}}</td>
                     <td valign="top" style="border: 1px solid #000; padding: 5px; text-align:center;">{{date("M", strtotime("2001-" . $bill_data['lastBill']->bill_month . "-01"))}}</td>
@@ -290,6 +292,7 @@
 
                 </tbody>
             </table>
+            @endif
         @endif
         {{--<div style="border: 2px solid #000; padding: 5px; margin-top: 30px;"><h3 style="text-align: center;">Total amount to be paid</h3></div>--}}
         <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
